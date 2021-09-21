@@ -21,8 +21,16 @@
 
         <TextBlock Text="Tsubaki 翻译器" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline2TextBlock}" 
                    FontSize="40" Margin="25" TextWrapping="Wrap"/>
-        
-        
+
+        <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                HorizontalAlignment="Center"
+                x:Name="GitHubButton" Click="GitHubButton_OnClick">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Github"/>
+                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center"
+                           Text="GitHub"/>
+            </StackPanel>
+        </Button>
 
     </StackPanel>
 </UserControl>
