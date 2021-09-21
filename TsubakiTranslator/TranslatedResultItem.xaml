@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="TsubakiTranslator.TranslatedResultItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TsubakiTranslator"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d"  >
+    <Grid Margin="0,4,0,4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock FontSize="19" Grid.Column="0" Foreground="Orange" 
+                   HorizontalAlignment="Center"
+                   Text="{Binding TranslatorName, Mode=TwoWay}"/>
+
+        <TextBlock FontSize="20" Grid.Column="1" 
+                   TextWrapping="Wrap" Foreground="GhostWhite" 
+                   Text="{Binding TranslatedResult, Mode=TwoWay}"/>
+
+    </Grid>
+</UserControl>

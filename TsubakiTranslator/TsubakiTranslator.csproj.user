@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="AboutMePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="HookResultDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="HookResultItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TranslatedResultDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TranslatedResultItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TranslateWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserConfigPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserGamePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AboutMePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HookResultDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HookResultItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TranslatedResultDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TranslatedResultItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TranslateWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserConfigPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserGamePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

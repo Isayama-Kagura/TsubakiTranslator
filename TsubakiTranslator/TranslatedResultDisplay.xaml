@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TsubakiTranslator.TranslatedResultDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TsubakiTranslator"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <DockPanel >
+
+        <StackPanel DockPanel.Dock="Left">
+            <Button Margin="5" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=ArrowLeft}" 
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
+                    Click="PreviousResult_Button_Click"/>
+
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Right">
+            <Button Margin="5" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=ArrowRight}" 
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
+                    Click="NextResult_Button_Click"/>
+        </StackPanel>
+
+
+        <StackPanel x:Name="TranslateResultPanel">
+            <TextBlock x:Name="SourceText"
+                           Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                           Margin="10"
+                           TextWrapping="Wrap"
+                           Text="{Binding BindingText, Mode=TwoWay}" FontSize="20" Foreground="GhostWhite"/>
+            
+            
+        </StackPanel>
+
+    </DockPanel>
+
+
+</UserControl>

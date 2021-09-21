@@ -1,0 +1,229 @@
+﻿<UserControl x:Class="TsubakiTranslator.UserConfigPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TsubakiTranslator" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+
+    <ScrollViewer x:Name="scrolls" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+        <materialDesign:Card Background="WhiteSmoke" >
+            <StackPanel>
+                <Expander HorizontalAlignment="Stretch"
+                          Header="Locale.Emulator设置" Background="WhiteSmoke" >
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="配置LE目录下的LEProc文件路径进行转区。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="LEEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding LEIsEnabled,Mode=TwoWay}"/>
+                        <DockPanel >
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Content="选择" DockPanel.Dock="Right"
+                                    Click="SelectPath_Button_Click" Width="70"
+                                    IsEnabled="{Binding Path=IsChecked, ElementName=LEEnabledComboBox}" Cursor="Hand"/>
+                            <TextBox x:Name="InputLEPath" 
+                                     materialDesign:HintAssist.Hint="LEProc路径" 
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     VerticalAlignment="Center"
+                                     IsEnabled="{Binding Path=IsChecked, ElementName=LEEnabledComboBox}" Cursor="IBeam"
+                                     Text="{Binding Path=LEPath,Mode=TwoWay}"/>
+
+                        </DockPanel>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="百度翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『百度翻译开放平台』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="BaiduEnabledComboBox"
+                            Content="启用" IsChecked="{Binding BaiduIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="AppID" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=BaiduEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=BaiduAppID,Mode=TwoWay}"/>
+                        <TextBox materialDesign:HintAssist.Hint="SecretKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=BaiduEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=BaiduSecretKey,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="谷歌翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『谷歌翻译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding GoogleIsEnabled,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="IBM翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『IBM Watson™ Language Translator』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding IbmIsEnabled,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="彩云小译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『彩云小译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="CaiyunEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding CaiyunIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="Token" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=CaiyunEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=CaiyunToken,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="DeepL翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『DeepL Translate』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="DeeplEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding DeeplIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="SecretKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=DeeplEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=DeeplSecretKey,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="腾讯翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『腾讯翻译君』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="TencentEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding TencentIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="SecretID" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=TencentEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=TencentSecretID,Mode=TwoWay}"/>
+                        <TextBox materialDesign:HintAssist.Hint="SecretKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=TencentEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=TencentSecretKey,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="小牛翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『小牛翻译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="XiaoniuEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="APIKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=XiaoniuEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=XiaoniuAPIKey,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="Yandex翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『Yandex.Translate』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="YandexEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="APIKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=XiaoniuEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=XiaoniuAPIKey,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="Yeekit翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『Yeekit』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding YeekitIsEnabled,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <Expander HorizontalAlignment="Stretch" Header="有道翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『有道翻译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding YoudaoIsEnabled,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+                
+
+            </StackPanel>
+        </materialDesign:Card>
+
+    </ScrollViewer>
+</UserControl>

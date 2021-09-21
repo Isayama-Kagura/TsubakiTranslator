@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="TsubakiTranslator.UserGamePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TsubakiTranslator" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <materialDesign:DialogHost
+                    DialogClosing="Config_DialogHost_OnDialogClosing" DialogTheme="Inherit" CloseOnClickAway="True">
+
+        <StackPanel>
+            <!--the request to open the dialog will bubble up to the top-most DialogHost,
+                    but we can used the attached property based event to handle the response -->
+            <StackPanel Orientation="Horizontal" >
+                <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    Width="128" Content="新游戏"  Cursor="Hand" Margin="10">
+                    <Button.CommandParameter>
+                        <StackPanel  Margin="16">
+                            <TextBox x:Name="InputGameName" 
+                                    materialDesign:HintAssist.Hint="游戏名"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    VerticalAlignment="Center" />
+                            <DockPanel >
+                                <TextBox x:Name="InputGamePath" Width="300" DockPanel.Dock="Left"
+                                        materialDesign:HintAssist.Hint="路径"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        VerticalAlignment="Center" />
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="选择" Click="SelectPath_Button_Click" Width="70"/>
+                            </DockPanel>
+                            <TextBox x:Name="InputHookCode"
+                                    materialDesign:HintAssist.Hint="特殊码"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    VerticalAlignment="Center" />
+
+                            <TextBox x:Name="InputDuplicateTimes"
+                                    materialDesign:HintAssist.Hint="重复字数"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    VerticalAlignment="Center" />
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center"
+                                        Content="Accept" Click="AddGame_OnDialogClosing"/>
+
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        IsDefault="True"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center"
+                                        Content="CANCEL" />
+
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button Click="OpenGame_Button_Click"
+                        Width="128"  Content="打开游戏" Cursor="Hand" Margin="10" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+
+                <Button Click="DeleteGame_Button_Click"
+                        Width="128"  Content="删除" Cursor="Hand" Margin="10" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+
+
+
+            </StackPanel>
+
+            <ListView x:Name="GameList">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding GameName, Mode=TwoWay}"
+                                        Header="游戏名" />
+                        <GridViewColumn DisplayMemberBinding="{Binding HookCode, Mode=TwoWay}"
+                                        Header="特殊码" />
+                        <GridViewColumn DisplayMemberBinding="{Binding DuplicateTimes, Mode=TwoWay}"
+                                        Header="重复字数" />
+                        <GridViewColumn DisplayMemberBinding="{Binding GamePath, Mode=TwoWay}" Width="500"
+                                        Header="游戏路径" />
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </StackPanel>
+    </materialDesign:DialogHost>
+</UserControl>

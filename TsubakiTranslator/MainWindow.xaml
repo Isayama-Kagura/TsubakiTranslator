@@ -1,0 +1,95 @@
+﻿<Window x:Class="TsubakiTranslator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Tsubaki Translator"
+        Background="WhiteSmoke" 
+        MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
+        MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
+        StateChanged="MainWindow_StateChanged" Closing="On_MainWindow_Closing">
+
+
+    <!--窗口可改变尺寸-->
+    <WindowChrome.WindowChrome >
+        <WindowChrome CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
+                                    Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="2"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   >
+            <DockPanel >
+
+                <Button  DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                         ToolTip="关闭" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowClose }" 
+                         Click="CloseButton_Click"/>
+
+                <Button  x:Name="WindowRestoreButton"
+                         DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                         ToolTip="还原窗口" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowRestore }" 
+                         Visibility="Collapsed"
+                         Click="RestoreButton_Click"/>
+
+                <Button  x:Name="WindowMaximizeButton"
+                         DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                         ToolTip="最大化" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowMaximize }" 
+                           Click="MaximizeButton_Click"/>
+
+                <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                         ToolTip="最小化" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowMinimize }"
+                         Click="MinimizeButton_Click"/>
+
+
+                <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
+                           Text="{Binding SelectedItem.Content, ElementName=RadioButtonGroupChoiceChipOutline}" FontSize="30" 
+                           Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+
+
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <Canvas Grid.Column="0" Grid.Row="0"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2">
+            <Image Source="/Resources/Icon/Tsubaki.png"  Stretch="Uniform" Height="68" Width="68"/>
+            <TextBlock Text="Tsubaki" FontSize="25" Canvas.Left="78.4" 
+                       Canvas.Top="3" Height="57" Width="97" FontWeight="Normal"
+                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
+            <TextBlock Text="翻译器" FontSize="25" Canvas.Left="87.4" 
+                       Canvas.Top="34.61" Height="57" Width="79" FontWeight="Normal"
+                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
+        </Canvas>
+
+        <ListView Grid.Row="1"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    x:Name="RadioButtonGroupChoiceChipOutline" >
+
+            <ListViewItem x:Name="MyGame" Content="我的游戏" Selected="ListViewItem_UserGame_Selected"/>
+            <ListViewItem Content="设置" Selected="ListViewItem_UserConfig_Selected"/>
+            <ListViewItem Content="关于我" Selected="ListViewItem_AboutMe_Selected"/>
+
+        </ListView>
+
+        <ContentControl x:Name="MainPageContent" Grid.Column="1" Grid.Row="1" />
+
+    </Grid>
+</Window>

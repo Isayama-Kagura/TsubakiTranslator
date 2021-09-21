@@ -1,0 +1,86 @@
+﻿<Window x:Class="TsubakiTranslator.TranslateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:local="clr-namespace:TsubakiTranslator"
+        mc:Ignorable="d"
+        WindowStyle="None" AllowsTransparency="True"
+        Title="TranslateWindow" Height="{Binding TranslateWindowHeight, ElementName=WindowConfig}" Width="{Binding TranslateWindowWidth, ElementName=WindowConfig}"
+        Background="#99000000" 
+        MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
+        MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
+        Closing="On_TranslateWindow_Closing" >
+
+    <!--窗口可改变尺寸-->
+    <WindowChrome.WindowChrome >
+        <WindowChrome CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
+                                    Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown">
+            <DockPanel >
+
+                <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                        ToolTip="关闭" Foreground="White" Cursor="Hand"  
+                        Content="{materialDesign:PackIcon Kind=WindowClose }"
+                        Click="TranslateWindow_CloseButton_Click" Height="{Binding Height, ElementName=ColorZone}"/>
+
+                <Button x:Name="PinButton"
+                        DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                        ToolTip="不固定" Foreground="White" Cursor="Hand" Visibility="Collapsed"
+                        Content="{materialDesign:PackIcon Kind=Pin }" 
+                        Height="{Binding Height, ElementName=ColorZone}"
+                        Click="Pin_Button_Click"/>
+
+                <Button x:Name="PinOffButton"
+                        DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                        ToolTip="固定最前" Foreground="White" Cursor="Hand" 
+                        Content="{materialDesign:PackIcon Kind=PinOff }" 
+                        Height="{Binding Height, ElementName=ColorZone}"
+                        Click="PinOff_Button_Click"/>
+                
+                <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                         ToolTip="最小化" Foreground="White" Cursor="Hand" 
+                         Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
+                         Height="{Binding Height, ElementName=ColorZone}"
+                         Click="TranslateWindow_MinimizeButton_Click"/>
+
+                <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
+                            Text="Tsubaki Translator" FontSize="20" 
+                            TextWrapping="Wrap"
+                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <DockPanel x:Name="TranslateWindowDockPanel"  Grid.Row="1" >
+            <StackPanel Orientation="Horizontal"
+                        Margin="4" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <RadioButton x:Name="TranslateDisplayButton"
+                             Style="{StaticResource MaterialDesignTabRadioButton}"
+                             Margin="4" BorderBrush="#b71c1c" Foreground="WhiteSmoke"
+                             IsChecked="False" Content="翻译窗口"  Cursor="Hand" Checked="Tranlate_Display_Button_Checked"/>
+
+                <RadioButton x:Name="HookDisplayButton"
+                             Style="{StaticResource MaterialDesignTabRadioButton}"
+                             Margin="4" BorderBrush="#b71c1c" Foreground="WhiteSmoke"
+                             IsChecked="False" Content="Hook文本选择" Cursor="Hand" Checked="Hook_Display_Button_Checked"/>
+
+            </StackPanel>
+
+            <ContentControl x:Name="TranslateWindowContent" />
+            
+        </DockPanel>
+
+    </Grid>
+    
+</Window>
