@@ -67,6 +67,18 @@ namespace TsubakiTranslator
             return CurrentData.Value;
         }
 
+        public string[] GetFirstData()
+        {
+            currentData = list.First;
+            return CurrentData.Value;
+        }
+
+        public string[] GetLastData()
+        {
+            currentData = list.Last;
+            return CurrentData.Value;
+        }
+
         public int Count()
         {
             return list.Count();

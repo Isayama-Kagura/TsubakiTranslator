@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TsubakiTranslator.BasicLibrary;
@@ -105,9 +106,33 @@ namespace TsubakiTranslator
             }
         }
 
-        private void PreviousResult_Button_Click(object sender, RoutedEventArgs e)
+        private void ArrowLeft_Button_Click(object sender, RoutedEventArgs e)
         {
             string[] result = results.GetPreviousData();
+            ShowTranslateResult(result);
+        }
+
+        private void ArrowRight_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string[] result = results.GetNextData();
+            ShowTranslateResult(result);
+        }
+
+        private void ChevronTripleLeft_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string[] result = results.GetFirstData();
+            ShowTranslateResult(result);
+            
+        }
+
+        private void ChevronTripleRight_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string[] result = results.GetLastData();
+            ShowTranslateResult(result);
+        }
+
+        private void ShowTranslateResult(string[] result)
+        {
             sourceTextContent.BindingText = result[0];
             int i = 1;
             foreach (ITranslator t in translators)
@@ -117,16 +142,12 @@ namespace TsubakiTranslator
             }
         }
 
-        private void NextResult_Button_Click(object sender, RoutedEventArgs e)
+        private void SourceText_TextBlock_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            string[] result = results.GetNextData();
-            sourceTextContent.BindingText = result[0];
-            int i = 1;
-            foreach (ITranslator t in translators)
-            {
-                resultTextContent[t.Name].TranslatedResult = result[i];
-                i++;
-            }
+            Clipboard.SetDataObject(SourceText.Text);
+
+            if (ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue("源文本已复制。", "好", () => { }));
         }
     }
 }

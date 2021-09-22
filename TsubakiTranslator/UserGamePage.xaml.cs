@@ -17,7 +17,7 @@ namespace TsubakiTranslator
     public partial class UserGamePage : UserControl
     {
 
-        public ObservableCollection<GameData> Items { get; set; }
+        public ObservableCollection<GameData> Items { get; }
 
 
         public UserGamePage()

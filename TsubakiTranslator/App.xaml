@@ -26,6 +26,14 @@
             <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
 
 
+            <!--Secondary-->
+            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#fff64f"/>
+            <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#ffd740"/>
+            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#c8a600"/>
+            <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+
         </ResourceDictionary>
 
     </Application.Resources>

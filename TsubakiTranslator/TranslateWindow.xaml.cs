@@ -34,11 +34,11 @@ namespace TsubakiTranslator
             this.mainWindow = mainWindow;
             this.textHookHandler = textHookHandler;
 
-            this.Height = MainWindow.windowConfig.TranslateWindowHeight;
-            this.Width = MainWindow.windowConfig.TranslateWindowWidth;
-            this.Left = MainWindow.windowConfig.TranslateWindowLeft;
-            this.Top = MainWindow.windowConfig.TranslateWindowTop;
-            this.Topmost = MainWindow.windowConfig.TranslateWindowTopmost;
+            this.Height = MainWindow.WindowConfig.TranslateWindowHeight;
+            this.Width = MainWindow.WindowConfig.TranslateWindowWidth;
+            this.Left = MainWindow.WindowConfig.TranslateWindowLeft;
+            this.Top = MainWindow.WindowConfig.TranslateWindowTop;
+            this.Topmost = MainWindow.WindowConfig.TranslateWindowTopmost;
             if (this.Topmost)
             {
                 PinButton.Visibility = Visibility.Visible;
@@ -62,16 +62,20 @@ namespace TsubakiTranslator
                 new Object(),textHookHandler.LastEventArgs);
 
             TranslateDisplayButton.IsChecked = true;
+
+            if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { })) ;
+
         }
 
 
         private void On_TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MainWindow.windowConfig.TranslateWindowHeight = this.Height;
-            MainWindow.windowConfig.TranslateWindowWidth = this.Width;
-            MainWindow.windowConfig.TranslateWindowLeft = this.Left;
-            MainWindow.windowConfig.TranslateWindowTop = this.Top;
-            MainWindow.windowConfig.TranslateWindowTopmost = this.Topmost;
+            MainWindow.WindowConfig.TranslateWindowHeight = this.Height;
+            MainWindow.WindowConfig.TranslateWindowWidth = this.Width;
+            MainWindow.WindowConfig.TranslateWindowLeft = this.Left;
+            MainWindow.WindowConfig.TranslateWindowTop = this.Top;
+            MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
 
             mainWindow.Show();
             

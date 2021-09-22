@@ -11,30 +11,45 @@
     <DockPanel >
 
         <StackPanel DockPanel.Dock="Left">
-            <Button Margin="5" Style="{StaticResource MaterialDesignIconForegroundButton}"
+            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ArrowLeft}" 
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
-                    Click="PreviousResult_Button_Click"/>
+                    Click="ArrowLeft_Button_Click"/>
+
+            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=ChevronTripleLeft}" 
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
+                    Click="ChevronTripleLeft_Button_Click"/>
 
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Right">
-            <Button Margin="5" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
+            <Button Margin="3" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ArrowRight}" 
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
-                    Click="NextResult_Button_Click"/>
+                    Click="ArrowRight_Button_Click"/>
+            <Button Margin="3" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=ChevronTripleRight}" 
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
+                    Click="ChevronTripleRight_Button_Click"/>
         </StackPanel>
 
 
+        <materialDesign:Snackbar DockPanel.Dock="Bottom" x:Name="ResultDisplaySnackbar"
+                                 MessageQueue="{materialDesign:MessageQueue}" />
+        
         <StackPanel x:Name="TranslateResultPanel">
             <TextBlock x:Name="SourceText"
                            Style="{StaticResource MaterialDesignCaptionTextBlock}"
                            Margin="10"
                            TextWrapping="Wrap"
-                           Text="{Binding BindingText, Mode=TwoWay}" FontSize="20" Foreground="GhostWhite"/>
-            
+                           Text="{Binding BindingText, Mode=TwoWay}" FontSize="20" Foreground="GhostWhite"
+                       MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>
+
             
         </StackPanel>
+
+        
 
     </DockPanel>
 

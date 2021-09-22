@@ -19,7 +19,7 @@
                    Foreground="#FFB81010" Margin="5"
                    TextWrapping="Wrap"/>
 
-        <TextBlock Text="Tsubaki 翻译器" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline2TextBlock}" 
+        <TextBlock Text="Tsubaki 翻译器" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline3TextBlock}" 
                    FontSize="40" Margin="25" TextWrapping="Wrap"/>
 
         <Button Style="{DynamicResource MaterialDesignFlatButton}"
