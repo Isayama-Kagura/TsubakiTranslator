@@ -6,9 +6,6 @@
       <a href="https://ci.appveyor.com/project/Isayama-Kagura/tsubakitranslator"><img src="https://ci.appveyor.com/api/projects/status/7apiflt07telyd5w?svg=true" alt="Build status"></a>
 </p>
 
-
-
-
 <p align="center">终归还是来了呢。</p>
 
 <p align="center">察觉到了我的，神明大人。</p>
@@ -16,17 +13,16 @@
 
 ## 项目的由来
 
-在开发这个翻译器之前，我也用过几款其他类似的翻译器，其中最喜欢的就是[YUKI Galgame 翻译器](https://github.com/project-yuki/YUKI)，它的简洁和可扩展非常对我的胃口，遗憾的是有各种奇奇怪怪的bug且GUI不够完善，作者也很久没有维护了。因此我产生了在该项目的设计的基础上开发新项目并进行完善的想法。
-
+在开发这个翻译器之前，我用过几款其他类似的翻译器，其中最喜欢的就是[YUKI Galgame 翻译器](https://github.com/project-yuki/YUKI)，它的简洁和可扩展非常对我的胃口，遗憾的是有各种奇奇怪怪的bug且GUI不够完善，作者也很久没有维护了。因此我产生了在该项目的设计的基础上开发新项目并进行完善的想法。
 
 ## 项目特点
 
-- 内置[Textractor](https://github.com/Artikash/Textractor)以Hook方式提取游戏文本。
+- 以Hook方式提取游戏文本，支持32位和64位的游戏。
 - 基于.NET 5.0 + WPF开发。
 - 界面采用Material Design设计风格，简洁易用。
 - 去除了所有的离线翻译接口，完全采用在线API进行翻译。
-- 新增了多种类的翻译API进行选择。
-- 对于Hook文本文字重复的现象，提供了按重复次数去重的功能。
+- 新增了多种类的翻译API，可同时对照翻译。
+- 对于Hook文本文字重复的现象，提供了按重复次数去重的功能。（e.g. aaabbbccc的文本，即重复3次）
 
 ## 项目的未来发展方向
 

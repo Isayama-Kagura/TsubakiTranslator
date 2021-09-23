@@ -20,7 +20,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
     {
         private string caiyunToken;//彩云小译 令牌
 
-        private readonly string name = "彩云小译";
+        private readonly string name = "彩云";
         public string Name { get => name; }
 
 
@@ -57,13 +57,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 return ex.Message;
             }
 
+            string result = Regex.Unescape(retString);
+            Regex reg = new Regex(@"""target"":\[""(.*?)""\],");
+            Match match = reg.Match(result);
 
-            CaiyunTransResult oinfo;
-            oinfo = JsonSerializer.Deserialize<CaiyunTransResult>(retString);
+            result = match.Groups[1].Value;
 
-            return oinfo.target;
-            
-            
+            return result;
+             
         }
 
         public void TranslatorInit(string param1, string param2 = "")
@@ -71,10 +72,6 @@ namespace TsubakiTranslator.TranslateAPILibrary
             caiyunToken = param1;
         }
 
-        private class CaiyunTransResult
-        {
-            public string target { get; set; }
-        }
 
     }
 

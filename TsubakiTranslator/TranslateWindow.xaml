@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStyle="None" AllowsTransparency="True"
         Title="TranslateWindow" Height="{Binding TranslateWindowHeight, ElementName=WindowConfig}" Width="{Binding TranslateWindowWidth, ElementName=WindowConfig}"
-        Background="#99000000" 
+        Background="#A9000000" 
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Closing="On_TranslateWindow_Closing" >
@@ -68,7 +68,8 @@
                 <RadioButton x:Name="TranslateDisplayButton"
                              Style="{StaticResource MaterialDesignTabRadioButton}"
                              Margin="4" BorderBrush="#b71c1c" Foreground="WhiteSmoke"
-                             IsChecked="False" Content="翻译窗口"  Cursor="Hand" Checked="Tranlate_Display_Button_Checked"/>
+                             IsEnabled="False" IsChecked="False" Content="翻译窗口"  
+                             Cursor="Hand" Checked="Tranlate_Display_Button_Checked"/>
 
                 <RadioButton x:Name="HookDisplayButton"
                              Style="{StaticResource MaterialDesignTabRadioButton}"

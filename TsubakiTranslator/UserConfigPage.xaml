@@ -183,13 +183,13 @@
                                    Style="{StaticResource MaterialDesignHelperTextBlock}" 
                                    FontSize="13" Margin="0 8 0 8"/>
                         <CheckBox x:Name="YandexEnabledComboBox"
-                                  Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
+                                  Content="启用" IsChecked="{Binding YandexIsEnabled,Mode=TwoWay}"/>
 
                         <TextBox materialDesign:HintAssist.Hint="APIKey" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  VerticalAlignment="Center"
-                                 IsEnabled="{Binding Path=IsChecked, ElementName=XiaoniuEnabledComboBox}" Cursor="IBeam"
-                                 Text="{Binding Path=XiaoniuAPIKey,Mode=TwoWay}"/>
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=YandexEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=YandexAPIKey,Mode=TwoWay}"/>
 
                     </StackPanel>
                 </Expander>

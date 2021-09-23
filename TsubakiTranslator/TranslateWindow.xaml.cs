@@ -61,6 +61,7 @@ namespace TsubakiTranslator
             App.Current.Dispatcher.Invoke(new Action<object, DataReceivedEventArgs>(TranslatedResultDisplay.DisplayTranslateResult),
                 new Object(),textHookHandler.LastEventArgs);
 
+            TranslateDisplayButton.IsEnabled = true;
             TranslateDisplayButton.IsChecked = true;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)

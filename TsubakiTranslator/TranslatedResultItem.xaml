@@ -12,7 +12,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="19" Grid.Column="0" Foreground="Orange" 
+        <TextBlock FontSize="17" Grid.Column="0" Foreground="Orange" 
                    HorizontalAlignment="Center"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
