@@ -17,7 +17,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "谷歌";
         public string Name { get => name; }
 
-        public async Task<string> Translate(string sourceText)
+        public string Translate(string sourceText)
         {
             string desLang = "zh-CN"; 
             string srcLang = "auto";
@@ -35,9 +35,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             try
             {
-                HttpResponseMessage response = await client.PostAsync(url, content);//改成自己的
+                HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();//改成自己的
                 response.EnsureSuccessStatusCode();//用来抛异常的
-                string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
                 Regex reg = new Regex(@"\[\[\[""(.*?)""\,""");
                 Match match = reg.Match(responseBody);

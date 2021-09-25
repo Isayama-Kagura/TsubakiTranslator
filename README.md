@@ -1,4 +1,4 @@
-# <p align="center">![image](https://github.com/Isayama-Kagura/TsubakiTranslator/blob/main/TsubakiTranslator/Resources/Icon/Tsubaki.png)<br/>TsubakiTranslator<br/>
+# <p align="center"> <img width="130" height="130" src="https://github.com/Isayama-Kagura/TsubakiTranslator/blob/main/TsubakiTranslator/Resources/Icon/Tsubaki.png"/> <br/>TsubakiTranslator<br/>
   </p>
 
 <p align="center">

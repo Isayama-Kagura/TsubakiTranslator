@@ -22,7 +22,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "腾讯";
         public string Name { get => name; }
 
-        public async Task<string> Translate(string sourceText )
+        public string Translate(string sourceText )
         {
             string desLang = "zh";
             string srcLang = "auto";
@@ -31,13 +31,6 @@ namespace TsubakiTranslator.TranslateAPILibrary
             string salt = new Random().Next(100000).ToString();
 
             string url = "https://tmt.tencentcloudapi.com/";
-
-
-
-
-
-
-
 
             string action = "TextTranslate";
             string version = "2018-03-21";
@@ -74,8 +67,6 @@ namespace TsubakiTranslator.TranslateAPILibrary
             retStr += body;
             string sigInParam = retStr;
 
-
-
             //string sigOutParam = Sign(SecretKey, sigInParam);
             string signRet = string.Empty;
             using (HMACSHA1 mac = new HMACSHA1(Encoding.UTF8.GetBytes(SecretKey)))
@@ -85,11 +76,6 @@ namespace TsubakiTranslator.TranslateAPILibrary
             }
             string sigOutParam = signRet;
 
-
-
-
-
-
             //req = req + "&Signature=" + HttpUtility.UrlEncode(Convert.ToBase64String(result));
             body = body + "&Signature=" + HttpUtility.UrlEncode(sigOutParam);
 
@@ -97,23 +83,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
 
-
-
-
-
-
-
-
-
-
             var client = CommonFunction.Client;
 
 
             try
             {
-                HttpResponseMessage response = await client.PostAsync(url, content);//改成自己的
+                HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();//改成自己的
                 response.EnsureSuccessStatusCode();//用来抛异常的
-                retString = await response.Content.ReadAsStringAsync();
+                retString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
             }
             catch (System.Net.Http.HttpRequestException ex)

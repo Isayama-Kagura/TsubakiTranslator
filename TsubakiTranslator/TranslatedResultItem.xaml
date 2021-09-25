@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:TsubakiTranslator"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d"  >
-    <Grid Margin="0,4,0,4">
+    <Grid Margin="0,5,0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="17" Grid.Column="0" Foreground="Orange" 
+        <TextBlock FontSize="18" Grid.Column="0" Foreground="Orange" 
                    HorizontalAlignment="Center"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 

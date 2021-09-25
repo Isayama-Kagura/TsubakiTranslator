@@ -41,7 +41,7 @@
         <StackPanel x:Name="TranslateResultPanel">
             <TextBlock x:Name="SourceText"
                            Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                           Margin="10"
+                           Margin="7"
                            TextWrapping="Wrap"
                            Text="{Binding BindingText, Mode=TwoWay}" FontSize="20" Foreground="GhostWhite"
                        MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>

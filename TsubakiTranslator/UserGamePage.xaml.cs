@@ -63,7 +63,7 @@ namespace TsubakiTranslator
 
         private async void OpenGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ;
+            
             GameData item = (GameData)GameList.SelectedItem;
             Process gameProcess = FileHandler.OpenGame(item.GamePath, UserConfigPage.TranslateAPIConfig.LEIsEnabled ? UserConfigPage.TranslateAPIConfig.LEPath : null);
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess, item.DuplicateTimes);

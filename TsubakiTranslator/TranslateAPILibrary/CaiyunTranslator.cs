@@ -24,7 +24,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         public string Name { get => name; }
 
 
-        public async Task<string> Translate(string sourceText)
+        public string Translate(string sourceText)
         {
             string desLang = "zh";
             string srcLang = "auto";
@@ -44,9 +44,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             try
             {
-                HttpResponseMessage response = await client.PostAsync(url, content);//改成自己的
+                HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();//改成自己的
                 response.EnsureSuccessStatusCode();//用来抛异常的
-                retString = await response.Content.ReadAsStringAsync();
+                retString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             }
             catch (System.Net.Http.HttpRequestException ex)
             {

@@ -6,32 +6,33 @@ using System.Threading.Tasks;
 
 namespace TsubakiTranslator
 {
-    //public class TranslateData
-    //{
-    //    public string SourceText { get; }
-    //    public List<string> ResultText { get; }
+    //存储单次翻译的结果数据
+    public class TranslateData
+    {
+        public string SourceText { get; }
+        public Dictionary<string, string> ResultText { get; }
 
-    //    public TranslateData(string sourceText, List<string> resultText)
-    //    {
-    //        SourceText = sourceText;
-    //        ResultText = resultText;
-    //    }
+        public TranslateData(string sourceText, Dictionary<string, string> resultText)
+        {
+            SourceText = sourceText;
+            ResultText = resultText;
+        }
 
-    //}
+    }
 
     public class TranslateDataList
     {
         
         public int MaxLength { get; }
-        private LinkedList<string[]> list;
+        private LinkedList<TranslateData> list;
 
-        private LinkedListNode<string[]> currentData;
-        private LinkedListNode<string[]> CurrentData { get => currentData;  }
+        private LinkedListNode<TranslateData> currentData;
+        private LinkedListNode<TranslateData> CurrentData { get => currentData;  }
 
         public TranslateDataList(int maxLength)
         {
             MaxLength = maxLength;
-            list = new LinkedList<string[]>();
+            list = new LinkedList<TranslateData>();
         }
 
         /// <summary>
@@ -39,41 +40,41 @@ namespace TsubakiTranslator
         /// </summary>
         /// <param name="sourceText"></param>
         /// <param name="resultText"></param>
-        public void AddTranslateData(string[] text)
+        public void AddTranslateData(TranslateData translateData)
         {
             if (list.Count >= MaxLength)
                 list.RemoveFirst();
-            list.AddLast(text);
+            list.AddLast(translateData);
             currentData = list.Last;
         }
 
         //获得最新的翻译结果数据
-        public string[] GetCurrentData()
+        public TranslateData GetCurrentData()
         {
             return list.Last.Value;
         }
 
-        public string[] GetNextData()
+        public TranslateData GetNextData()
         {
             if (CurrentData != list.Last)
                 currentData = CurrentData.Next;
             return CurrentData.Value;
         }
 
-        public string[] GetPreviousData()
+        public TranslateData GetPreviousData()
         {
             if (CurrentData != list.First)
                 currentData = CurrentData.Previous;
             return CurrentData.Value;
         }
 
-        public string[] GetFirstData()
+        public TranslateData GetFirstData()
         {
             currentData = list.First;
             return CurrentData.Value;
         }
 
-        public string[] GetLastData()
+        public TranslateData GetLastData()
         {
             currentData = list.Last;
             return CurrentData.Value;

@@ -165,11 +165,6 @@
                         <CheckBox x:Name="XiaoniuEnabledComboBox"
                                   Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
 
-                        <TextBox materialDesign:HintAssist.Hint="APIKey" 
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 VerticalAlignment="Center"
-                                 IsEnabled="{Binding Path=IsChecked, ElementName=XiaoniuEnabledComboBox}" Cursor="IBeam"
-                                 Text="{Binding Path=XiaoniuAPIKey,Mode=TwoWay}"/>
 
                     </StackPanel>
                 </Expander>

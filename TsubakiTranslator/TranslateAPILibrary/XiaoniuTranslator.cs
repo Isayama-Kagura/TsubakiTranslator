@@ -11,46 +11,37 @@ namespace TsubakiTranslator.TranslateAPILibrary
     //API文档 https://niutrans.com/documents/contents/trans_text
     public class XiaoniuTranslator : ITranslator
     {
-        private string apiKey;//小牛翻译API 的APIKEY
-
         private readonly string name = "小牛";
         public string Name { get => name; }
 
-        public async Task<string> Translate(string sourceText)
+        public string Translate(string sourceText)
         {
             string desLang = "zh";
             string srcLang = "ja";
 
             string retString;
 
-            //var sb = new StringBuilder("https://api.niutrans.com/NiuTransServer/translation?")
-            //    .Append("&from=").Append(srcLang)
-            //    .Append("&to=").Append(desLang)
-            //    .Append("&apikey=").Append(apiKey)
-            //    .Append("&src_text=").Append(Uri.EscapeDataString(sourceText));
+            var sb = new StringBuilder("https://test.niutrans.com/NiuTransServer/testaligntrans?")
+                .Append("&from=").Append(srcLang)
+                .Append("&to=").Append(desLang)
+                .Append("&src_text=").Append(Uri.EscapeDataString(sourceText))
+                .Append("&source=").Append("text")
+                .Append("&dictNo=")
+                .Append("&memoryNo=")
+                .Append("&isUseDict=")
+                .Append("&isUseMemory=")
+                .Append("&time=").Append(CommonFunction.GetTimeStamp());
 
-            var body = new
-            {
-                from = srcLang,
-                to = desLang,
-                apikey = apiKey,
-                src_text = sourceText
-            };
-
-            string bodyString = JsonSerializer.Serialize(body);
-
-            string url = @"https://free.niutrans.com/NiuTransServer/translation";
+            string url = sb.ToString();
 
             var client = CommonFunction.Client;
 
-            HttpContent content = new StringContent(bodyString);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             try
             {
-                HttpResponseMessage response = await client.PostAsync(url, content);//改成自己的
+                HttpResponseMessage response = client.GetAsync(url).GetAwaiter().GetResult(); //改成自己的
                 response.EnsureSuccessStatusCode();//用来抛异常的
-                retString = await response.Content.ReadAsStringAsync();
+                retString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
@@ -68,12 +59,13 @@ namespace TsubakiTranslator.TranslateAPILibrary
             else
                 return oinfo.error_msg;
 
+
+
         }
 
-        public void TranslatorInit(string param1, string param2 = "")
+        public void TranslatorInit(string param1, string param2)
         {
-            //第二参数无用
-            apiKey = param1;
+
         }
 
         class XiaoniuTransOutInfo

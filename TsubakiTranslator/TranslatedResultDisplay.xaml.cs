@@ -16,7 +16,7 @@ namespace TsubakiTranslator
     public partial class TranslatedResultDisplay : UserControl
     {
         SourceTextContent sourceTextContent;
-        Dictionary<string, TranslatedData> resultTextContent;
+        Dictionary<string, TranslatedData> displayTextContent;
 
         TextHookHandler textHookHandler;
         LinkedList<ITranslator> translators;
@@ -28,12 +28,12 @@ namespace TsubakiTranslator
 
             translators = TranslateHandler.GetSelectedTranslators(UserConfigPage.TranslateAPIConfig);
 
-            resultTextContent = new Dictionary<string, TranslatedData>();
+            displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
                 TranslateResultPanel.Children.Add(resultItem);
-                resultTextContent.Add(t.Name, resultItem.TranslatedData);
+                displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }
             
 
@@ -50,46 +50,35 @@ namespace TsubakiTranslator
 
         }
 
-        public async void DisplayTranslateResult(object sendingProcess, DataReceivedEventArgs outLine)
+        public void DisplayTranslateResult(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (textHookHandler.SelectedHookCode == null )
                 return;
-            if (results.Count()!=0 && results.GetCurrentData()[0].Equals(TranslateHandler.RemoveDuplicatedChar(textHookHandler.HookDict[textHookHandler.SelectedHookCode], textHookHandler.DuplicateTimes)))
+            if (results.Count()!=0 && results.GetCurrentData().SourceText.Equals(TranslateHandler.RemoveDuplicatedChar(textHookHandler.HookDict[textHookHandler.SelectedHookCode], textHookHandler.DuplicateTimes)))
                 return;
 
             //string result = await google.Translate(textHookHandler.HookDict[textHookHandler.SelectedHookCode]);
 
-            string[] currentResult = new string[translators.Count + 1];
-
+            
+            string sourceText= TranslateHandler.RemoveDuplicatedChar(textHookHandler.HookDict[textHookHandler.SelectedHookCode], textHookHandler.DuplicateTimes);
+            
+            TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);
 
-            string sourceText= TranslateHandler.RemoveDuplicatedChar(textHookHandler.HookDict[textHookHandler.SelectedHookCode], textHookHandler.DuplicateTimes);
-            currentResult[0] = sourceText;
+            sourceTextContent.BindingText = currentResult.SourceText;
 
-            sourceTextContent.BindingText = currentResult[0];
-
-            foreach(var key in resultTextContent.Keys)
-                resultTextContent[key].TranslatedResult = "";
-
-            int i = 1;
-            foreach(ITranslator t in translators)
+            foreach(var key in displayTextContent.Keys)
             {
-                currentResult[i] = await t.Translate(currentResult[0]);
-                resultTextContent[t.Name].TranslatedResult = currentResult[i];
-                i++;
+                displayTextContent[key].TranslatedResult = "";
+                currentResult.ResultText.Add(key,"");
             }
 
-            
-
-            //App.Current.Dispatcher.Invoke((Action)(() =>
-            //{
-            //    TranslateResultPanel.Children.Clear();
-            //    /// start 你的逻辑代码
-
-            //    TranslatedResultItem resultItem = new TranslatedResultItem("IBM", result);
-            //    TranslateResultPanel.Children.Add(resultItem);
-            //    ///  end
-            //}));
+            Parallel.ForEach(translators,
+                t => {  
+                    string result = t.Translate(currentResult.SourceText);
+                    currentResult.ResultText[t.Name] = result;
+                    displayTextContent[t.Name].TranslatedResult = result;
+                });
 
         }
 
@@ -106,40 +95,58 @@ namespace TsubakiTranslator
             }
         }
 
+        //class StateObject
+        //{
+        //    public string  TranslatorName{ get; set; }
+        //    public TranslateData TranslateData { get; set; }
+        //    public Func<string, string> TranslateDelegate { get; set; }
+        //}
+        
+        //private void TranslateCallback(IAsyncResult asyncResult)
+        //{
+        //    StateObject state = (StateObject)asyncResult.AsyncState;
+        //    Func<string, string> translateDelegate = state.TranslateDelegate;
+        //    string translatorName = state.TranslatorName;
+        //    TranslateData translateData = state.TranslateData;
+
+        //    string result = translateDelegate.EndInvoke(asyncResult);
+        //    translateData.ResultText[translatorName] = result;
+        //    ShowTranslateResult(translateData);
+
+        //}
+
         private void ArrowLeft_Button_Click(object sender, RoutedEventArgs e)
         {
-            string[] result = results.GetPreviousData();
+            TranslateData result = results.GetPreviousData();
             ShowTranslateResult(result);
         }
 
         private void ArrowRight_Button_Click(object sender, RoutedEventArgs e)
         {
-            string[] result = results.GetNextData();
+            TranslateData result = results.GetNextData();
             ShowTranslateResult(result);
         }
 
         private void ChevronTripleLeft_Button_Click(object sender, RoutedEventArgs e)
         {
-            string[] result = results.GetFirstData();
+            TranslateData result = results.GetFirstData();
             ShowTranslateResult(result);
             
         }
 
         private void ChevronTripleRight_Button_Click(object sender, RoutedEventArgs e)
         {
-            string[] result = results.GetLastData();
+            TranslateData result = results.GetLastData();
             ShowTranslateResult(result);
         }
 
-        private void ShowTranslateResult(string[] result)
+        private void ShowTranslateResult(TranslateData data)
         {
-            sourceTextContent.BindingText = result[0];
-            int i = 1;
+            sourceTextContent.BindingText = data.SourceText;
+
             foreach (ITranslator t in translators)
-            {
-                resultTextContent[t.Name].TranslatedResult = result[i];
-                i++;
-            }
+                displayTextContent[t.Name].TranslatedResult = data.ResultText[t.Name];
+
         }
 
         private void SourceText_TextBlock_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

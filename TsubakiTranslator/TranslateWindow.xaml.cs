@@ -57,15 +57,15 @@ namespace TsubakiTranslator
         //供Hook文本选择界面使用
         public void SwitchToTranslateDisplay()
         {
-            //翻译当前选择的文本
-            App.Current.Dispatcher.Invoke(new Action<object, DataReceivedEventArgs>(TranslatedResultDisplay.DisplayTranslateResult),
-                new Object(),textHookHandler.LastEventArgs);
-
             TranslateDisplayButton.IsEnabled = true;
             TranslateDisplayButton.IsChecked = true;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { })) ;
+                Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { }));
+
+
+            //翻译当前选择的文本
+            Task.Run(()=>TranslatedResultDisplay.DisplayTranslateResult(new Object(), textHookHandler.LastEventArgs));
 
         }
 

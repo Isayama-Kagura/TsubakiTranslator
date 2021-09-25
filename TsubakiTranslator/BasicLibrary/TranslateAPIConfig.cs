@@ -32,7 +32,6 @@ namespace TsubakiTranslator.BasicLibrary
         private string tencentSecretKey;
 
         private bool xiaoniuIsEnabled;
-        private string xiaoniuAPIKey;
 
         private bool yandexIsEnabled;
         private string yandexAPIKey;
@@ -131,11 +130,6 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref xiaoniuIsEnabled, value);
         }
 
-        public string XiaoniuAPIKey
-        {
-            get => xiaoniuAPIKey;
-            set => SetProperty(ref xiaoniuAPIKey, value);
-        }
 
         public bool YandexIsEnabled
         {

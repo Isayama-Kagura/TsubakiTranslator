@@ -22,7 +22,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         /// <param name="desLang">目标语言</param>
         /// <param name="srcLang">源语言</param>
         /// <returns>翻译后的语句,如果翻译有错误会返回空，可以通过GetLastError来获取错误</returns>
-        Task<string> Translate(string sourceText);
+        string Translate(string sourceText);
 
         string Name { get; }
 

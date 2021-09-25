@@ -9,6 +9,7 @@ namespace TsubakiTranslator.BasicLibrary
 {
     class TranslateHandler
     {
+        //对翻译API进行初始化。
         public static LinkedList<ITranslator> GetSelectedTranslators(TranslateAPIConfig translateAPIConfig)
         {
             LinkedList<ITranslator> translators = new LinkedList<ITranslator>();
@@ -56,7 +57,6 @@ namespace TsubakiTranslator.BasicLibrary
             if (translateAPIConfig.XiaoniuIsEnabled)
             {
                 ITranslator xiaoniu = new XiaoniuTranslator();
-                xiaoniu.TranslatorInit(translateAPIConfig.XiaoniuAPIKey, "");
                 translators.AddLast(xiaoniu);
             }
 
