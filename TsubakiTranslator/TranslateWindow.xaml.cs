@@ -50,8 +50,17 @@ namespace TsubakiTranslator
             HookResultDisplay = new HookResultDisplay(this);
             TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler);
 
+            textHookHandler.ProcessGame.Exited += GameExitHandler;
+
             HookDisplayButton.IsChecked = true;
 
+        }
+
+        public void GameExitHandler(object sendingProcess, EventArgs outLine)
+        {
+            App.Current.Dispatcher.Invoke((Action)(() =>
+                this.Close()
+            ));
         }
 
         //供Hook文本选择界面使用

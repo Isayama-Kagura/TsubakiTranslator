@@ -11,11 +11,14 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class TextHookHandler
     {
-        private Process processTextractor;
         /// <summary>
         /// Textractor进程
         /// </summary>
+        private Process processTextractor;
         public Process ProcessTextractor { get => processTextractor; }
+
+        private Process processGame;
+        public Process ProcessGame { get => processGame; }
 
         private DataReceivedEventArgs lastEventArgs;
         public DataReceivedEventArgs LastEventArgs { get => lastEventArgs; }
@@ -27,15 +30,19 @@ namespace TsubakiTranslator.BasicLibrary
         /// </summary>
         public Dictionary<string, string> HookDict { get; }
 
-        private int GamePID;
 
         public string SelectedHookCode { get; set; }
 
 
         public TextHookHandler(Process p, int duplicateTimes)
         {
-            DuplicateTimes = duplicateTimes;
+            if (duplicateTimes <= 0)
+                DuplicateTimes = 1;
+            else
+                DuplicateTimes = duplicateTimes;
             HookDict = new Dictionary<string, string>();
+
+
             Init(p);
         }
 
@@ -55,7 +62,11 @@ namespace TsubakiTranslator.BasicLibrary
         public async void Init(Process gameProcess)
         {
             bool isX86 = ProcessHelper.IsWinX86(gameProcess);
-            GamePID = gameProcess.Id;
+
+            //当游戏退出时可以获得退出事件。
+            processGame = gameProcess;
+            processGame.EnableRaisingEvents = true;
+
             string path = Environment.CurrentDirectory + @"\Resources\Textractor\" + (isX86 ? "x86" : "x64") + @"\TextractorCLI.exe";//打开对应的Textractor路径
 
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
@@ -89,7 +100,7 @@ namespace TsubakiTranslator.BasicLibrary
         {
             //ProcessTextractor.StandardInput.WriteLine("attach -P" + GamePID);
             //Console.Write("attach -P" + GamePID);
-            await ProcessTextractor.StandardInput.WriteLineAsync("attach -P" + GamePID);
+            await ProcessTextractor.StandardInput.WriteLineAsync("attach -P" + ProcessGame.Id);
             await ProcessTextractor.StandardInput.FlushAsync();
         }
 
@@ -100,7 +111,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task DetachProcess()
         {
-            await ProcessTextractor.StandardInput.WriteLineAsync("detach -P" + GamePID);
+            await ProcessTextractor.StandardInput.WriteLineAsync("detach -P" + ProcessGame.Id);
             await ProcessTextractor.StandardInput.FlushAsync();
         }
 
@@ -111,7 +122,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task AttachProcessByHookCode(string hookCode)
         {
-            await ProcessTextractor.StandardInput.WriteLineAsync(hookCode + " -P" + GamePID);
+            await ProcessTextractor.StandardInput.WriteLineAsync(hookCode + " -P" + ProcessGame.Id);
             await ProcessTextractor.StandardInput.FlushAsync();
         }
 
@@ -123,14 +134,14 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="outLine"></param>
         public void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            Regex reg = new Regex(@"\[(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\]");
+            Regex reg = new Regex(@"\[(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\]");
             Match match = reg.Match(outLine.Data);
 
             if (match.Value.Length==0)
                 return;
 
             string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-            string hookcode = $"/{match.Groups[7].Value}/{match.Groups[8].Value}/{match.Groups[9].Value}";
+            string hookcode = match.Groups[7].Value;
 
             lastEventArgs = outLine;
 
@@ -141,6 +152,8 @@ namespace TsubakiTranslator.BasicLibrary
                 HookDict.Add(hookcode, content);
 
         }
+
+
 
 
         /// <summary>
