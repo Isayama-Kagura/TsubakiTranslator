@@ -168,8 +168,9 @@ namespace TsubakiTranslator.BasicLibrary
             if (ProcessTextractor != null && ProcessTextractor.HasExited == false)
             {
                 await DetachProcess();
-                ProcessTextractor.Kill();
                 ProcessTextractor.OutputDataReceived -= OutputHandler;
+                ProcessTextractor.Kill(true);
+                
             }
 
             processTextractor = null;

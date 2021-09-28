@@ -87,15 +87,16 @@ namespace TsubakiTranslator
             MainWindow.WindowConfig.TranslateWindowTop = this.Top;
             MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
 
+            TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.AlterItemInStackPanel;
+            TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.DisplayTranslateResult;
+            TextHookHandler.CloseTextractor();
+
             mainWindow.Show();
             
         }
 
         private void TranslateWindow_CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.AlterItemInStackPanel;
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.DisplayTranslateResult;
-            TextHookHandler.CloseTextractor();
             this.Close();
         }
 
