@@ -134,14 +134,14 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="outLine"></param>
         public void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            Regex reg = new Regex(@"\[(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\:(.*?)\]");
+            Regex reg = new Regex(@"\[(.*?)\]");
             Match match = reg.Match(outLine.Data);
 
             if (match.Value.Length==0)
                 return;
 
             string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-            string hookcode = match.Groups[7].Value;
+            string hookcode = match.Groups[1].Value;
 
             lastEventArgs = outLine;
 
@@ -169,7 +169,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 await DetachProcess();
                 ProcessTextractor.OutputDataReceived -= OutputHandler;
-                ProcessTextractor.Kill(true);
+                ProcessTextractor.Kill();
                 
             }
 

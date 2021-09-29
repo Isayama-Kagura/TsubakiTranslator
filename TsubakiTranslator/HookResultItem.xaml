@@ -12,12 +12,12 @@
 
             <TextBlock DockPanel.Dock="Left" Style="{StaticResource MaterialDesignCaptionTextBlock}"
                         TextWrapping="Wrap" MaxWidth="140"
-                        FontSize="11"  Text="{Binding HookCode, Mode=OneWay}" Margin="17"/>
+                        FontSize="11"  Text="{Binding HookCode, Mode=OneWay}" Margin="12"/>
                 
             <Button DockPanel.Dock="Right" Content="选择" Margin="14" Click="Hook_Text_Select_Button_Click"/>
 
             <TextBox Text="{Binding HookText, Mode=OneWay}" 
-                        Margin="15" IsReadOnly="True" FontSize="18"
+                        Margin="0 18 0 18" IsReadOnly="True" FontSize="18"
                         materialDesign:HintAssist.HelperText="最新获取文本"/>
                 
         </DockPanel>

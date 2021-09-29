@@ -99,7 +99,7 @@ namespace TsubakiTranslator
             WindowConfig.MainWindowWidth = this.Width;
 
             FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            FileHandler.SerializeObject<ObservableCollection<GameData>>(UserGamePage.Items, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GameData.json");
+            FileHandler.SerializeObject<ObservableCollection<GameData>>(UserGamePage.GameItems, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GameData.json");
             FileHandler.SerializeObject<TranslateAPIConfig>(UserConfigPage.TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
 
 

@@ -13,44 +13,47 @@
         <StackPanel>
             <!--the request to open the dialog will bubble up to the top-most DialogHost,
                     but we can used the attached property based event to handle the response -->
-            <StackPanel Orientation="Horizontal" >
+            <DockPanel LastChildFill="False" >
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                    Width="128" Content="新游戏"  Cursor="Hand" Margin="10">
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                    Width="80" Content="新游戏"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
-                        <StackPanel  Margin="16">
-                            <TextBox x:Name="InputGameName" 
+                        <StackPanel  Margin="10">
+                            <TextBox x:Name="InputGameName" Margin="5"
                                     materialDesign:HintAssist.Hint="游戏名"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
                             <DockPanel >
-                                <TextBox x:Name="InputGamePath" Width="300" DockPanel.Dock="Left"
-                                        materialDesign:HintAssist.Hint="路径"
+                                <TextBox x:Name="InputGamePath" Width="200" DockPanel.Dock="Left"
+                                        materialDesign:HintAssist.Hint="路径" Margin="5"
                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                         VerticalAlignment="Center" />
-                                <Button Style="{StaticResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="选择" Click="SelectPath_Button_Click" Width="70"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                                        DockPanel.Dock="Right" Content="选择" Margin="5"
+                                        Click="SelectPath_Button_Click" Width="60"/>
                             </DockPanel>
-                            <TextBox x:Name="InputHookCode"
+                            <TextBox x:Name="InputHookCode" Margin="5"
                                     materialDesign:HintAssist.Hint="特殊码"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
 
-                            <TextBox x:Name="InputDuplicateTimes"
+                            <TextBox x:Name="InputDuplicateTimes" Margin="5"
                                     materialDesign:HintAssist.Hint="重复字数"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="5"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         HorizontalAlignment="Center"
-                                        Content="Accept" Click="AddGame_OnDialogClosing"/>
+                                        Content="确定" Click="AcceptGame_Button_Click"/>
 
                                 <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                        IsCancel="True"
+                                        IsCancel="True" Margin="5"
                                         IsDefault="True"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         HorizontalAlignment="Center"
-                                        Content="CANCEL" />
+                                        Content="取消" />
 
                             </StackPanel>
 
@@ -60,14 +63,64 @@
                 </Button>
 
                 <Button Click="OpenGame_Button_Click"
-                        Width="128"  Content="打开游戏" Cursor="Hand" Margin="10" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Width="80"  Content="打开" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
 
                 <Button Click="DeleteGame_Button_Click"
-                        Width="128"  Content="删除" Cursor="Hand" Margin="10" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Width="80"  Content="删除" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
 
 
+                <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        materialDesign:ButtonAssist.CornerRadius="10" DockPanel.Dock="Right"
+                        Width="110" Content="进程号打开"  Cursor="Hand" Margin="10"
+                        Click="OpenGameByPid_Button_Click">
+                    <Button.CommandParameter>
+                        <StackPanel  Margin="10">
+                            <ComboBox x:Name="GameProcessList"
+                                      materialDesign:HintAssist.Hint="游戏进程"
+                                      ItemsSource="{Binding LongListToTestComboVirtualization}"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      materialDesign:TextFieldAssist.HasClearButton="True">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
 
-            </StackPanel>
+                            <TextBox x:Name="GameProcessHookCode"
+                                     materialDesign:HintAssist.Hint="特殊码"
+                                     Width="260"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     VerticalAlignment="Center" Margin="5"/>
+
+                            <TextBox x:Name="GameProcessDuplicateTimes"
+                                    materialDesign:HintAssist.Hint="重复字数"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    VerticalAlignment="Center" Margin="5"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Content="确定" Click="AcceptProcess_Button_Click"/>
+
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        IsDefault="True"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Content="取消" />
+
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Button.CommandParameter>
+                </Button>
+
+            </DockPanel>
 
             <ListView x:Name="GameList">
                 <ListView.View>
