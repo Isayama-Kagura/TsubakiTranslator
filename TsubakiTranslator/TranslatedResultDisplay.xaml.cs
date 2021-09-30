@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -56,13 +55,20 @@ namespace TsubakiTranslator
             if (textHookHandler.SelectedHookCode == null )
                 return;
 
-            string sourceText = TranslateHandler.RemoveDuplicatedChar(textHookHandler.HookDict[textHookHandler.SelectedHookCode], textHookHandler.DuplicateTimes);
+            Regex reg = new Regex(@"\[(.*?)\]");
+            Match match = reg.Match(outLine.Data);
 
-            //hook跳转（一种可能），或者响应输出事件（设置了HookCode后的两种可能）
-            if (results.Count() > 0 && results.GetCurrentData().SourceText.Equals(sourceText))
+            if (match.Value.Length == 0)
                 return;
 
-            //string result = await google.Translate(textHookHandler.HookDict[textHookHandler.SelectedHookCode]);
+            string hookcode = match.Groups[1].Value;
+
+            if (!hookcode.Equals(textHookHandler.SelectedHookCode))
+                return;
+
+            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
+
+            string sourceText = TranslateHandler.RemoveDuplicatedChar(content, textHookHandler.DuplicateTimes);
 
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);

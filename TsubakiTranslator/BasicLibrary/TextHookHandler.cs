@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace TsubakiTranslator.BasicLibrary
 {
@@ -20,15 +19,15 @@ namespace TsubakiTranslator.BasicLibrary
         private Process processGame;
         public Process ProcessGame { get => processGame; }
 
-        private DataReceivedEventArgs lastEventArgs;
-        public DataReceivedEventArgs LastEventArgs { get => lastEventArgs; }
+        //private DataReceivedEventArgs lastEventArgs;
+        //public DataReceivedEventArgs LastEventArgs { get => lastEventArgs; }
 
         public int DuplicateTimes { get; }
 
         /// <summary>
         /// key：Hook码，value：提取的文本
         /// </summary>
-        public Dictionary<string, string> HookDict { get; }
+        public Dictionary<string, DataReceivedEventArgs> HookHandlerDict { get; }
 
 
         public string SelectedHookCode { get; set; }
@@ -40,7 +39,7 @@ namespace TsubakiTranslator.BasicLibrary
                 DuplicateTimes = 1;
             else
                 DuplicateTimes = duplicateTimes;
-            HookDict = new Dictionary<string, string>();
+            HookHandlerDict = new Dictionary<string, DataReceivedEventArgs>();
 
 
             Init(p);
@@ -140,16 +139,16 @@ namespace TsubakiTranslator.BasicLibrary
             if (match.Value.Length==0)
                 return;
 
-            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
+            //string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
             string hookcode = match.Groups[1].Value;
 
-            lastEventArgs = outLine;
+            //lastEventArgs = outLine;
 
             //MessageBox.Show(content+"\n"+hookcode);
-            if (HookDict.ContainsKey(hookcode))
-                HookDict[hookcode] = content;
+            if (HookHandlerDict.ContainsKey(hookcode))
+                HookHandlerDict[hookcode] = outLine;
             else
-                HookDict.Add(hookcode, content);
+                HookHandlerDict.Add(hookcode, outLine);
 
         }
 

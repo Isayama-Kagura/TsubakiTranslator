@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TsubakiTranslator.BasicLibrary;
 
 namespace TsubakiTranslator
@@ -73,7 +63,7 @@ namespace TsubakiTranslator
                 Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { }));
 
             //翻译当前选择的文本
-            Task.Run(()=>TranslatedResultDisplay.DisplayTranslateResult(new Object(), textHookHandler.LastEventArgs));
+            Task.Run(()=>TranslatedResultDisplay.DisplayTranslateResult(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
 
         }
 

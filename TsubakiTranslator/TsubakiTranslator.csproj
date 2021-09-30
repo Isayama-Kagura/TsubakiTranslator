@@ -9,6 +9,12 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <PackageIcon></PackageIcon>
     <PackageIconUrl />
+    <Authors>Isayama_Kagura</Authors>
+    <Company>OTAKU Technology Co., Ltd.</Company>
+    <PackageProjectUrl>https://github.com/Isayama-Kagura/TsubakiTranslator</PackageProjectUrl>
+    <Copyright>© 2021 Tsubaki Translator</Copyright>
+    <Version>0.9.5</Version>
+    <Product>Tsubaki Translator</Product>
   </PropertyGroup>
 
 	<ItemGroup>

@@ -5,32 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TsubakiTranslator"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             mc:Ignorable="d" 
-             >
-    <StackPanel>
-        <Image Source="/Resources/Icon/Tsubaki.png" HorizontalAlignment="Center" Stretch="Fill" Width="128" Height="128" />
+             mc:Ignorable="d" >
+    <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+    
+        <StackPanel>
+            <Image Source="/Resources/Icon/Tsubaki.png" HorizontalAlignment="Center" Stretch="Fill" Width="128" Height="128" />
 
-        <TextBlock Text="终归还是来了呢。" HorizontalAlignment="Center" 
-                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                   Foreground="#FFB81010" Margin="5"
-                   TextWrapping="Wrap"/>
-        <TextBlock Text="察觉到了我的，神明大人。" HorizontalAlignment="Center" 
-                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                   Foreground="#FFB81010" Margin="5"
-                   TextWrapping="Wrap"/>
+            <TextBlock Text="终归还是来了呢。" HorizontalAlignment="Center" 
+                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                       Foreground="#FFB81010" Margin="5"/>
+            <TextBlock Text="察觉到了我的，神明大人。" HorizontalAlignment="Center" 
+                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                       Foreground="#FFB81010" Margin="5"/>
 
-        <TextBlock Text="Tsubaki 翻译器" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline3TextBlock}" 
-                   FontSize="40" Margin="25" TextWrapping="Wrap"/>
+            <TextBlock Text="Tsubaki 翻译器" HorizontalAlignment="Center" 
+                       Style="{StaticResource MaterialDesignHeadline3TextBlock}" 
+                       FontSize="40" Margin="25" />
 
-        <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                HorizontalAlignment="Center"
-                x:Name="GitHubButton" Click="GitHubButton_OnClick">
-            <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon Kind="Github"/>
-                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center"
-                           Text="GitHub"/>
-            </StackPanel>
-        </Button>
+            <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                    HorizontalAlignment="Center"
+                    x:Name="GitHubButton" Click="GitHubButton_OnClick">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Github"/>
+                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center"
+                               Text="GitHub"/>
+                </StackPanel>
+            </Button>
 
-    </StackPanel>
+        </StackPanel>
+
+    </ScrollViewer>
 </UserControl>

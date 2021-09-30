@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using TsubakiTranslator.BasicLibrary;
 
 namespace TsubakiTranslator
