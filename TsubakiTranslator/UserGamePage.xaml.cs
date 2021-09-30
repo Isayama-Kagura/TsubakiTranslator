@@ -69,13 +69,14 @@ namespace TsubakiTranslator
             Process gameProcess = FileHandler.OpenGame(item.GamePath, UserConfigPage.TranslateAPIConfig.LEIsEnabled ? UserConfigPage.TranslateAPIConfig.LEPath : null);
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess, item.DuplicateTimes);
 
-            if (item.HookCode != null && item.HookCode.Trim().Length != 0)
-                await textHookHandler.AttachProcessByHookCode(item.HookCode);
-
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
             TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler);
             translateWindow.Show();
+
+
+            if (item.HookCode != null && item.HookCode.Trim().Length != 0)
+                await textHookHandler.AttachProcessByHookCode(item.HookCode);
 
         }
 
@@ -105,14 +106,14 @@ namespace TsubakiTranslator
             
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess, times);
 
-            if (GameProcessHookCode.Text != null && GameProcessHookCode.Text.Trim().Length != 0)
-                await textHookHandler.AttachProcessByHookCode(GameProcessHookCode.Text);
-
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
             TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler);
             translateWindow.Show();
 
+
+            if (GameProcessHookCode.Text != null && GameProcessHookCode.Text.Trim().Length != 0)
+                await textHookHandler.AttachProcessByHookCode(GameProcessHookCode.Text);
         }
 
     }

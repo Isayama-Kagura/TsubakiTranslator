@@ -103,25 +103,7 @@ namespace TsubakiTranslator
             }
         }
 
-        //class StateObject
-        //{
-        //    public string  TranslatorName{ get; set; }
-        //    public TranslateData TranslateData { get; set; }
-        //    public Func<string, string> TranslateDelegate { get; set; }
-        //}
-        
-        //private void TranslateCallback(IAsyncResult asyncResult)
-        //{
-        //    StateObject state = (StateObject)asyncResult.AsyncState;
-        //    Func<string, string> translateDelegate = state.TranslateDelegate;
-        //    string translatorName = state.TranslatorName;
-        //    TranslateData translateData = state.TranslateData;
 
-        //    string result = translateDelegate.EndInvoke(asyncResult);
-        //    translateData.ResultText[translatorName] = result;
-        //    ShowTranslateResult(translateData);
-
-        //}
 
         private void ArrowLeft_Button_Click(object sender, RoutedEventArgs e)
         {

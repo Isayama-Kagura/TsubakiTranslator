@@ -121,6 +121,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task AttachProcessByHookCode(string hookCode)
         {
+            await Task.Delay(20);
             await ProcessTextractor.StandardInput.WriteLineAsync(hookCode + " -P" + ProcessGame.Id);
             await ProcessTextractor.StandardInput.FlushAsync();
         }
