@@ -20,10 +20,6 @@ namespace TsubakiTranslator.BasicLibrary
 
         private bool googleIsEnabled;
 
-        //LE配置暂时先跟翻译API放在一起
-        private bool leIsEnabled;
-        private string lePath;
-
         private bool tencentIsEnabled;
         private string tencentSecretID;
         private string tencentSecretKey;
@@ -36,19 +32,6 @@ namespace TsubakiTranslator.BasicLibrary
         private bool yeekitIsEnabled;
 
         private bool youdaoIsEnabled;
-
-        public string LEPath
-        {
-            get => lePath;
-            set => SetProperty(ref lePath, value);
-        }
-
-        public bool LEIsEnabled
-        {
-            get => leIsEnabled;
-            set => SetProperty(ref leIsEnabled, value);
-        }
-
 
         public bool AliyunIsEnabled
         {

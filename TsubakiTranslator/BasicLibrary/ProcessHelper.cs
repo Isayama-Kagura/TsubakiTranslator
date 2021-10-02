@@ -34,35 +34,6 @@ namespace TsubakiTranslator.BasicLibrary
         }
 
 
-        /// <summary>
-        /// 根据路径返回进程
-        /// </summary>
-        /// <param name="pid"></param>
-        /// <returns></returns>
-        public static Process GetProcessByPath(string gamePath)
-        {
-            Process[] ps = Process.GetProcesses();
-            Process process = ps[0];
-
-            foreach(Process p in ps)
-            {
-                try
-                {
-                    if (p.MainModule.FileName.Equals(gamePath))
-                    {
-                        process = p;
-                        break;
-                    }
-                }
-                catch(Exception )
-                {
-                    continue;
-                }
-            }
-
-            return process;
-        }
-
         public static bool IsWinX86(Process process)
         {
 

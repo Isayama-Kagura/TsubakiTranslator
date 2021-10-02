@@ -10,33 +10,6 @@
     <ScrollViewer x:Name="scrolls" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
         <materialDesign:Card Background="WhiteSmoke" >
             <StackPanel>
-                <Expander HorizontalAlignment="Stretch"
-                          Header="Locale.Emulator设置" Background="WhiteSmoke" >
-                    <StackPanel Orientation="Vertical"
-                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                                Margin="24,8,24,16">
-                        <TextBlock Text="配置LE目录下的LEProc文件路径进行转区。" 
-                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
-                                   FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox x:Name="LEEnabledComboBox"
-                                  Content="启用" IsChecked="{Binding LEIsEnabled,Mode=TwoWay}"/>
-                        <DockPanel >
-                            <Button Style="{StaticResource MaterialDesignFlatButton}" 
-                                    Content="选择" DockPanel.Dock="Right"
-                                    Click="SelectPath_Button_Click" Width="70"
-                                    IsEnabled="{Binding Path=IsChecked, ElementName=LEEnabledComboBox}" Cursor="Hand"/>
-                            <TextBox x:Name="InputLEPath" 
-                                     materialDesign:HintAssist.Hint="LEProc路径" 
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     VerticalAlignment="Center"
-                                     IsEnabled="{Binding Path=IsChecked, ElementName=LEEnabledComboBox}" Cursor="IBeam"
-                                     Text="{Binding Path=LEPath,Mode=TwoWay}"/>
-
-                        </DockPanel>
-                    </StackPanel>
-                </Expander>
-
-                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
                 <Expander HorizontalAlignment="Stretch" Header="阿里云翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"

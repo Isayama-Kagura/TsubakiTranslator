@@ -23,11 +23,11 @@ namespace TsubakiTranslator
             this.DataContext = TranslateAPIConfig;
         }
 
-        private void SelectPath_Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            string path = FileHandler.SelectPath();
-            TranslateAPIConfig.LEPath = path;
-        }
+        //private void SelectPath_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    string path = FileHandler.SelectPath();
+        //    TranslateAPIConfig.LEPath = path;
+        //}
     }
 
 

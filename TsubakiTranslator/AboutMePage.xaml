@@ -14,7 +14,7 @@
             <TextBlock Text="终归还是来了呢。" HorizontalAlignment="Center" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                        Foreground="#FFB81010" Margin="5"/>
-            <TextBlock Text="察觉到了我的，神明大人。" HorizontalAlignment="Center" 
+            <TextBlock Text="我寻找到的，神明大人。" HorizontalAlignment="Center" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                        Foreground="#FFB81010" Margin="5"/>
 

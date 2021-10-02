@@ -3,41 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TsubakiTranslator" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:TsubakiTranslator" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <materialDesign:DialogHost
-                    DialogClosing="Config_DialogHost_OnDialogClosing" DialogTheme="Inherit" CloseOnClickAway="True">
+    <materialDesign:DialogHost DialogTheme="Inherit" CloseOnClickAway="True" DialogClosing="GamePage_DialogClosing">
 
         <StackPanel>
             <!--the request to open the dialog will bubble up to the top-most DialogHost,
                     but we can used the attached property based event to handle the response -->
             <DockPanel LastChildFill="False" >
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                    Width="80" Content="新游戏"  Cursor="Hand" Margin="10">
+                        materialDesign:ButtonAssist.CornerRadius="10" 
+                        IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"
+                        Click="OpenHistoryGame_Button_Click"
+                        Width="80" Content="打开"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
-                            <TextBox x:Name="InputGameName" Margin="5"
+                            <TextBox x:Name="HistoryGameName" Margin="5"
                                     materialDesign:HintAssist.Hint="游戏名"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
-                            <DockPanel >
-                                <TextBox x:Name="InputGamePath" Width="200" DockPanel.Dock="Left"
-                                        materialDesign:HintAssist.Hint="路径" Margin="5"
-                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                        VerticalAlignment="Center" />
-                                <Button Style="{StaticResource MaterialDesignFlatButton}" 
-                                        DockPanel.Dock="Right" Content="选择" Margin="5"
-                                        Click="SelectPath_Button_Click" Width="60"/>
-                            </DockPanel>
-                            <TextBox x:Name="InputHookCode" Margin="5"
+
+                            <ComboBox x:Name="HistoryGameProcessList" Margin="5"
+                                      materialDesign:HintAssist.Hint="游戏进程"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      materialDesign:TextFieldAssist.HasClearButton="True">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
+
+                            <TextBox x:Name="HistoryGameHookCode" Margin="5"
                                     materialDesign:HintAssist.Hint="特殊码"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
 
-                            <TextBox x:Name="InputDuplicateTimes" Margin="5"
+                            <TextBox x:Name="HistoryGameDuplicateTimes" Margin="5"
                                     materialDesign:HintAssist.Hint="重复字数"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center" />
@@ -46,7 +51,7 @@
                                 <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="5"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         HorizontalAlignment="Center"
-                                        Content="确定" Click="AcceptGame_Button_Click"/>
+                                        Content="注入" Click="AcceptGame_Button_Click"/>
 
                                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True" Margin="5"
@@ -62,9 +67,9 @@
                     </Button.CommandParameter>
                 </Button>
 
-                <Button Click="OpenGame_Button_Click"
+                <!--<Button Click="OpenGame_Button_Click"
                         materialDesign:ButtonAssist.CornerRadius="10"
-                        Width="80"  Content="打开" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+                        Width="80"  Content="打开" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>-->
 
                 <Button Click="DeleteGame_Button_Click"
                         materialDesign:ButtonAssist.CornerRadius="10"
@@ -77,9 +82,9 @@
                         Click="OpenGameByPid_Button_Click">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
+
                             <ComboBox x:Name="GameProcessList" Margin="5"
                                       materialDesign:HintAssist.Hint="游戏进程"
-                                      ItemsSource="{Binding LongListToTestComboVirtualization}"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       materialDesign:TextFieldAssist.HasClearButton="True">
                                 <ComboBox.ItemsPanel>
@@ -130,8 +135,6 @@
                                         Header="特殊码" />
                         <GridViewColumn DisplayMemberBinding="{Binding DuplicateTimes, Mode=TwoWay}"
                                         Header="重复字数" />
-                        <GridViewColumn DisplayMemberBinding="{Binding GamePath, Mode=TwoWay}" Width="500"
-                                        Header="游戏路径" />
 
                     </GridView>
                 </ListView.View>

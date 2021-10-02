@@ -15,41 +15,21 @@ namespace TsubakiTranslator
     {
 
         public ObservableCollection<GameData> GameItems { get; }
-        private ObservableCollection<string> ProcessItems { get; }
-
+        private ObservableCollection<string> ProcessStrings { get; }
 
         public UserGamePage()
         {
             InitializeComponent();
 
             GameItems = FileHandler.DeserializeObject<ObservableCollection<GameData>>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GameData.json", new ObservableCollection<GameData>());
-            ProcessItems = new ObservableCollection<string>();
+            ProcessStrings = new ObservableCollection<string>();
 
             GameList.ItemsSource = GameItems;
-            GameProcessList.ItemsSource = ProcessItems;
+            GameProcessList.ItemsSource = ProcessStrings;
+            HistoryGameProcessList.ItemsSource = ProcessStrings;
 
         }
 
-        private void Config_DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
-        {
-            this.InputGameName.Text = "";
-            this.InputGamePath.Text = "";
-            this.InputHookCode.Text = "";
-        }
-
-        private void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            int.TryParse(InputDuplicateTimes.Text, out int num);
-            GameData item = new GameData
-            {
-                GameName = InputGameName.Text,
-                GamePath = InputGamePath.Text,
-                HookCode = InputHookCode.Text,
-                DuplicateTimes = num
-            };
-
-            GameItems.Add(item);
-        }
 
         private void DeleteGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -57,17 +37,37 @@ namespace TsubakiTranslator
             GameItems.Remove(item);
         }
 
-        private void SelectPath_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void OpenHistoryGame_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.InputGamePath.Text = FileHandler.SelectPath();
+            SetProcessItems();
+
+            GameData item = (GameData)GameList.SelectedItem;
+
+            HistoryGameName.Text = item.GameName;
+            HistoryGameHookCode.Text = item.HookCode;
+            HistoryGameDuplicateTimes.Text = item.DuplicateTimes.ToString();
+
         }
 
-        private async void OpenGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            
+
             GameData item = (GameData)GameList.SelectedItem;
-            Process gameProcess = FileHandler.OpenGame(item.GamePath, UserConfigPage.TranslateAPIConfig.LEIsEnabled ? UserConfigPage.TranslateAPIConfig.LEPath : null);
-            TextHookHandler textHookHandler = new TextHookHandler(gameProcess, item.DuplicateTimes);
+
+            int.TryParse(HistoryGameDuplicateTimes.Text, out int times);
+
+            item.GameName = HistoryGameName.Text;
+            item.HookCode = HistoryGameHookCode.Text;
+            item.DuplicateTimes = times;
+
+            string processInfo = (string)HistoryGameProcessList.SelectedItem;
+            if (processInfo == null)
+                return;
+
+
+            Process gameProcess = GetGameProcessByProcessStrings(processInfo);
+
+            TextHookHandler textHookHandler = new TextHookHandler(gameProcess, times);
 
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
@@ -75,35 +75,35 @@ namespace TsubakiTranslator
             translateWindow.Show();
 
 
-            if (item.HookCode != null && item.HookCode.Trim().Length != 0)
-                await textHookHandler.AttachProcessByHookCode(item.HookCode);
+            if (HistoryGameHookCode.Text != null && HistoryGameHookCode.Text.Trim().Length != 0)
+                await textHookHandler.AttachProcessByHookCode(HistoryGameHookCode.Text);
 
         }
 
         private void OpenGameByPid_Button_Click(object sender, RoutedEventArgs e)
         {
-            ProcessItems.Clear();
-            Process[] ps = Process.GetProcesses();
-            foreach(Process p in ps)
-            {
-                ProcessItems.Add($"{p.Id} - {p.ProcessName}");
-            }
-
+            SetProcessItems();
         }
 
         private async void AcceptProcess_Button_Click(object sender, RoutedEventArgs e)
         {
             string processInfo = (string)GameProcessList.SelectedItem;
+            if (processInfo == null)
+                return;
 
-            Regex reg = new Regex(@"(\d+?)\s-\s");
-            Match match = reg.Match(processInfo);
-
-            int.TryParse(match.Groups[1].Value, out int pid);
-
-            Process gameProcess = Process.GetProcessById(pid);
+            Process gameProcess = GetGameProcessByProcessStrings(processInfo);
 
             int.TryParse(GameProcessDuplicateTimes.Text, out int times);
-            
+
+            GameData item = new GameData
+            {
+                HookCode = GameProcessHookCode.Text,
+                DuplicateTimes = times,
+                GameName = gameProcess.ProcessName
+            };
+
+            GameItems.Add(item);
+
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess, times);
 
             Window mainWindow = Window.GetWindow(this);
@@ -116,6 +116,30 @@ namespace TsubakiTranslator
                 await textHookHandler.AttachProcessByHookCode(GameProcessHookCode.Text);
         }
 
+        private void GamePage_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            ProcessStrings.Clear();
+        }
+
+        private void SetProcessItems()
+        {
+            Process[] ps = Process.GetProcesses();
+
+            foreach (Process p in ps)
+                ProcessStrings.Add($"{p.Id} - {p.ProcessName}");
+        }
+
+        private Process GetGameProcessByProcessStrings(string processString)
+        {
+            Regex reg = new Regex(@"(\d+?)\s-\s");
+            Match match = reg.Match(processString);
+
+            int.TryParse(match.Groups[1].Value, out int pid);
+
+            Process gameProcess = Process.GetProcessById(pid);
+
+            return gameProcess;
+        }
     }
   
 

@@ -88,7 +88,7 @@ namespace TsubakiTranslator.BasicLibrary
             //ProcessTextractor.StandardInput.WriteLine("attach -P" + GamePID);
             //Console.Write("attach -P" + GamePID);
 
-            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
+            //适用多个同名进程的情况，只在通过进程启动有效。
             Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
 
             foreach (Process process in processes)
@@ -106,7 +106,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task DetachProcess()
         {
-            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
+            //适用多个同名进程的情况，只在通过进程启动有效。
             Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
             foreach (Process process in processes)
             {
@@ -123,9 +123,8 @@ namespace TsubakiTranslator.BasicLibrary
         public async Task AttachProcessByHookCode(string hookCode)
         {
             //解决有hookcode时莫名的报错。
-            await Task.Delay(10);
+            //await Task.Delay(10);
 
-            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
             Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
             foreach (Process process in processes)
             {

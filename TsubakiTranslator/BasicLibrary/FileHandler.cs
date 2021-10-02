@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -9,20 +7,20 @@ namespace TsubakiTranslator.BasicLibrary
 {
     class FileHandler
     {
-        public static string SelectPath()
-        {
-            string path = string.Empty;
-            var openFileDialog = new OpenFileDialog()
-            {
-                Filter = "可执行文件|*.exe|所有文件|*.*"//如果需要筛选txt文件（"Files (*.txt)|*.txt"）
-            };
-            var result = openFileDialog.ShowDialog();
-            if (result == true)
-            {
-                path = openFileDialog.FileName;
-            }
-            return path;
-        }
+        //public static string SelectPath()
+        //{
+        //    string path = string.Empty;
+        //    var openFileDialog = new OpenFileDialog()
+        //    {
+        //        Filter = "可执行文件|*.exe|所有文件|*.*"//如果需要筛选txt文件（"Files (*.txt)|*.txt"）
+        //    };
+        //    var result = openFileDialog.ShowDialog();
+        //    if (result == true)
+        //    {
+        //        path = openFileDialog.FileName;
+        //    }
+        //    return path;
+        //}
 
         public static void SerializeObject<T>(T value, string path)
         {
@@ -85,41 +83,7 @@ namespace TsubakiTranslator.BasicLibrary
 
         }
 
-        /// <summary>
-        /// 打开游戏并返回游戏的进程
-        /// </summary>
-        /// <param name="gamePath"></param>
-        /// <param name="lePath"></param>
-        /// <returns></returns>
-
-        public static Process OpenGame(string gamePath, string lePath)
-        {
-            ProcessStartInfo p = new ProcessStartInfo();
-            Process process;
-
-            if (lePath != null && lePath.Length != 0)
-            {
-                
-                p.FileName = lePath;
-                p.Arguments = gamePath;
-                p.UseShellExecute = false;
-                p.WorkingDirectory = Path.GetDirectoryName(lePath);
-                Process.Start(p).WaitForExit();
-                process = ProcessHelper.GetProcessByPath(gamePath);
-            }
-            else
-            {
-                p.FileName = $"\"{gamePath}\"";
-                p.UseShellExecute = false;
-                p.WorkingDirectory = Path.GetDirectoryName(gamePath);
-                process = Process.Start(p);
-                
-            }
-            
-            //MessageBox.Show($"进程ID:{ process.Id}\n进程名：{ process.ProcessName}\n进程路径：{ process.MainModule.FileName}");
-            return process;
-
-        }
+        
 
     }
 }
