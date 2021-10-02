@@ -37,8 +37,8 @@
 
         <materialDesign:Snackbar DockPanel.Dock="Bottom" x:Name="ResultDisplaySnackbar"
                                  MessageQueue="{materialDesign:MessageQueue}" />
-        
-        <StackPanel x:Name="TranslateResultPanel">
+
+        <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
             <TextBlock x:Name="SourceText"
                            Style="{StaticResource MaterialDesignCaptionTextBlock}"
                            Margin="7"

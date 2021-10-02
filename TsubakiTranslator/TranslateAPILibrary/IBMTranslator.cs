@@ -48,6 +48,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 Match match = reg.Match(responseBody);
 
                 string result = match.Groups[1].Value;
+                result = Regex.Unescape(result);
                 return result;
                 //string ret = result.payload.translations[0].translation;
 

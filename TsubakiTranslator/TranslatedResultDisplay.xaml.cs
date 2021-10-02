@@ -68,7 +68,12 @@ namespace TsubakiTranslator
 
             string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
 
-            string sourceText = TranslateHandler.RemoveDuplicatedChar(content, textHookHandler.DuplicateTimes);
+
+            string sourceText;
+            if (textHookHandler.DuplicateTimes <= 1)
+                sourceText = content;
+            else
+                sourceText = TranslateHandler.RemoveDuplicatedChar(content, textHookHandler.DuplicateTimes);
 
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);

@@ -38,6 +38,19 @@
 
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
+                <Expander HorizontalAlignment="Stretch" Header="阿里云翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『阿里云机器翻译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding AliyunIsEnabled,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
                 <Expander HorizontalAlignment="Stretch" Header="百度翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"

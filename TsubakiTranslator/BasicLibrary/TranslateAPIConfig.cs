@@ -4,6 +4,8 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class TranslateAPIConfig: ObservableObject
     {
+        private bool aliyunIsEnabled;
+
         private bool baiduIsEnabled;
         private string baiduAppID;
         private string baiduSecretKey;
@@ -47,16 +49,11 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref leIsEnabled, value);
         }
 
-        public bool IbmIsEnabled
-        {
-            get => ibmIsEnabled;
-            set => SetProperty(ref ibmIsEnabled, value);
-        }
 
-        public bool GoogleIsEnabled
+        public bool AliyunIsEnabled
         {
-            get => googleIsEnabled;
-            set => SetProperty(ref googleIsEnabled, value);
+            get => aliyunIsEnabled;
+            set => SetProperty(ref aliyunIsEnabled, value);
         }
 
         public bool BaiduIsEnabled
@@ -99,6 +96,18 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => deeplSecretKey;
             set => SetProperty(ref deeplSecretKey, value);
+        }
+
+        public bool IbmIsEnabled
+        {
+            get => ibmIsEnabled;
+            set => SetProperty(ref ibmIsEnabled, value);
+        }
+
+        public bool GoogleIsEnabled
+        {
+            get => googleIsEnabled;
+            set => SetProperty(ref googleIsEnabled, value);
         }
 
         public bool TencentIsEnabled

@@ -76,8 +76,9 @@ namespace TsubakiTranslator
             MainWindow.WindowConfig.TranslateWindowTop = this.Top;
             MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
 
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.AlterItemInStackPanel;
+            TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
             TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.DisplayTranslateResult;
+            textHookHandler.ProcessGame.Exited -= GameExitHandler;
             TextHookHandler.CloseTextractor();
 
             mainWindow.Show();
@@ -121,6 +122,16 @@ namespace TsubakiTranslator
         private void TranslateWindow_MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void TranslateWindow_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TranslateWindowMenu.Visibility = Visibility.Visible;
+        }
+
+        private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TranslateWindowMenu.Visibility = Visibility.Collapsed;
         }
     }
 }

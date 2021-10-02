@@ -12,6 +12,12 @@ namespace TsubakiTranslator.BasicLibrary
         {
             LinkedList<ITranslator> translators = new LinkedList<ITranslator>();
 
+            if (translateAPIConfig.AliyunIsEnabled)
+            {
+                ITranslator aliyun = new AliyunTranslator();
+                translators.AddLast(aliyun);
+            }
+
             if (translateAPIConfig.BaiduIsEnabled)
             {
                 ITranslator baidu = new BaiduTranslator();

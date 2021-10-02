@@ -77,7 +77,7 @@
                         Click="OpenGameByPid_Button_Click">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
-                            <ComboBox x:Name="GameProcessList"
+                            <ComboBox x:Name="GameProcessList" Margin="5"
                                       materialDesign:HintAssist.Hint="游戏进程"
                                       ItemsSource="{Binding LongListToTestComboVirtualization}"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
@@ -91,7 +91,6 @@
 
                             <TextBox x:Name="GameProcessHookCode"
                                      materialDesign:HintAssist.Hint="特殊码"
-                                     Width="260"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      VerticalAlignment="Center" Margin="5"/>
 

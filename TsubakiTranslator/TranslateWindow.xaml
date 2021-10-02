@@ -11,7 +11,8 @@
         Background="#A9000000" 
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
-        Closing="On_TranslateWindow_Closing" >
+        Closing="On_TranslateWindow_Closing" MouseEnter="TranslateWindow_MouseEnter"
+        MouseLeave="TranslateWindow_MouseLeave">
 
     <!--窗口可改变尺寸-->
     <WindowChrome.WindowChrome >
@@ -63,8 +64,9 @@
         </materialDesign:ColorZone>
 
         <DockPanel x:Name="TranslateWindowDockPanel"  Grid.Row="1" >
-            <StackPanel Orientation="Horizontal"
-                        Margin="4" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+            <StackPanel x:Name="TranslateWindowMenu" Orientation="Horizontal" 
+                        Margin="4" DockPanel.Dock="Bottom" HorizontalAlignment="Center"
+                        Visibility="Collapsed">
                 <RadioButton x:Name="TranslateDisplayButton"
                              Style="{StaticResource MaterialDesignTabRadioButton}"
                              Margin="4" BorderBrush="#b71c1c" Foreground="WhiteSmoke"

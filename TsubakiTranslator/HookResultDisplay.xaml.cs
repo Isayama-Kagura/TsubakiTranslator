@@ -21,12 +21,12 @@ namespace TsubakiTranslator
             HookItemDict = new Dictionary<string, HookResultItem>();
             this.translateWindow = translateWindow;
 
-            translateWindow.TextHookHandler.ProcessTextractor.OutputDataReceived += AlterItemInStackPanel;
+            translateWindow.TextHookHandler.ProcessTextractor.OutputDataReceived += DisplayHookResult;
 
         }
 
 
-        public void AlterItemInStackPanel(object sendingProcess, DataReceivedEventArgs outLine)
+        public void DisplayHookResult(object sendingProcess, DataReceivedEventArgs outLine)
         {
 
             Regex reg = new Regex(@"\[(.*?)\]");

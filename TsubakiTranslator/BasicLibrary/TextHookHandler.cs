@@ -19,9 +19,6 @@ namespace TsubakiTranslator.BasicLibrary
         private Process processGame;
         public Process ProcessGame { get => processGame; }
 
-        //private DataReceivedEventArgs lastEventArgs;
-        //public DataReceivedEventArgs LastEventArgs { get => lastEventArgs; }
-
         public int DuplicateTimes { get; }
 
         /// <summary>
@@ -29,18 +26,12 @@ namespace TsubakiTranslator.BasicLibrary
         /// </summary>
         public Dictionary<string, DataReceivedEventArgs> HookHandlerDict { get; }
 
-
         public string SelectedHookCode { get; set; }
-
 
         public TextHookHandler(Process p, int duplicateTimes)
         {
-            if (duplicateTimes <= 0)
-                DuplicateTimes = 1;
-            else
-                DuplicateTimes = duplicateTimes;
+            DuplicateTimes = duplicateTimes;
             HookHandlerDict = new Dictionary<string, DataReceivedEventArgs>();
-
 
             Init(p);
         }
@@ -50,9 +41,6 @@ namespace TsubakiTranslator.BasicLibrary
         {
             CloseTextractor();
         }
-
-
-        
 
         /// <summary>
         /// 初始化Textractor,建立CLI与本软件间的通信
@@ -99,8 +87,16 @@ namespace TsubakiTranslator.BasicLibrary
         {
             //ProcessTextractor.StandardInput.WriteLine("attach -P" + GamePID);
             //Console.Write("attach -P" + GamePID);
-            await ProcessTextractor.StandardInput.WriteLineAsync("attach -P" + ProcessGame.Id);
-            await ProcessTextractor.StandardInput.FlushAsync();
+
+            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
+            Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
+
+            foreach (Process process in processes)
+            {    
+                await ProcessTextractor.StandardInput.WriteLineAsync("attach -P" + process.Id);
+                await ProcessTextractor.StandardInput.FlushAsync();
+            }
+            
         }
 
         /// <summary>
@@ -110,8 +106,13 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task DetachProcess()
         {
-            await ProcessTextractor.StandardInput.WriteLineAsync("detach -P" + ProcessGame.Id);
-            await ProcessTextractor.StandardInput.FlushAsync();
+            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
+            Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
+            foreach (Process process in processes)
+            {
+                await ProcessTextractor.StandardInput.WriteLineAsync("detach -P" + process.Id);
+                await ProcessTextractor.StandardInput.FlushAsync();
+            }
         }
 
         /// <summary>
@@ -121,9 +122,16 @@ namespace TsubakiTranslator.BasicLibrary
         /// <param name="pid"></param>
         public async Task AttachProcessByHookCode(string hookCode)
         {
-            await Task.Delay(20);
-            await ProcessTextractor.StandardInput.WriteLineAsync(hookCode + " -P" + ProcessGame.Id);
-            await ProcessTextractor.StandardInput.FlushAsync();
+            //解决有hookcode时莫名的报错。
+            await Task.Delay(10);
+
+            //适用多个同名进程的情况，只在通过进程启动有效，通过路径启动进程时程序运行过快导致无效。
+            Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
+            foreach (Process process in processes)
+            {
+                await ProcessTextractor.StandardInput.WriteLineAsync(hookCode + " -P" + process.Id);
+                await ProcessTextractor.StandardInput.FlushAsync();
+            }
         }
 
 
@@ -150,10 +158,7 @@ namespace TsubakiTranslator.BasicLibrary
                 HookHandlerDict[hookcode] = outLine;
             else
                 HookHandlerDict.Add(hookcode, outLine);
-
         }
-
-
 
 
         /// <summary>
@@ -175,8 +180,6 @@ namespace TsubakiTranslator.BasicLibrary
 
             processTextractor = null;
         }
-
-        
 
     }
 }
