@@ -19,10 +19,12 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "腾讯";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText )
         {
             string desLang = "zh";
-            string srcLang = "auto";
+
             string retString;
 
             string salt = new Random().Next(100000).ToString();
@@ -40,7 +42,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             param.Add("SourceText", sourceText);
             param.Add("Region", "ap-guangzhou");
             param.Add("Action", action);
-            param.Add("Source", srcLang);
+            param.Add("Source", SourceLanguage);
             // param.Add("Nonce", Math.Abs(new Random().Next()).ToString());
             param.Add("Timestamp", CommonFunction.GetTimeStamp());
             param.Add("Version", version);

@@ -12,14 +12,16 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "IBM";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText )
         {
             string desLang = "zh";
-            string srcLang = "ja";
+
             var body = new
             {
                 text = sourceText,
-                source = srcLang,
+                source = SourceLanguage,
                 target = desLang
             };
 
@@ -35,7 +37,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             //HttpResponseMessage resp;
             //var hc = CommonFunction.Client;
             //var req = new HttpRequestMessage(HttpMethod.Post, URL);
-            //req.Content = new StringContent("{\"text\":[\""+ sourceText.Replace("\"", "") +"\"],\"model_id\":\"" + srcLang + "-" + desLang + "\"}",null,"application/json");
+            //req.Content = new StringContent("{\"text\":[\""+ sourceText.Replace("\"", "") +"\"],\"model_id\":\"" + SourceLanguage + "-" + desLang + "\"}",null,"application/json");
             //req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiKey)));
 
             try

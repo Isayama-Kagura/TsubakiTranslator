@@ -32,7 +32,8 @@
         <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
                                     Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="2"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   >
+                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   
+                                    MouseDoubleClick="ColorZone_MouseDoubleClick">
             <DockPanel >
 
                 <Button  DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 

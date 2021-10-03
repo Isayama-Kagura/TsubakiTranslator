@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -9,17 +10,29 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "Yeekit";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "nzh";
-            string srcLang = "nja";
 
-            string bodyString = $"content[]={HttpUtility.UrlEncode(sourceText)}&sourceLang={srcLang}&targetLang={desLang}";
+            var body = new
+            {
+                srcl = SourceLanguage,
+                tgtl = desLang,
+                app_source = 9001,
+                text = sourceText,
+                domain = "auto"
+            };
+
+            string bodyString = JsonSerializer.Serialize(body);
+
+            //string bodyString = $"content[]={HttpUtility.UrlEncode(sourceText)}&sourceLang={SourceLanguage}&targetLang={desLang}";
 
             HttpContent content = new StringContent(bodyString);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            string url = @"https://www.yeekit.com/site/dotranslate";
+            string url = @"http://fanyi.yeekit.com/zyyt/translate/translate";
 
             HttpClient client = CommonFunction.Client;
 
@@ -31,12 +44,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
                 responseBody = responseBody.Replace(@"\n", string.Empty).Replace(" ", string.Empty);
 
-                Regex reg = new Regex(@",\\""text\\"":\\""(.*?)\\"",\\""");
+                Regex reg = new Regex(@"""data"":""(.*?)""\}");
                 Match match = reg.Match(responseBody);
 
                 string result = match.Groups[1].Value;
-                //Unicode解码
-                result = Regex.Unescape(result);
+
                 return result;
             }
             catch (System.Net.Http.HttpRequestException ex)

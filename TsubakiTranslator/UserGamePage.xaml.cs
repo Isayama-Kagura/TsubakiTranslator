@@ -126,12 +126,12 @@ namespace TsubakiTranslator
             Process[] ps = Process.GetProcesses();
 
             foreach (Process p in ps)
-                ProcessStrings.Add($"{p.Id} - {p.ProcessName}");
+                ProcessStrings.Add($"{p.ProcessName} - {p.Id}");
         }
 
         private Process GetGameProcessByProcessStrings(string processString)
         {
-            Regex reg = new Regex(@"(\d+?)\s-\s");
+            Regex reg = new Regex(@"\s-\s(\d+?)$");
             Match match = reg.Match(processString);
 
             int.TryParse(match.Groups[1].Value, out int pid);

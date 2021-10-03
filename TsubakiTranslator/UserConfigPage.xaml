@@ -11,6 +11,22 @@
         <materialDesign:Card Background="WhiteSmoke" >
             <StackPanel>
 
+                <Expander HorizontalAlignment="Stretch" Header="翻译源语言选择" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <ComboBox materialDesign:HintAssist.Hint="语言" SelectedIndex="0" 
+                                  SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
+                                  SelectedValuePath="Tag">
+                            <ComboBoxItem Content="日语"  Tag="Japanese"/>
+                            <ComboBoxItem Content="英语"  Tag="English"/>
+
+                        </ComboBox>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+                
                 <Expander HorizontalAlignment="Stretch" Header="阿里云翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"

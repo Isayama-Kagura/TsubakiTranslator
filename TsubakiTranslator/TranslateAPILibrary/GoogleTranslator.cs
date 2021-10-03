@@ -9,19 +9,20 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "谷歌";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh-CN"; 
-            string srcLang = "auto";
 
-            string bodyString = $"q={HttpUtility.UrlEncode(sourceText)}&sl={srcLang}&tl={desLang}&client=at&dt=t";
+            string bodyString = $"q={HttpUtility.UrlEncode(sourceText)}&sl={SourceLanguage}&tl={desLang}&client=at&dt=t";
 
             HttpContent content = new StringContent(bodyString);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             string url = @"https://translate.google.cn/translate_a/single";
 
-            //string googleTransUrl = "https://translate.google.cn/translate_a/single?client=gtx&dt=t&sl=" + srcLang + "&tl=" + desLang + "&tk=" + tk + "&q=" + HttpUtility.UrlEncode(sourceText);
+            //string googleTransUrl = "https://translate.google.cn/translate_a/single?client=gtx&dt=t&sl=" + SourceLanguage + "&tl=" + desLang + "&tk=" + tk + "&q=" + HttpUtility.UrlEncode(sourceText);
 
             HttpClient client = CommonFunction.Client;
 

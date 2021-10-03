@@ -11,15 +11,17 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "小牛";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh";
-            string srcLang = "ja";
+
 
             string retString;
 
             var sb = new StringBuilder("https://test.niutrans.com/NiuTransServer/testaligntrans?")
-                .Append("&from=").Append(srcLang)
+                .Append("&from=").Append(SourceLanguage)
                 .Append("&to=").Append(desLang)
                 .Append("&src_text=").Append(Uri.EscapeDataString(sourceText))
                 .Append("&source=").Append("text")

@@ -83,6 +83,16 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(youdao);
             }
 
+            Dictionary<string, string> langDict;
+
+            if (translateAPIConfig.SourceLanguage.Equals("Japanese"))
+                langDict = new APISourceLangDict().Japanese;
+            else
+                langDict = new APISourceLangDict().English;
+
+            foreach (var t in translators)
+                t.SourceLanguage = langDict[t.Name];
+
             return translators;
         }
 

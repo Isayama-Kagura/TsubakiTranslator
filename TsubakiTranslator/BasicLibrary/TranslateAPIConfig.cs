@@ -4,6 +4,8 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class TranslateAPIConfig: ObservableObject
     {
+        private string sourceLanguage;
+
         private bool aliyunIsEnabled;
 
         private bool baiduIsEnabled;
@@ -32,6 +34,12 @@ namespace TsubakiTranslator.BasicLibrary
         private bool yeekitIsEnabled;
 
         private bool youdaoIsEnabled;
+
+        public string SourceLanguage
+        {
+            get => sourceLanguage;
+            set => SetProperty(ref sourceLanguage, value);
+        }
 
         public bool AliyunIsEnabled
         {

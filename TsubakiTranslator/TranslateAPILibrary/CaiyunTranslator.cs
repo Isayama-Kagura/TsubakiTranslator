@@ -14,18 +14,18 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "彩云";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
 
         public string Translate(string sourceText)
         {
             string desLang = "zh";
-            string srcLang = "auto";
 
             string retString;
 
 
             string url = "https://api.interpreter.caiyunai.com/v1/translator";
             //json参数
-            string jsonParam = "{\"source\": [\"" + sourceText + "\"], \"trans_type\": \"" + $"{srcLang}2{desLang}" + "\", \"request_id\": \"demo\", \"detect\": true}";
+            string jsonParam = "{\"source\": [\"" + sourceText + "\"], \"trans_type\": \"" + $"{SourceLanguage}2{desLang}" + "\", \"request_id\": \"demo\", \"detect\": true}";
 
             var client = CommonFunction.Client;
 

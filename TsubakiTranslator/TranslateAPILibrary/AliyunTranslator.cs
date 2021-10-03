@@ -11,13 +11,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "阿里云";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh";
-            string srcLang = "ja";
             
 
-            string bodyString = $"srcLanguage={srcLang}&tgtLanguage={desLang}&srcText={HttpUtility.UrlEncode(sourceText)}&bizType=general&source=aliyun";
+            string bodyString = $"srcLanguage={SourceLanguage}&tgtLanguage={desLang}&srcText={HttpUtility.UrlEncode(sourceText)}&bizType=general&source=aliyun";
 
             string url = @"https://translate.alibaba.com/trans/TranslateTextAddAlignment.do";
 

@@ -17,13 +17,15 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "DeepL";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "ZH";
-            string srcLang = "JA";
+
             string resultStr;
 
-            string payload = $"text={ sourceText }&auth_key={ secretKey}&source_lang={ srcLang}&target_lang={ desLang}";
+            string payload = $"text={ sourceText }&auth_key={ secretKey}&source_lang={ SourceLanguage}&target_lang={ desLang}";
 
             HttpContent body = new StringContent(payload, null, "application/x-www-form-urlencoded");
 

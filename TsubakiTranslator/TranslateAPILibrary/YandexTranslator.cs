@@ -12,13 +12,15 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "Yandex";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh";
-            string srcLang = "ja";
+
             var client = CommonFunction.Client;
             string url = @"https://translate.yandex.net/api/v1.5/tr.json/translate";
-            string bodyString = $"key={ ApiKey}&lang={srcLang}-{desLang }&text={srcLang}";
+            string bodyString = $"key={ ApiKey}&lang={SourceLanguage}-{desLang }&text={SourceLanguage}";
 
             HttpContent content = new StringContent(bodyString);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");

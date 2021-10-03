@@ -11,13 +11,15 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "有道";
         public string Name { get => name; }
 
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh_cn";
-            string srcLang = "jp";
+
             string retString;
 
-            string trans_type = $"{srcLang}2{desLang}";
+            string trans_type = $"{SourceLanguage}2{desLang}";
             trans_type = trans_type.ToUpper();
             string url = $"https://fanyi.youdao.com/translate?&doctype=json&type={trans_type}&i={sourceText}";
 

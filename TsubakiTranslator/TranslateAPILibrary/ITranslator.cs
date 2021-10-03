@@ -13,12 +13,12 @@
         /// 翻译一条语句
         /// </summary>
         /// <param name="sourceText">源文本</param>
-        /// <param name="desLang">目标语言</param>
-        /// <param name="srcLang">源语言</param>
         /// <returns>翻译后的语句,如果翻译有错误会返回空，可以通过GetLastError来获取错误</returns>
         string Translate(string sourceText);
 
         string Name { get; }
+
+        string SourceLanguage { get; set; }
 
     }
 }

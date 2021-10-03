@@ -107,5 +107,10 @@ namespace TsubakiTranslator
         {
             MainPageContent.Content = AboutMePage;
         }
+
+        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
+        }
     }
 }

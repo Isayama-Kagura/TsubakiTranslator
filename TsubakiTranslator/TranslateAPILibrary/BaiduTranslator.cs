@@ -16,13 +16,13 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         private readonly string name = "百度";
         public string Name { get =>name; }
-        
-        
+
+        public string SourceLanguage { get; set; }
+
         public string Translate(string sourceText)
         {
 
             string desLang = "zh";
-            string srcLang = "auto";
 
             string retString;
 
@@ -31,14 +31,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
             string sign = CommonFunction.EncryptString(appId + sourceText + salt + secretKey);
 
 
-            string bodyString = $"q={HttpUtility.UrlEncode(sourceText)}&from={srcLang}&to={desLang}&appid={appId}&salt={salt}&sign={sign}";
+            string bodyString = $"q={HttpUtility.UrlEncode(sourceText)}&from={SourceLanguage}&to={desLang}&appid={appId}&salt={salt}&sign={sign}";
 
             HttpContent content = new StringContent(bodyString);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             //var sb = new StringBuilder("https://api.fanyi.baidu.com/api/trans/vip/translate?")
             //    .Append("q=").Append(HttpUtility.UrlEncode(q))
-            //    .Append("&from=").Append(srcLang)
+            //    .Append("&from=").Append(SourceLanguage)
             //    .Append("&to=").Append(desLang)
             //    .Append("&appid=").Append(appId)
             //    .Append("&salt=").Append(salt)
