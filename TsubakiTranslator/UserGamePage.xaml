@@ -136,6 +136,50 @@
                         <GridViewColumn DisplayMemberBinding="{Binding DuplicateTimes, Mode=TwoWay}"
                                         Header="重复字数" />
 
+                        <GridViewColumn Header="正则替换规则">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <materialDesign:PopupBox x:Name="RegexPopBox" StaysOpen="True"  Cursor="Hand" >
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                                                        Content="{materialDesign:PackIcon Kind=Plus }" ToolTip="添加表达式"
+                                                        Click="AddRegexRule_Button_Click"/>
+                                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                                                        Content="{materialDesign:PackIcon Kind=DeleteOutline }" ToolTip="清空表达式"
+                                                        Click="RemoveRegexRule_Button_Click" HorizontalAlignment="Center"/>
+                                                
+                                            </StackPanel>
+                                            <DataGrid ItemsSource="{Binding RegexRuleItems, Mode=TwoWay}" 
+                                                      CanUserReorderColumns="False"
+                                                      CanUserSortColumns="False"
+                                                      AutoGenerateColumns="False"
+                                                      SelectionUnit="Cell"
+                                                      SelectionMode="Single">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding SourceRegex, Mode=TwoWay}"
+                                                                        Header="匹配表达式"
+                                                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                                    <DataGridTextColumn Binding="{Binding DestinationRegex, Mode=TwoWay}"
+                                                                        Header="替换表达式" 
+                                                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                    Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}"
+                                                    HorizontalAlignment="Center" Margin="5"
+                                                    Content="确定"/>
+                                        </StackPanel>
+
+                                    </materialDesign:PopupBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
                     </GridView>
                 </ListView.View>
             </ListView>

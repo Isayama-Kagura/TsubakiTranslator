@@ -1,7 +1,32 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace TsubakiTranslator.BasicLibrary
 {
+    public class RegexRuleData : ObservableObject
+    {
+        private string sourceRegex;
+        private string destinationRegex;
+
+        public RegexRuleData(string sourceRegex, string destinationRegex)
+        {
+            this.sourceRegex = sourceRegex;
+            this.destinationRegex = destinationRegex;
+        }
+
+        public string SourceRegex
+        {
+            get => sourceRegex;
+            set => SetProperty(ref sourceRegex, value);
+        }
+
+        public string DestinationRegex
+        {
+            get => destinationRegex;
+            set => SetProperty(ref destinationRegex, value);
+        }
+    }
+
     public class GameData : ObservableObject
     {
 
@@ -21,6 +46,13 @@ namespace TsubakiTranslator.BasicLibrary
         /// 文本重复次数
         /// </summary>
         private int duplicateTimes;
+
+        public ObservableCollection<RegexRuleData> RegexRuleItems { get; set; }
+
+        public GameData()
+        {
+            RegexRuleItems = new ObservableCollection<RegexRuleData>();
+        }
 
         public string GameName
         {

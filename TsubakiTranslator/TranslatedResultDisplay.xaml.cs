@@ -22,7 +22,9 @@ namespace TsubakiTranslator
         LinkedList<ITranslator> translators;
         TranslateDataList results;
 
-        public TranslatedResultDisplay(TextHookHandler textHookHandler)
+        SourceTextHandler sourceTextHandler;
+
+        public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
 
@@ -46,11 +48,13 @@ namespace TsubakiTranslator
 
             this.textHookHandler = textHookHandler;
 
-            textHookHandler.ProcessTextractor.OutputDataReceived += DisplayTranslateResult;
+            this.sourceTextHandler = sourceTextHandler;
+
+            textHookHandler.ProcessTextractor.OutputDataReceived += TranslateHookText;
 
         }
 
-        public void DisplayTranslateResult(object sendingProcess, DataReceivedEventArgs outLine)
+        public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (textHookHandler.SelectedHookCode == null )
                 return;
@@ -69,11 +73,8 @@ namespace TsubakiTranslator
             string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
 
 
-            string sourceText;
-            if (textHookHandler.DuplicateTimes <= 1)
-                sourceText = content;
-            else
-                sourceText = TranslateHandler.RemoveDuplicatedChar(content, textHookHandler.DuplicateTimes);
+            string sourceText = sourceTextHandler.HandleText(content);
+
 
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);

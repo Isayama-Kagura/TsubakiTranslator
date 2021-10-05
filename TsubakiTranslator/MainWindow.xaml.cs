@@ -110,7 +110,10 @@ namespace TsubakiTranslator
 
         private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            WindowState = WindowState.Maximized;
+            if (this.WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else if (this.WindowState == WindowState.Normal)
+                WindowState = WindowState.Maximized;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TsubakiTranslator
         public TextHookHandler TextHookHandler { get => textHookHandler; }
 
 
-        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler)
+        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler )
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
@@ -38,7 +38,7 @@ namespace TsubakiTranslator
 
             //注意顺序，Hook窗口的事件处理先于Translate结果窗口
             HookResultDisplay = new HookResultDisplay(this);
-            TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler);
+            TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
 
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 
@@ -63,7 +63,7 @@ namespace TsubakiTranslator
                 Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { }));
 
             //翻译当前选择的文本
-            Task.Run(()=>TranslatedResultDisplay.DisplayTranslateResult(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
+            Task.Run(()=>TranslatedResultDisplay.TranslateHookText(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
 
         }
 
@@ -77,7 +77,7 @@ namespace TsubakiTranslator
             MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
 
             TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.DisplayTranslateResult;
+            TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.TranslateHookText;
             textHookHandler.ProcessGame.Exited -= GameExitHandler;
             TextHookHandler.CloseTextractor();
 

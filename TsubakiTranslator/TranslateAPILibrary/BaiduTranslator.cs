@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace TsubakiTranslator.TranslateAPILibrary
@@ -64,19 +65,16 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 return ex.Message;
             }
 
-            BaiduTransOutInfo oinfo = JsonSerializer.Deserialize<BaiduTransOutInfo>(retString);
+            retString = Regex.Unescape(retString);
+            Regex reg = new Regex(@""",""dst"":""(.*?)""\}");
+            Match match = reg.Match(retString);
 
-            if (oinfo.trans_result == null)
-            {
-                //得到翻译结果
-                return oinfo.trans_result[0].dst;
-                
-            }
-            else
-            {
-                BaiduErrorMessage errorinfo = JsonSerializer.Deserialize<BaiduErrorMessage>(retString);
-                return $"{errorinfo.error_code}: {errorinfo.error_msg}";
-            }
+            string result = match.Groups[1].Value;
+            result = Regex.Unescape(result);
+            return result;
+
+
+           
             
         }
 
@@ -86,29 +84,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             secretKey = param2;
         }
 
-#pragma warning disable 0649
-#pragma warning disable 0169
-        class BaiduTransOutInfo
-        {
-            string from;
-            string to;
-            public List<BaiduTransResult> trans_result;
-            public string error_code;
-        }
 
-        class BaiduTransResult
-        {
-            string src;
-            public string dst;
-        }
-
-        class BaiduErrorMessage
-        {
-            public int error_code;
-            public string error_msg;
-        }
-#pragma warning restore 0649
-#pragma warning restore 0169
 
 
 

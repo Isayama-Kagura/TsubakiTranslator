@@ -83,12 +83,7 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(youdao);
             }
 
-            Dictionary<string, string> langDict;
-
-            if (translateAPIConfig.SourceLanguage.Equals("Japanese"))
-                langDict = new APISourceLangDict().Japanese;
-            else
-                langDict = new APISourceLangDict().English;
+            Dictionary<string, string> langDict = GetAPISourceLangDict(translateAPIConfig.SourceLanguage);
 
             foreach (var t in translators)
                 t.SourceLanguage = langDict[t.Name];
@@ -96,15 +91,40 @@ namespace TsubakiTranslator.BasicLibrary
             return translators;
         }
 
-        public static string RemoveDuplicatedChar(string text, int times)
+        public static Dictionary<string,string> GetAPISourceLangDict(string srcLang)
         {
-            StringBuilder sb = new StringBuilder();
+            Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            for(int i = 0; i < text.Length; i += times)
-                sb.Append(text[i]);
-
-            return sb.ToString();
-            
+            if (srcLang.Equals("Japanese"))
+            {
+                dict.Add("阿里云", "ja");
+                dict.Add("百度", "auto");
+                dict.Add("彩云", "auto");
+                dict.Add("DeepL", "JA");
+                dict.Add("谷歌", "auto");
+                dict.Add("IBM", "ja");
+                dict.Add("腾讯", "auto");
+                dict.Add("小牛", "ja");
+                dict.Add("Yandex", "ja");
+                dict.Add("Yeekit", "ja");
+                dict.Add("有道", "jp");
+            }
+            else if (srcLang.Equals("English"))
+            {
+                dict.Add("阿里云", "en");
+                dict.Add("百度", "auto");
+                dict.Add("彩云", "auto");
+                dict.Add("DeepL", "EN");
+                dict.Add("谷歌", "auto");
+                dict.Add("IBM", "en");
+                dict.Add("腾讯", "auto");
+                dict.Add("小牛", "en");
+                dict.Add("Yandex", "en");
+                dict.Add("Yeekit", "nen");
+                dict.Add("有道", "en");
+            }
+            return dict;
+ 
         }
 
 

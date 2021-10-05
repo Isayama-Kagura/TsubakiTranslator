@@ -15,7 +15,7 @@
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
                                 Margin="24,8,24,16">
-                        <ComboBox materialDesign:HintAssist.Hint="语言" SelectedIndex="0" 
+                        <ComboBox materialDesign:HintAssist.Hint="语言"
                                   SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
                                   SelectedValuePath="Tag">
                             <ComboBoxItem Content="日语"  Tag="Japanese"/>

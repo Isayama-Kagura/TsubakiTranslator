@@ -4,7 +4,7 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class TranslateAPIConfig: ObservableObject
     {
-        private string sourceLanguage;
+        private string sourceLanguage = "Japanese";
 
         private bool aliyunIsEnabled;
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using MaterialDesignThemes.Wpf;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -65,13 +67,19 @@ namespace TsubakiTranslator
                 return;
 
 
-            Process gameProcess = GetGameProcessByProcessStrings(processInfo);
+            Process gameProcess = GetGameProcessByProcessString(processInfo);
 
-            TextHookHandler textHookHandler = new TextHookHandler(gameProcess, times);
+            TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
+
+
+            LinkedList<RegexRuleData> regexRules = new LinkedList<RegexRuleData>();
+            foreach (var rule in item.RegexRuleItems)
+                regexRules.AddLast(rule);
+            SourceTextHandler sourceTextHandler = new SourceTextHandler(times, regexRules);
 
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
-            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler);
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
             translateWindow.Show();
 
 
@@ -91,7 +99,7 @@ namespace TsubakiTranslator
             if (processInfo == null)
                 return;
 
-            Process gameProcess = GetGameProcessByProcessStrings(processInfo);
+            Process gameProcess = GetGameProcessByProcessString(processInfo);
 
             int.TryParse(GameProcessDuplicateTimes.Text, out int times);
 
@@ -104,11 +112,13 @@ namespace TsubakiTranslator
 
             GameItems.Add(item);
 
-            TextHookHandler textHookHandler = new TextHookHandler(gameProcess, times);
+            TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
+
+            SourceTextHandler sourceTextHandler = new SourceTextHandler(times, new LinkedList<RegexRuleData>());
 
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
-            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler);
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
             translateWindow.Show();
 
 
@@ -129,7 +139,7 @@ namespace TsubakiTranslator
                 ProcessStrings.Add($"{p.ProcessName} - {p.Id}");
         }
 
-        private Process GetGameProcessByProcessStrings(string processString)
+        private Process GetGameProcessByProcessString(string processString)
         {
             Regex reg = new Regex(@"\s-\s(\d+?)$");
             Match match = reg.Match(processString);
@@ -139,6 +149,22 @@ namespace TsubakiTranslator
             Process gameProcess = Process.GetProcessById(pid);
 
             return gameProcess;
+        }
+
+        private void AddRegexRule_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var data = btn.DataContext as GameData;
+
+            data.RegexRuleItems.Add(new RegexRuleData("",""));
+        }
+
+        private void RemoveRegexRule_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var data = btn.DataContext as GameData;
+
+            data.RegexRuleItems.Clear();
         }
     }
   

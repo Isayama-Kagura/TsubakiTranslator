@@ -19,7 +19,6 @@ namespace TsubakiTranslator.BasicLibrary
         private Process processGame;
         public Process ProcessGame { get => processGame; }
 
-        public int DuplicateTimes { get; }
 
         /// <summary>
         /// key：Hook码，value：提取的文本
@@ -28,9 +27,8 @@ namespace TsubakiTranslator.BasicLibrary
 
         public string SelectedHookCode { get; set; }
 
-        public TextHookHandler(Process p, int duplicateTimes)
+        public TextHookHandler(Process p)
         {
-            DuplicateTimes = duplicateTimes;
             HookHandlerDict = new Dictionary<string, DataReceivedEventArgs>();
 
             Init(p);
