@@ -1,6 +1,6 @@
 ﻿namespace TsubakiTranslator.BasicLibrary
 {
-    public class WindowConfig 
+    public class WindowConfig
     {
         public WindowConfig()
         {
@@ -54,6 +54,7 @@
             get;
             set;
         }
+
 
     }
 }

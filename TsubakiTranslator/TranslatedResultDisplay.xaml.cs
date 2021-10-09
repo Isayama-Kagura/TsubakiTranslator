@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -24,10 +25,10 @@ namespace TsubakiTranslator
 
         SourceTextHandler sourceTextHandler;
 
-        public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
-        {
-            InitializeComponent();
+        ClipboardHookHandler clipboardHookHandler;
 
+        private void Init()
+        {
             translators = TranslateHandler.GetSelectedTranslators(UserConfigPage.TranslateAPIConfig);
 
             displayTextContent = new Dictionary<string, TranslatedData>();
@@ -37,14 +38,20 @@ namespace TsubakiTranslator
                 TranslateResultPanel.Children.Add(resultItem);
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }
-            
+
 
             sourceTextContent = new SourceTextContent();
             this.DataContext = sourceTextContent;
-            
 
-            //最多保留30条历史记录
-            results = new TranslateDataList(30);
+            //最多保留40条历史记录
+            results = new TranslateDataList(40);
+        }
+
+        public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
+        {
+            InitializeComponent();
+
+            Init();
 
             this.textHookHandler = textHookHandler;
 
@@ -53,6 +60,19 @@ namespace TsubakiTranslator
             textHookHandler.ProcessTextractor.OutputDataReceived += TranslateHookText;
 
         }
+
+        public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler)
+        {
+            InitializeComponent();
+
+            Init();
+
+            this.clipboardHookHandler = clipboardHookHandler;
+
+            this.clipboardHookHandler.ClipboardUpdated += TranslteClipboardText;
+
+        }
+
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
         {
@@ -75,27 +95,40 @@ namespace TsubakiTranslator
 
             string sourceText = sourceTextHandler.HandleText(content);
 
+            if (sourceText.Trim().Equals(""))
+                return;
 
+
+            Task.Run(() => TranslateAndDisplay(sourceText));
+
+        }
+
+        public void TranslteClipboardText(object sender, EventArgs e)
+        {
+            string sourceText = Clipboard.GetText();
+            Task.Run(()=> TranslateAndDisplay(sourceText));
+        }
+
+        private void TranslateAndDisplay(string sourceText)
+        {
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);
 
             sourceTextContent.BindingText = currentResult.SourceText;
 
-            foreach(var key in displayTextContent.Keys)
+            foreach (var key in displayTextContent.Keys)
             {
                 displayTextContent[key].TranslatedResult = "";
-                currentResult.ResultText.Add(key,"");
+                currentResult.ResultText.Add(key, "");
             }
 
             Parallel.ForEach(translators,
-                t => {  
+                t => {
                     string result = t.Translate(currentResult.SourceText);
                     currentResult.ResultText[t.Name] = result;
                     displayTextContent[t.Name].TranslatedResult = result;
                 });
-
         }
-
 
         class SourceTextContent : ObservableObject
         {
@@ -107,24 +140,31 @@ namespace TsubakiTranslator
                 get => text;
                 set => SetProperty(ref text, value);
             }
+
         }
 
 
 
         private void ArrowLeft_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (results.Count() == 0)
+                return;
             TranslateData result = results.GetPreviousData();
             ShowTranslateResult(result);
         }
 
         private void ArrowRight_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (results.Count() == 0)
+                return;
             TranslateData result = results.GetNextData();
             ShowTranslateResult(result);
         }
 
         private void ChevronTripleLeft_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (results.Count() == 0)
+                return;
             TranslateData result = results.GetFirstData();
             ShowTranslateResult(result);
             
@@ -132,6 +172,8 @@ namespace TsubakiTranslator
 
         private void ChevronTripleRight_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (results.Count() == 0)
+                return;
             TranslateData result = results.GetLastData();
             ShowTranslateResult(result);
         }
@@ -151,6 +193,26 @@ namespace TsubakiTranslator
 
             if (ResultDisplaySnackbar.MessageQueue is { } messageQueue)
                 Task.Run(() => messageQueue.Enqueue("源文本已复制。", "好", () => { }));
+        }
+
+        private void FormatFontSizeDecrease_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            foreach(var t in TranslateResultPanel.Children)
+                if (t is TextBlock)
+                    ((TextBlock)t).FontSize--;
+                else
+                    ((TranslatedResultItem)t).DecreaseFontSize();
+
+        }
+
+        private void FormatFontSizeIncrease_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var t in TranslateResultPanel.Children)
+                if (t is TextBlock)
+                    ((TextBlock)t).FontSize++;
+                else
+                    ((TranslatedResultItem)t).IncreaseFontSize();
         }
     }
 }

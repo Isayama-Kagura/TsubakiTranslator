@@ -14,12 +14,17 @@
             <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ArrowLeft}" ToolTip="上一句"
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
-                    Click="ArrowLeft_Button_Click"/>
+                    Click="ArrowLeft_Button_Click" />
 
             <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ChevronTripleLeft}" ToolTip="最早翻译"
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
-                    Click="ChevronTripleLeft_Button_Click"/>
+                    Click="ChevronTripleLeft_Button_Click" />
+
+            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
+                    Click="FormatFontSizeDecrease_Button_Click" />
 
         </StackPanel>
 
@@ -27,11 +32,15 @@
             <Button Margin="3" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ArrowRight}"  ToolTip="下一句"
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
-                    Click="ArrowRight_Button_Click"/>
+                    Click="ArrowRight_Button_Click" />
             <Button Margin="3" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}"
                     Content="{ materialDesign:PackIcon Kind=ChevronTripleRight}" ToolTip="最新翻译"
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
-                    Click="ChevronTripleRight_Button_Click"/>
+                    Click="ChevronTripleRight_Button_Click" />
+            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeIncrease}" ToolTip="放大字体"
+                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
+                    Click="FormatFontSizeIncrease_Button_Click" />
         </StackPanel>
 
 
@@ -40,10 +49,9 @@
 
         <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
             <TextBlock x:Name="SourceText"
-                           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                           Margin="7"
-                           TextWrapping="Wrap"
-                           Text="{Binding BindingText, Mode=TwoWay}" FontSize="20" Foreground="GhostWhite"
+                       Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                       Margin="7" TextWrapping="Wrap" FontSize="20"
+                       Text="{Binding BindingText, Mode=TwoWay}" Foreground="GhostWhite"
                        MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>
 
             

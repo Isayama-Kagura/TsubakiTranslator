@@ -66,28 +66,11 @@ namespace TsubakiTranslator
             WindowState = WindowState.Minimized;
         }
 
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Maximized;
-        }
 
-        private void RestoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Normal;
-        }
 
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                WindowMaximizeButton.Visibility = Visibility.Collapsed;
-                WindowRestoreButton.Visibility = Visibility.Visible;
-            }
-            if ( this.WindowState == WindowState.Normal)
-            {
-                WindowMaximizeButton.Visibility = Visibility.Visible;
-                WindowRestoreButton.Visibility = Visibility.Collapsed;
-            }
+            
 
         }
 

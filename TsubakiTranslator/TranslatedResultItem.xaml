@@ -12,11 +12,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="18" Grid.Column="0" Foreground="Orange" 
+        <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Orange" 
                    HorizontalAlignment="Center"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
-        <TextBlock FontSize="20" Grid.Column="1" 
+        <TextBlock x:Name="ResultTextBlock" FontSize="20" Grid.Column="1" 
                    TextWrapping="Wrap" Foreground="GhostWhite" 
                    Text="{Binding TranslatedResult, Mode=TwoWay}"/>
 

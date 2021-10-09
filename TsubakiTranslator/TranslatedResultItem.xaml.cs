@@ -21,7 +21,18 @@ namespace TsubakiTranslator
             this.DataContext = TranslatedData;
         }
 
-        
+        public void DecreaseFontSize()
+        {
+            APINameTextBlock.FontSize--;
+            ResultTextBlock.FontSize--;
+        }
+
+        public void IncreaseFontSize()
+        {
+            APINameTextBlock.FontSize++;
+            ResultTextBlock.FontSize++;
+        }
+
     }
 
     public class TranslatedData : ObservableObject

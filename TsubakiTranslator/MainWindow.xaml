@@ -29,33 +29,21 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
-                                    Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="2"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   
-                                    MouseDoubleClick="ColorZone_MouseDoubleClick">
+        <materialDesign:ColorZone  x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
+                                   Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="2"
+                                   materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                   MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   
+                                   MouseDoubleClick="ColorZone_MouseDoubleClick">
             <DockPanel >
 
-                <Button  DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                         ToolTip="关闭" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                <Button  DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignIconForegroundButton}" 
+                         ToolTip="关闭"  Cursor="Hand" BorderBrush="{x:Null}"  Margin="5"
                          Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowClose }" 
                          Click="CloseButton_Click"/>
 
-                <Button  x:Name="WindowRestoreButton"
-                         DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                         ToolTip="还原窗口" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
-                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowRestore }" 
-                         Visibility="Collapsed"
-                         Click="RestoreButton_Click"/>
 
-                <Button  x:Name="WindowMaximizeButton"
-                         DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                         ToolTip="最大化" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
-                         Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowMaximize }" 
-                           Click="MaximizeButton_Click"/>
-
-                <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                         ToolTip="最小化" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" 
+                <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconForegroundButton}" 
+                         ToolTip="最小化"  Cursor="Hand" BorderBrush="{x:Null}" Margin="5"
                          Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowMinimize }"
                          Click="MinimizeButton_Click"/>
 
@@ -63,8 +51,6 @@
                 <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
                            Text="{Binding SelectedItem.Content, ElementName=RadioButtonGroupChoiceChipOutline}" FontSize="30" 
                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-
-
 
             </DockPanel>
         </materialDesign:ColorZone>

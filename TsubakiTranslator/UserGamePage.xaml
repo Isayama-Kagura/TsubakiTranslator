@@ -15,10 +15,9 @@
                     but we can used the attached property based event to handle the response -->
             <DockPanel LastChildFill="False" >
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                        materialDesign:ButtonAssist.CornerRadius="10" 
                         IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"
                         Click="OpenHistoryGame_Button_Click"
-                        Width="80" Content="打开"  Cursor="Hand" Margin="10">
+                        Width="60" Content="打开"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
                             <TextBox x:Name="HistoryGameName" Margin="5"
@@ -72,13 +71,12 @@
                         Width="80"  Content="打开" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>-->
 
                 <Button Click="DeleteGame_Button_Click"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        Width="80"  Content="删除" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+                        Width="60"  Content="删除" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
 
 
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                        materialDesign:ButtonAssist.CornerRadius="10" DockPanel.Dock="Right"
-                        Width="110" Content="进程号打开"  Cursor="Hand" Margin="10"
+                        DockPanel.Dock="Right"
+                        Width="103" Content="注入进程"  Cursor="Hand" Margin="10"
                         Click="OpenGameByPid_Button_Click">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
@@ -123,6 +121,12 @@
                         </StackPanel>
                     </Button.CommandParameter>
                 </Button>
+
+                <Button DockPanel.Dock="Right"
+                        Width="103" Content="监视剪切板"  Cursor="Hand" Margin="10"
+                        Click="MonitorClipBoard_Button_Click"/>
+
+
 
             </DockPanel>
 

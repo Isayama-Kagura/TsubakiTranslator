@@ -51,6 +51,7 @@ namespace TsubakiTranslator
 
         }
 
+        //历史游戏记录中打开游戏
         private async void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 
@@ -93,6 +94,7 @@ namespace TsubakiTranslator
             SetProcessItems();
         }
 
+        //注入进程打开游戏
         private async void AcceptProcess_Button_Click(object sender, RoutedEventArgs e)
         {
             string processInfo = (string)GameProcessList.SelectedItem;
@@ -165,6 +167,14 @@ namespace TsubakiTranslator
             var data = btn.DataContext as GameData;
 
             data.RegexRuleItems.Clear();
+        }
+
+        private void MonitorClipBoard_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window mainWindow = Window.GetWindow(this);
+            mainWindow.Hide();
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow);
+            translateWindow.Show();
         }
     }
   

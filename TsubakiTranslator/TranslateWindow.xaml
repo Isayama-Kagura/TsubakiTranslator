@@ -21,7 +21,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -33,7 +33,7 @@
                 <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
                         ToolTip="关闭" Foreground="White" Cursor="Hand"  
                         Content="{materialDesign:PackIcon Kind=WindowClose }"
-                        Click="TranslateWindow_CloseButton_Click" Height="{Binding Height, ElementName=ColorZone}"/>
+                        Click="TranslateWindow_CloseButton_Click" Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"/>
 
                 <Button x:Name="PinButton"
                         DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
@@ -46,17 +46,17 @@
                         DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
                         ToolTip="固定最前" Foreground="White" Cursor="Hand" 
                         Content="{materialDesign:PackIcon Kind=PinOff }" 
-                        Height="{Binding Height, ElementName=ColorZone}"
+                        Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
                         Click="PinOff_Button_Click"/>
                 
                 <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
                          ToolTip="最小化" Foreground="White" Cursor="Hand" 
                          Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
-                         Height="{Binding Height, ElementName=ColorZone}"
+                         Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
                          Click="TranslateWindow_MinimizeButton_Click"/>
 
                 <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
-                            Text="Tsubaki Translator" FontSize="20" 
+                            Text="Tsubaki Translator" FontSize="18" 
                             TextWrapping="Wrap"
                             Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 

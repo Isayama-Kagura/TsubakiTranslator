@@ -17,13 +17,12 @@ namespace TsubakiTranslator
         private TextHookHandler textHookHandler;
         public TextHookHandler TextHookHandler { get => textHookHandler; }
 
+        private ClipboardHookHandler clipboardHookHandler;
 
-        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler )
+        public bool IsHookMode { get;  }
+
+        private void Init()
         {
-            InitializeComponent();
-            this.mainWindow = mainWindow;
-            this.textHookHandler = textHookHandler;
-
             this.Height = MainWindow.WindowConfig.TranslateWindowHeight;
             this.Width = MainWindow.WindowConfig.TranslateWindowWidth;
             this.Left = MainWindow.WindowConfig.TranslateWindowLeft;
@@ -34,6 +33,17 @@ namespace TsubakiTranslator
                 PinButton.Visibility = Visibility.Visible;
                 PinOffButton.Visibility = Visibility.Collapsed;
             }
+        }
+
+        //Hook文本模式
+        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler )
+        {
+            InitializeComponent();
+            this.mainWindow = mainWindow;
+            this.textHookHandler = textHookHandler;
+
+            Init();
+            IsHookMode = true;
 
 
             //注意顺序，Hook窗口的事件处理先于Translate结果窗口
@@ -43,6 +53,31 @@ namespace TsubakiTranslator
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 
             HookDisplayButton.IsChecked = true;
+
+
+        }
+
+        //监视剪切板模式
+        public TranslateWindow(Window mainWindow)
+        {
+            InitializeComponent();
+            this.mainWindow = mainWindow;
+
+            Init();
+            IsHookMode = false;
+
+
+            //注意顺序，Hook窗口的事件处理先于Translate结果窗口
+            //HookResultDisplay = new HookResultDisplay(this);
+            //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
+            clipboardHookHandler = new ClipboardHookHandler(mainWindow);
+            TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler);
+
+            //textHookHandler.ProcessGame.Exited += GameExitHandler;
+
+            HookDisplayButton.IsEnabled = false;
+            TranslateDisplayButton.IsEnabled = true;
+            TranslateDisplayButton.IsChecked = true;
 
         }
 
@@ -70,16 +105,26 @@ namespace TsubakiTranslator
 
         private void On_TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (IsHookMode)
+            {
+                TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
+                TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.TranslateHookText;
+                textHookHandler.ProcessGame.Exited -= GameExitHandler;
+                TextHookHandler.CloseTextractor();
+            }
+            else
+            {
+                clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
+                clipboardHookHandler.Dispose();
+            }
+
             MainWindow.WindowConfig.TranslateWindowHeight = this.Height;
             MainWindow.WindowConfig.TranslateWindowWidth = this.Width;
             MainWindow.WindowConfig.TranslateWindowLeft = this.Left;
             MainWindow.WindowConfig.TranslateWindowTop = this.Top;
             MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
 
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
-            TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.TranslateHookText;
-            textHookHandler.ProcessGame.Exited -= GameExitHandler;
-            TextHookHandler.CloseTextractor();
+            
 
             mainWindow.Show();
             
