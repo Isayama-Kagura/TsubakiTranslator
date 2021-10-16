@@ -39,11 +39,6 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(deepl);
             }
 
-            if (translateAPIConfig.GoogleIsEnabled)
-            {
-                ITranslator google = new GoogleTranslator();
-                translators.AddLast(google);
-            }
 
             if (translateAPIConfig.IbmIsEnabled)
             {
@@ -58,17 +53,17 @@ namespace TsubakiTranslator.BasicLibrary
                 tencent.TranslatorInit(translateAPIConfig.TencentSecretID, translateAPIConfig.TencentSecretKey);
                 translators.AddLast(tencent);
             }
+
             if (translateAPIConfig.XiaoniuIsEnabled)
             {
                 ITranslator xiaoniu = new XiaoniuTranslator();
                 translators.AddLast(xiaoniu);
             }
 
-            if (translateAPIConfig.YandexIsEnabled)
+            if (translateAPIConfig.VolcengineIsEnabled)
             {
-                ITranslator yandex = new XiaoniuTranslator();
-                yandex.TranslatorInit(translateAPIConfig.YandexAPIKey, "");
-                translators.AddLast(yandex);
+                ITranslator volcengine = new VolcengineTranslator();
+                translators.AddLast(volcengine);
             }
 
             if (translateAPIConfig.YeekitIsEnabled)
@@ -101,11 +96,10 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("百度", "auto");
                 dict.Add("彩云", "auto");
                 dict.Add("DeepL", "JA");
-                dict.Add("谷歌", "auto");
                 dict.Add("IBM", "ja");
                 dict.Add("腾讯", "auto");
                 dict.Add("小牛", "ja");
-                dict.Add("Yandex", "ja");
+                dict.Add("火山", "ja");
                 dict.Add("Yeekit", "ja");
                 dict.Add("有道", "jp");
             }
@@ -115,11 +109,10 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("百度", "auto");
                 dict.Add("彩云", "auto");
                 dict.Add("DeepL", "EN");
-                dict.Add("谷歌", "auto");
                 dict.Add("IBM", "en");
                 dict.Add("腾讯", "auto");
-                dict.Add("小牛", "en");
-                dict.Add("Yandex", "en");
+                dict.Add("小牛", "en"); 
+                dict.Add("火山", "en");
                 dict.Add("Yeekit", "nen");
                 dict.Add("有道", "en");
             }

@@ -20,7 +20,6 @@ namespace TsubakiTranslator.BasicLibrary
 
         private bool ibmIsEnabled;
 
-        private bool googleIsEnabled;
 
         private bool tencentIsEnabled;
         private string tencentSecretID;
@@ -28,8 +27,7 @@ namespace TsubakiTranslator.BasicLibrary
 
         private bool xiaoniuIsEnabled;
 
-        private bool yandexIsEnabled;
-        private string yandexAPIKey;
+        private bool volcengineIsEnabled;
 
         private bool yeekitIsEnabled;
 
@@ -95,11 +93,7 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref ibmIsEnabled, value);
         }
 
-        public bool GoogleIsEnabled
-        {
-            get => googleIsEnabled;
-            set => SetProperty(ref googleIsEnabled, value);
-        }
+
 
         public bool TencentIsEnabled
         {
@@ -125,17 +119,10 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref xiaoniuIsEnabled, value);
         }
 
-
-        public bool YandexIsEnabled
+        public bool VolcengineIsEnabled
         {
-            get => yandexIsEnabled;
-            set => SetProperty(ref yandexIsEnabled, value);
-        }
-
-        public string YandexAPIKey
-        {
-            get => yandexAPIKey;
-            set => SetProperty(ref yandexAPIKey, value);
+            get => volcengineIsEnabled;
+            set => SetProperty(ref volcengineIsEnabled, value);
         }
 
         public bool YeekitIsEnabled

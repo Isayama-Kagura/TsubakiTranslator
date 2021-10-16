@@ -65,19 +65,6 @@
 
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
-                <Expander HorizontalAlignment="Stretch" Header="谷歌翻译" Background="WhiteSmoke">
-                    <StackPanel Orientation="Vertical"
-                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                                Margin="24,8,24,16">
-                        <TextBlock Text="详情请搜索『谷歌翻译』。" 
-                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
-                                   FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox Content="启用" IsChecked="{Binding GoogleIsEnabled,Mode=TwoWay}"/>
-                    </StackPanel>
-                </Expander>
-
-                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-
                 <Expander HorizontalAlignment="Stretch" Header="IBM翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
@@ -164,29 +151,22 @@
                         <TextBlock Text="详情请搜索『小牛翻译』。" 
                                    Style="{StaticResource MaterialDesignHelperTextBlock}" 
                                    FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox x:Name="XiaoniuEnabledComboBox"
-                                  Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
+                        <CheckBox Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
 
 
                     </StackPanel>
                 </Expander>
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
-                <Expander HorizontalAlignment="Stretch" Header="Yandex翻译" Background="WhiteSmoke">
+                <Expander HorizontalAlignment="Stretch" Header="火山翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
                                 Margin="24,8,24,16">
-                        <TextBlock Text="详情请搜索『Yandex.Translate』。" 
+                        <TextBlock Text="详情请搜索『火山引擎机器翻译』。" 
                                    Style="{StaticResource MaterialDesignHelperTextBlock}" 
                                    FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox x:Name="YandexEnabledComboBox"
-                                  Content="启用" IsChecked="{Binding YandexIsEnabled,Mode=TwoWay}"/>
+                        <CheckBox Content="启用" IsChecked="{Binding VolcengineIsEnabled,Mode=TwoWay}"/>
 
-                        <TextBox materialDesign:HintAssist.Hint="APIKey" 
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 VerticalAlignment="Center"
-                                 IsEnabled="{Binding Path=IsChecked, ElementName=YandexEnabledComboBox}" Cursor="IBeam"
-                                 Text="{Binding Path=YandexAPIKey,Mode=TwoWay}"/>
 
                     </StackPanel>
                 </Expander>
