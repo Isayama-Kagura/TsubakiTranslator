@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        mc:Ignorable="d"
+        mc:Ignorable="d" xmlns:local="clr-namespace:TsubakiTranslator"
         WindowStartupLocation="CenterScreen"
-        Title="Tsubaki Translator"
+        Title="Tsubaki翻译器"
         Background="WhiteSmoke" 
+        Width="{Binding MainWindowWidth, Mode=TwoWay}"
+        Height="{Binding MainWindowHeight, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         StateChanged="MainWindow_StateChanged" Closing="On_MainWindow_Closing">
@@ -71,7 +73,8 @@
                     x:Name="RadioButtonGroupChoiceChipOutline" >
 
             <ListViewItem x:Name="MyGame" Content="我的游戏" Selected="ListViewItem_UserGame_Selected"/>
-            <ListViewItem Content="设置" Selected="ListViewItem_UserConfig_Selected"/>
+            <ListViewItem Content="翻译设置" Selected="ListViewItem_UserConfig_Selected"/>
+            <ListViewItem Content="界面设置" Selected="ListViewItem_WinStyle_Selected"/>
             <ListViewItem Content="关于我" Selected="ListViewItem_AboutMe_Selected"/>
 
         </ListView>

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
 
 namespace TsubakiTranslator
@@ -23,16 +24,13 @@ namespace TsubakiTranslator
 
         private void Init()
         {
-            this.Height = MainWindow.WindowConfig.TranslateWindowHeight;
-            this.Width = MainWindow.WindowConfig.TranslateWindowWidth;
-            this.Left = MainWindow.WindowConfig.TranslateWindowLeft;
-            this.Top = MainWindow.WindowConfig.TranslateWindowTop;
-            this.Topmost = MainWindow.WindowConfig.TranslateWindowTopmost;
-            if (this.Topmost)
+            this.DataContext = MainWindow.WindowConfig;
+            if (MainWindow.WindowConfig.TranslateWindowTopmost)
             {
                 PinButton.Visibility = Visibility.Visible;
                 PinOffButton.Visibility = Visibility.Collapsed;
             }
+            this.Background = new SolidColorBrush(Color.FromArgb((byte)MainWindow.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
         }
 
         //Hook文本模式
@@ -53,8 +51,6 @@ namespace TsubakiTranslator
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 
             HookDisplayButton.IsChecked = true;
-
-
         }
 
         //监视剪切板模式
@@ -118,13 +114,6 @@ namespace TsubakiTranslator
                 clipboardHookHandler.Dispose();
             }
 
-            MainWindow.WindowConfig.TranslateWindowHeight = this.Height;
-            MainWindow.WindowConfig.TranslateWindowWidth = this.Width;
-            MainWindow.WindowConfig.TranslateWindowLeft = this.Left;
-            MainWindow.WindowConfig.TranslateWindowTop = this.Top;
-            MainWindow.WindowConfig.TranslateWindowTopmost = this.Topmost;
-
-            
 
             mainWindow.Show();
             
@@ -177,6 +166,14 @@ namespace TsubakiTranslator
         private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
         {
             TranslateWindowMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else if (this.WindowState == WindowState.Normal)
+                WindowState = WindowState.Maximized;
         }
     }
 }

@@ -7,8 +7,10 @@
         xmlns:local="clr-namespace:TsubakiTranslator"
         mc:Ignorable="d"
         WindowStyle="None" AllowsTransparency="True"
-        Title="TranslateWindow" Height="{Binding TranslateWindowHeight, ElementName=WindowConfig}" Width="{Binding TranslateWindowWidth, ElementName=WindowConfig}"
-        Background="#A9000000" 
+        Title="翻译窗口"
+        Width="{Binding TranslateWindowWidth, Mode=TwoWay}" Height="{Binding TranslateWindowHeight, Mode=TwoWay}"
+        Left="{Binding TranslateWindowLeft, Mode=TwoWay}" Top="{Binding TranslateWindowTop, Mode=TwoWay}"
+        Topmost="{Binding TranslateWindowTopmost, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Closing="On_TranslateWindow_Closing" MouseEnter="TranslateWindow_MouseEnter"
@@ -27,7 +29,8 @@
 
         <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
                                     Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown">
+                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"
+                                    MouseDoubleClick="ColorZone_MouseDoubleClick">
             <DockPanel >
 
                 <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 

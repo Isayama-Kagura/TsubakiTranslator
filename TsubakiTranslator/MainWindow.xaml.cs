@@ -12,10 +12,9 @@ namespace TsubakiTranslator
     public partial class MainWindow:Window
     {
         private UserGamePage UserGamePage { get; }
-
         private UserConfigPage UserConfigPage { get; }
-
         private AboutMePage AboutMePage { get; }
+        private WinStylePage WinStylePage { get; }
 
         private static WindowConfig windowConfig;
         public static WindowConfig WindowConfig { get => windowConfig ; }
@@ -27,12 +26,11 @@ namespace TsubakiTranslator
             UserGamePage = new UserGamePage();
             UserConfigPage = new UserConfigPage();
             AboutMePage = new AboutMePage();
+            WinStylePage = new WinStylePage();
 
 
             windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json" ,new WindowConfig());
 
-            this.Width = WindowConfig.MainWindowWidth;
-            this.Height = WindowConfig.MainWindowHeight;
             this.DataContext = WindowConfig;
 
             MyGame.IsSelected = true;
@@ -76,13 +74,10 @@ namespace TsubakiTranslator
 
         private void On_MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            WindowConfig.MainWindowHeight = this.Height;
-            WindowConfig.MainWindowWidth = this.Width;
 
             FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
             FileHandler.SerializeObject<ObservableCollection<GameData>>(UserGamePage.GameItems, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GameData.json");
             FileHandler.SerializeObject<TranslateAPIConfig>(UserConfigPage.TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-
 
         }
 
@@ -97,6 +92,11 @@ namespace TsubakiTranslator
                 WindowState = WindowState.Normal;
             else if (this.WindowState == WindowState.Normal)
                 WindowState = WindowState.Maximized;
+        }
+
+        private void ListViewItem_WinStyle_Selected(object sender, RoutedEventArgs e)
+        {
+            MainPageContent.Content = WinStylePage;
         }
     }
 }
