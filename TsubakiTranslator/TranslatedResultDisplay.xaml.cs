@@ -106,6 +106,7 @@ namespace TsubakiTranslator
         public void TranslteClipboardText(object sender, EventArgs e)
         {
             string sourceText = Clipboard.GetText();
+            sourceText = Regex.Replace(sourceText, @"\s", "");
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
 

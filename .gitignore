@@ -1,3 +1,7 @@
 /.vs/
 /TsubakiTranslator/bin/
 /TsubakiTranslator/obj/
+
+
+
+*.user
