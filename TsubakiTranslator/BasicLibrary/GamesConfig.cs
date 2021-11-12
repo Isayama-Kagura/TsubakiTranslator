@@ -71,4 +71,28 @@ namespace TsubakiTranslator.BasicLibrary
         }
 
     }
+
+    public class GamesConfig : ObservableObject
+    {
+        public ObservableCollection<GameData> gameDatas;
+        public ObservableCollection<RegexRuleData> clipBoardRegexRules;
+
+        public GamesConfig()
+        {
+            GameDatas = new ObservableCollection<GameData>();
+            ClipBoardRegexRules = new ObservableCollection<RegexRuleData>();
+        }
+
+        public ObservableCollection<GameData> GameDatas
+        {
+            get => gameDatas;
+            set => SetProperty(ref gameDatas, value);
+        }
+        public ObservableCollection<RegexRuleData> ClipBoardRegexRules
+        {
+            get => clipBoardRegexRules;
+            set => SetProperty(ref clipBoardRegexRules, value);
+        }
+
+    }
 }

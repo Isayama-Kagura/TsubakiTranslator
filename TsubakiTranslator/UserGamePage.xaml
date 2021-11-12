@@ -19,11 +19,13 @@
                         Click="OpenHistoryGame_Button_Click"
                         Width="60" Content="打开"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
-                        <StackPanel  Margin="10">
-                            <TextBox x:Name="HistoryGameName" Margin="5"
-                                    materialDesign:HintAssist.Hint="游戏名"
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                    VerticalAlignment="Center" />
+                        <StackPanel x:Name="HistoryGameInfo"  Margin="10">
+                            <TextBox x:Name="HistoryGameName"
+                                     Margin="5"
+                                     materialDesign:HintAssist.Hint="游戏名"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding GameName, Mode=OneWay}"
+                                     VerticalAlignment="Center" />
 
                             <ComboBox x:Name="HistoryGameProcessList" Margin="5"
                                       materialDesign:HintAssist.Hint="游戏进程"
@@ -36,15 +38,19 @@
                                 </ComboBox.ItemsPanel>
                             </ComboBox>
 
-                            <TextBox x:Name="HistoryGameHookCode" Margin="5"
-                                    materialDesign:HintAssist.Hint="特殊码"
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                    VerticalAlignment="Center" />
+                            <TextBox x:Name="HistoryHookCode"
+                                     Margin="5"
+                                     materialDesign:HintAssist.Hint="特殊码"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     VerticalAlignment="Center" 
+                                     Text="{Binding HookCode, Mode=OneWay}"/>
 
-                            <TextBox x:Name="HistoryGameDuplicateTimes" Margin="5"
-                                    materialDesign:HintAssist.Hint="重复字数"
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                    VerticalAlignment="Center" />
+                            <TextBox x:Name="HistoryDuplicateTimes"
+                                     Margin="5"
+                                     materialDesign:HintAssist.Hint="重复字数"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     VerticalAlignment="Center"
+                                     Text="{Binding DuplicateTimes, Mode=OneWay}"/>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Style="{StaticResource MaterialDesignFlatButton}" Margin="5"
@@ -123,8 +129,55 @@
                 </Button>
 
                 <Button DockPanel.Dock="Right"
-                        Width="103" Content="监视剪切板"  Cursor="Hand" Margin="10"
-                        Click="MonitorClipBoard_Button_Click"/>
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        Width="103" Content="监视剪切板"  Cursor="Hand" Margin="10">
+                    <Button.CommandParameter>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                                        Content="{materialDesign:PackIcon Kind=Plus }" ToolTip="添加表达式"
+                                        Click="Clipboard_AddRegexRule_Button_Click"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                                        Content="{materialDesign:PackIcon Kind=DeleteOutline }" ToolTip="清空表达式"
+                                        Click="Clipboard_RemoveRegexRule_Button_Click" HorizontalAlignment="Center"/>
+
+                            </StackPanel>
+                            <DataGrid x:Name="ClipboardRegexDataGrid"
+                                      CanUserReorderColumns="False"
+                                    CanUserSortColumns="False"
+                                    AutoGenerateColumns="False"
+                                    SelectionUnit="Cell"
+                                    SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding SourceRegex, Mode=TwoWay}"
+                                                        Header="匹配表达式"
+                                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                    <DataGridTextColumn Binding="{Binding DestinationRegex, Mode=TwoWay}"
+                                                        Header="替换表达式" 
+                                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Click="MonitorClipBoard_Button_Click"
+                                        Content="确定"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        IsDefault="True"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Content="取消" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Button.CommandParameter>
+
+                </Button>
 
 
 

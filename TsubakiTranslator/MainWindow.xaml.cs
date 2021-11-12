@@ -64,19 +64,11 @@ namespace TsubakiTranslator
             WindowState = WindowState.Minimized;
         }
 
-
-
-        private void MainWindow_StateChanged(object sender, EventArgs e)
-        {
-            
-
-        }
-
         private void On_MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
             FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            FileHandler.SerializeObject<ObservableCollection<GameData>>(UserGamePage.GameItems, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GameData.json");
+            FileHandler.SerializeObject<GamesConfig>(UserGamePage.GamesConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
             FileHandler.SerializeObject<TranslateAPIConfig>(UserConfigPage.TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
 
         }

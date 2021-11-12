@@ -48,12 +48,17 @@
                                  MessageQueue="{materialDesign:MessageQueue}" />
 
         <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
-            <TextBlock x:Name="SourceText"
+            <!--<TextBlock x:Name="SourceText"
                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
                        Margin="7" TextWrapping="Wrap" FontSize="20"
-                       Text="{Binding BindingText, Mode=TwoWay}" Foreground="GhostWhite"
-                       MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>
+                       Text="{Binding BindingText, Mode=TwoWay}" Foreground="WhiteSmoke"     
+                       MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>-->
 
+            <TextBox x:Name="SourceText"
+                     Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
+                     Margin="7" TextWrapping="Wrap" FontSize="20"
+                     Text="{Binding BindingText, Mode=TwoWay}" Foreground="WhiteSmoke"  
+                     IsReadOnly="True"/>
             
         </StackPanel>
 

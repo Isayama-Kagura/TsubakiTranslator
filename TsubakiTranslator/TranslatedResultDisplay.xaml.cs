@@ -61,13 +61,15 @@ namespace TsubakiTranslator
 
         }
 
-        public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler)
+        public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
 
             Init();
 
             this.clipboardHookHandler = clipboardHookHandler;
+
+            this.sourceTextHandler = sourceTextHandler;
 
             this.clipboardHookHandler.ClipboardUpdated += TranslteClipboardText;
 
@@ -95,7 +97,7 @@ namespace TsubakiTranslator
 
             string sourceText = sourceTextHandler.HandleText(content);
 
-            if (sourceText.Trim().Equals(""))
+            if (Regex.Replace(sourceText, @"\s", "").Equals(""))
                 return;
 
 
@@ -107,6 +109,7 @@ namespace TsubakiTranslator
         {
             string sourceText = Clipboard.GetText();
             sourceText = Regex.Replace(sourceText, @"\s", "");
+            sourceText = sourceTextHandler.HandleText(sourceText);
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
 
@@ -188,20 +191,12 @@ namespace TsubakiTranslator
 
         }
 
-        private void SourceText_TextBlock_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            Clipboard.SetDataObject(SourceText.Text);
-
-            if (ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("源文本已复制。", "好", () => { }));
-        }
-
         private void FormatFontSizeDecrease_Button_Click(object sender, RoutedEventArgs e)
         {
 
             foreach(var t in TranslateResultPanel.Children)
-                if (t is TextBlock)
-                    ((TextBlock)t).FontSize--;
+                if (t is TextBox)
+                    ((TextBox)t).FontSize--;
                 else
                     ((TranslatedResultItem)t).DecreaseFontSize();
 
@@ -210,8 +205,8 @@ namespace TsubakiTranslator
         private void FormatFontSizeIncrease_Button_Click(object sender, RoutedEventArgs e)
         {
             foreach (var t in TranslateResultPanel.Children)
-                if (t is TextBlock)
-                    ((TextBlock)t).FontSize++;
+                if (t is TextBox)
+                    ((TextBox)t).FontSize++;
                 else
                     ((TranslatedResultItem)t).IncreaseFontSize();
         }

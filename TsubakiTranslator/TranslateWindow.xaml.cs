@@ -54,7 +54,7 @@ namespace TsubakiTranslator
         }
 
         //监视剪切板模式
-        public TranslateWindow(Window mainWindow)
+        public TranslateWindow(Window mainWindow, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
@@ -67,7 +67,7 @@ namespace TsubakiTranslator
             //HookResultDisplay = new HookResultDisplay(this);
             //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
             clipboardHookHandler = new ClipboardHookHandler(mainWindow);
-            TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler);
+            TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler, sourceTextHandler);
 
             //textHookHandler.ProcessGame.Exited += GameExitHandler;
 
@@ -91,7 +91,7 @@ namespace TsubakiTranslator
             TranslateDisplayButton.IsChecked = true;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("右键源文本可复制至剪切板。", "好", () => { }));
+                Task.Run(() => messageQueue.Enqueue("源文本可选中后复制。", "好", () => { }));
 
             //翻译当前选择的文本
             Task.Run(()=>TranslatedResultDisplay.TranslateHookText(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));

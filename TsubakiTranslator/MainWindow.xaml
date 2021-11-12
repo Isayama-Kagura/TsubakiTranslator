@@ -12,7 +12,7 @@
         Height="{Binding MainWindowHeight, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
-        StateChanged="MainWindow_StateChanged" Closing="On_MainWindow_Closing">
+        Closing="On_MainWindow_Closing">
 
 
     <!--窗口可改变尺寸-->
@@ -72,7 +72,7 @@
                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
                     x:Name="RadioButtonGroupChoiceChipOutline" >
 
-            <ListViewItem x:Name="MyGame" Content="我的游戏" Selected="ListViewItem_UserGame_Selected"/>
+            <ListViewItem x:Name="MyGame" Content="翻译选择" Selected="ListViewItem_UserGame_Selected"/>
             <ListViewItem Content="翻译设置" Selected="ListViewItem_UserConfig_Selected"/>
             <ListViewItem Content="界面设置" Selected="ListViewItem_WinStyle_Selected"/>
             <ListViewItem Content="关于我" Selected="ListViewItem_AboutMe_Selected"/>

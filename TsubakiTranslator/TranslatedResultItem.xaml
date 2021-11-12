@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TsubakiTranslator"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d"  >
     <Grid Margin="0,5,0,5">
         <Grid.ColumnDefinitions>
@@ -12,7 +10,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Orange" 
+        <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="DarkOrange" 
                    HorizontalAlignment="Center"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
