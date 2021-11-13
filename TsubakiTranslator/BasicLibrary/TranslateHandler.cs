@@ -100,7 +100,7 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("腾讯", "auto");
                 dict.Add("小牛", "ja");
                 dict.Add("火山", "ja");
-                dict.Add("Yeekit", "ja");
+                dict.Add("Yeekit", "nja");
                 dict.Add("有道", "jp");
             }
             else if (srcLang.Equals("English"))

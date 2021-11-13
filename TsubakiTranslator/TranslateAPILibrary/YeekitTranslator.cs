@@ -16,23 +16,23 @@ namespace TsubakiTranslator.TranslateAPILibrary
         {
             string desLang = "nzh";
 
-            var body = new
-            {
-                srcl = SourceLanguage,
-                tgtl = desLang,
-                app_source = 9001,
-                text = sourceText,
-                domain = "auto"
-            };
+            //var body = new
+            //{
+            //    srcl = SourceLanguage,
+            //    tgtl = desLang,
+            //    app_source = 9001,
+            //    text = sourceText,
+            //    domain = "auto"
+            //};
 
-            string bodyString = JsonSerializer.Serialize(body);
+            //string bodyString = JsonSerializer.Serialize(body);
 
-            //string bodyString = $"content[]={HttpUtility.UrlEncode(sourceText)}&sourceLang={SourceLanguage}&targetLang={desLang}";
+            string bodyString = $"content[]={HttpUtility.UrlEncode(sourceText)}&sourceLang={SourceLanguage}&targetLang={desLang}";
 
             HttpContent content = new StringContent(bodyString);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            string url = @"http://fanyi.yeekit.com/zyyt/translate/translate";
+            string url = @"https://web.yeekit.com/site/dotranslate";
 
             HttpClient client = CommonFunction.Client;
 
@@ -44,7 +44,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
                 responseBody = responseBody.Replace(@"\n", string.Empty).Replace(" ", string.Empty);
 
-                Regex reg = new Regex(@"""data"":""(.*?)""\}");
+                responseBody = Regex.Unescape(responseBody);
+
+                Regex reg = new Regex(@"""text"":""(.*?)"",""translatetime""");
                 Match match = reg.Match(responseBody);
 
                 string result = match.Groups[1].Value;
