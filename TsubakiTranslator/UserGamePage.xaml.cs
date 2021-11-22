@@ -17,19 +17,15 @@ namespace TsubakiTranslator
     {
 
         public GamesConfig GamesConfig { get; }
-        private ObservableCollection<string> ProcessStrings { get; }
 
         public UserGamePage()
         {
             InitializeComponent();
 
             GamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json", new GamesConfig());
-            ProcessStrings = new ObservableCollection<string>();
 
             GameList.ItemsSource = GamesConfig.GameDatas;
             ClipboardRegexDataGrid.ItemsSource = GamesConfig.ClipBoardRegexRules;
-            GameProcessList.ItemsSource = ProcessStrings;
-            HistoryGameProcessList.ItemsSource = ProcessStrings;
 
         }
 
@@ -131,17 +127,19 @@ namespace TsubakiTranslator
                 await textHookHandler.AttachProcessByHookCode(GameProcessHookCode.Text);
         }
 
-        private void GamePage_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
-        {
-            ProcessStrings.Clear();
-        }
 
         private void SetProcessItems()
         {
             Process[] ps = Process.GetProcesses();
+            List<string> list = new List<string>(); 
 
             foreach (Process p in ps)
-                ProcessStrings.Add($"{p.ProcessName} - {p.Id}");
+                list.Add($"{p.ProcessName} - {p.Id}");
+
+            list.Sort();
+            ObservableCollection<string> processStrings = new ObservableCollection<string>(list);
+            GameProcessList.ItemsSource = processStrings;
+            HistoryGameProcessList.ItemsSource = processStrings;
         }
 
         private Process GetGameProcessByProcessString(string processString)
