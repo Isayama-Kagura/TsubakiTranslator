@@ -14,6 +14,7 @@
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Closing="On_TranslateWindow_Closing" MouseEnter="TranslateWindow_MouseEnter"
+        MinHeight="200" MinWidth="400"
         MouseLeave="TranslateWindow_MouseLeave">
 
     <!--窗口可改变尺寸-->

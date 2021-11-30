@@ -12,6 +12,7 @@
         Height="{Binding MainWindowHeight, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
+        MinHeight="400" MinWidth="750"
         Closing="On_MainWindow_Closing">
 
 
