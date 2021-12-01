@@ -27,8 +27,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 .Append("&source=").Append("text")
                 .Append("&dictNo=")
                 .Append("&memoryNo=")
-                .Append("&isUseDict=")
-                .Append("&isUseMemory=")
+                .Append("&isUseDict=").Append("0")
+                .Append("&isUseMemory=").Append("0")
                 .Append("&time=").Append(CommonFunction.GetTimeStamp());
 
             string url = sb.ToString();
