@@ -10,12 +10,12 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="DarkOrange" 
+        <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Firebrick" 
                    HorizontalAlignment="Center"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
         <TextBlock x:Name="ResultTextBlock" FontSize="20" Grid.Column="1" 
-                   TextWrapping="Wrap" Foreground="GhostWhite" 
+                   TextWrapping="Wrap" Foreground="WhiteSmoke" 
                    Text="{Binding TranslatedResult, Mode=TwoWay}"/>
 
     </Grid>

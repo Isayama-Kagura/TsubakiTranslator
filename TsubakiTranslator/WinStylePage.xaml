@@ -16,12 +16,12 @@
                 <Button DockPanel.Dock="Right" Margin="0 10 20 10"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Content="默认值" Click="DefaultTransparency_Button_Click"/>
-                <Slider Minimum="0" Margin="20 10 20 10"
-                    Maximum="255"
-                    Style="{StaticResource MaterialDesignDiscreteSlider}"
-                    TickFrequency="15"
-                    TickPlacement="Both" 
-                    Value="{Binding TranslateWindowTransparency, Mode=TwoWay}" />
+                <Slider Margin="20 10 20 10"
+                        Minimum="15" Maximum="255"
+                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                        TickFrequency="15"
+                        TickPlacement="Both" 
+                        Value="{Binding TranslateWindowTransparency, Mode=TwoWay}" />
             </DockPanel>
             
         </StackPanel>

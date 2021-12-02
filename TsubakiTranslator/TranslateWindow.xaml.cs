@@ -134,14 +134,14 @@ namespace TsubakiTranslator
             TranslateWindowContent.Content = HookResultDisplay;
         }
 
-        private void ColorZone_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             base.DragMove();//实现整个窗口的拖动
         }
 
         private void Pin_Button_Click(object sender, RoutedEventArgs e)
         {
-            PinButton.Visibility =  Visibility.Collapsed;
+            PinButton.Visibility = Visibility.Collapsed;
             PinOffButton.Visibility = Visibility.Visible;
             this.Topmost = false;
         }
@@ -168,7 +168,7 @@ namespace TsubakiTranslator
             TranslateWindowMenu.Visibility = Visibility.Collapsed;
         }
 
-        private void ColorZone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (this.WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;

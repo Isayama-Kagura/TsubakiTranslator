@@ -14,7 +14,7 @@
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Closing="On_TranslateWindow_Closing" MouseEnter="TranslateWindow_MouseEnter"
-        MinHeight="200" MinWidth="400"
+        MinHeight="200" MinWidth="400" MouseDoubleClick="Window_MouseDoubleClick" MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseLeave="TranslateWindow_MouseLeave">
 
     <!--窗口可改变尺寸-->
@@ -28,44 +28,46 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
+        <!--<materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
                                     Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"
-                                    MouseDoubleClick="ColorZone_MouseDoubleClick">
-            <DockPanel >
+                                    >-->
 
-                <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                        ToolTip="关闭" Foreground="White" Cursor="Hand"  
-                        Content="{materialDesign:PackIcon Kind=WindowClose }"
-                        Click="TranslateWindow_CloseButton_Click" Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"/>
+        <DockPanel Grid.Row="0"  LastChildFill="False">
 
-                <Button x:Name="PinButton"
-                        DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                        ToolTip="不固定" Foreground="White" Cursor="Hand" Visibility="Collapsed"
-                        Content="{materialDesign:PackIcon Kind=Pin }" 
-                        Height="{Binding Height, ElementName=ColorZone}"
-                        Click="Pin_Button_Click"/>
+            <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                    ToolTip="关闭" Foreground="White" Cursor="Hand"  
+                    Content="{materialDesign:PackIcon Kind=WindowClose }"
+                    Click="TranslateWindow_CloseButton_Click" 
+                    Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"/>
 
-                <Button x:Name="PinOffButton"
-                        DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                        ToolTip="固定最前" Foreground="White" Cursor="Hand" 
-                        Content="{materialDesign:PackIcon Kind=PinOff }" 
-                        Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
-                        Click="PinOff_Button_Click"/>
-                
-                <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                         ToolTip="最小化" Foreground="White" Cursor="Hand" 
-                         Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
-                         Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
-                         Click="TranslateWindow_MinimizeButton_Click"/>
+            <Button x:Name="PinButton"
+                    DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatLightButton}"
+                    ToolTip="不固定" Foreground="White" Cursor="Hand" Visibility="Collapsed"
+                    Content="{materialDesign:PackIcon Kind=Pin }" 
+                    Height="{Binding Height, ElementName=ColorZone}"
+                    Click="Pin_Button_Click"/>
 
-                <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
+            <Button x:Name="PinOffButton"
+                    DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatLightButton}"
+                    ToolTip="固定最前" Foreground="White" Cursor="Hand" 
+                    Content="{materialDesign:PackIcon Kind=PinOff }" 
+                    Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
+                    Click="PinOff_Button_Click"/>
+
+            <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatLightButton}"
+                    ToolTip="最小化" Foreground="White" Cursor="Hand" 
+                    Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
+                    Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
+                    Click="TranslateWindow_MinimizeButton_Click"/>
+
+                <!--<TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
                             Text="Tsubaki Translator" FontSize="18" 
                             TextWrapping="Wrap"
-                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                 
-            </DockPanel>
-        </materialDesign:ColorZone>
+            
+        </DockPanel>
+        <!--</materialDesign:ColorZone>-->
 
         <DockPanel x:Name="TranslateWindowDockPanel"  Grid.Row="1" >
             <StackPanel x:Name="TranslateWindowMenu" Orientation="Horizontal" 
