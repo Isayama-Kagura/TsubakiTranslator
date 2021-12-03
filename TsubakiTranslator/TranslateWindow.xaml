@@ -6,15 +6,16 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:local="clr-namespace:TsubakiTranslator"
         mc:Ignorable="d"
-        WindowStyle="None" AllowsTransparency="True"
-        Title="翻译窗口"
+        Title="翻译窗口"  AllowsTransparency="True" WindowStyle="None"
         Width="{Binding TranslateWindowWidth, Mode=TwoWay}" Height="{Binding TranslateWindowHeight, Mode=TwoWay}"
         Left="{Binding TranslateWindowLeft, Mode=TwoWay}" Top="{Binding TranslateWindowTop, Mode=TwoWay}"
         Topmost="{Binding TranslateWindowTopmost, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Closing="On_TranslateWindow_Closing" MouseEnter="TranslateWindow_MouseEnter"
-        MinHeight="200" MinWidth="400" MouseDoubleClick="Window_MouseDoubleClick" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MinHeight="200" MinWidth="400" 
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
         MouseLeave="TranslateWindow_MouseLeave">
 
     <!--窗口可改变尺寸-->
@@ -28,9 +29,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!--<materialDesign:ColorZone   x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
-                                    Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                    >-->
+
 
         <DockPanel Grid.Row="0"  LastChildFill="False">
 
@@ -60,14 +59,8 @@
                     Height="{Binding ActualHeight, ElementName=ColorZone, Mode=OneWay}"
                     Click="TranslateWindow_MinimizeButton_Click"/>
 
-                <!--<TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
-                            Text="Tsubaki Translator" FontSize="18" 
-                            TextWrapping="Wrap"
-                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-                
-            
+
         </DockPanel>
-        <!--</materialDesign:ColorZone>-->
 
         <DockPanel x:Name="TranslateWindowDockPanel"  Grid.Row="1" >
             <StackPanel x:Name="TranslateWindowMenu" Orientation="Horizontal" 

@@ -136,7 +136,18 @@ namespace TsubakiTranslator
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.ResizeMode = ResizeMode.NoResize;
+            }
             base.DragMove();//实现整个窗口的拖动
+        }
+
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(this.ResizeMode == ResizeMode.NoResize)
+                this.ResizeMode = ResizeMode.CanResize;
+
         }
 
         private void Pin_Button_Click(object sender, RoutedEventArgs e)
@@ -168,12 +179,6 @@ namespace TsubakiTranslator
             TranslateWindowMenu.Visibility = Visibility.Collapsed;
         }
 
-        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (this.WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else if (this.WindowState == WindowState.Normal)
-                WindowState = WindowState.Maximized;
-        }
+        
     }
 }
