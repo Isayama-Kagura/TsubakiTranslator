@@ -56,7 +56,7 @@
 
             <TextBox x:Name="SourceText"
                      Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
-                     Margin="7" TextWrapping="Wrap" FontSize="20"
+                     Margin="7 15 7 10" TextWrapping="Wrap" FontSize="20"
                      Text="{Binding BindingText, Mode=TwoWay}" Foreground="BurlyWood"  
                      IsReadOnly="True"/>
             

@@ -18,7 +18,7 @@
 
     <!--窗口可改变尺寸-->
     <WindowChrome.WindowChrome >
-        <WindowChrome CaptionHeight="0" />
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
 
     <Grid>

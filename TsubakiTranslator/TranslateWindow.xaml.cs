@@ -50,7 +50,7 @@ namespace TsubakiTranslator
 
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 
-            HookDisplayButton.IsChecked = true;
+            TranslateWindowContent.Content = HookResultDisplay;
         }
 
         //监视剪切板模式
@@ -71,10 +71,7 @@ namespace TsubakiTranslator
 
             //textHookHandler.ProcessGame.Exited += GameExitHandler;
 
-            HookDisplayButton.IsEnabled = false;
-            TranslateDisplayButton.IsEnabled = true;
-            TranslateDisplayButton.IsChecked = true;
-
+            TranslateWindowContent.Content = TranslatedResultDisplay;
         }
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
@@ -87,11 +84,13 @@ namespace TsubakiTranslator
         //供Hook文本选择界面使用
         public void SwitchToTranslateDisplay()
         {
-            TranslateDisplayButton.IsEnabled = true;
-            TranslateDisplayButton.IsChecked = true;
+            if(!TranslateWindowMenu.IsEnabled)
+                TranslateWindowMenu.IsEnabled = true;
+
+            TranslateWindowContent.Content = TranslatedResultDisplay;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("源文本可选中后复制。", "好", () => { }));
+                Task.Run(() => messageQueue.Enqueue("点击左上角按钮可重新选择源文本。", "好", () => { }));
 
             //翻译当前选择的文本
             Task.Run(()=>TranslatedResultDisplay.TranslateHookText(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
@@ -114,7 +113,6 @@ namespace TsubakiTranslator
                 clipboardHookHandler.Dispose();
             }
 
-
             mainWindow.Show();
             
         }
@@ -124,31 +122,51 @@ namespace TsubakiTranslator
             this.Close();
         }
 
-        private void Tranlate_Display_Button_Checked(object sender, RoutedEventArgs e)
+        private void Tranlate_Display_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             TranslateWindowContent.Content = TranslatedResultDisplay;
         }
 
-        private void Hook_Display_Button_Checked(object sender, RoutedEventArgs e)
+        private void Hook_Display_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             TranslateWindowContent.Content = HookResultDisplay;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            /* 如何在Window.ResizeMode属性为CanResize的时候，阻止窗口拖动到屏幕边缘自动最大化。
+               (When the Window.ResizeMode property is CanResize, 
+               when the window is dragged to the edge of the screen, 
+               it prevents the window from automatically maximizing.)*/
+            if (e.ChangedButton == MouseButton.Left)
             {
-                this.ResizeMode = ResizeMode.NoResize;
+                if (Mouse.LeftButton == MouseButtonState.Pressed)
+                {
+                    var windowMode = this.ResizeMode;
+                    if (this.ResizeMode != ResizeMode.NoResize)
+                    {
+                        this.ResizeMode = ResizeMode.NoResize;
+                    }
+
+                    this.UpdateLayout();
+
+
+                    /* 当点击拖拽区域的时候，让窗口跟着移动
+                    (When clicking the drag area, make the window follow) */
+                    DragMove();
+
+
+                    if (this.ResizeMode != windowMode)
+                    {
+                        this.ResizeMode = windowMode;
+                    }
+
+                    this.UpdateLayout();
+                }
             }
-            base.DragMove();//实现整个窗口的拖动
-        }
-
-        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if(this.ResizeMode == ResizeMode.NoResize)
-                this.ResizeMode = ResizeMode.CanResize;
 
         }
+
 
         private void Pin_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -171,12 +189,12 @@ namespace TsubakiTranslator
 
         private void TranslateWindow_MouseEnter(object sender, MouseEventArgs e)
         {
-            TranslateWindowMenu.Visibility = Visibility.Visible;
+            Headline.Visibility = Visibility.Visible;
         }
 
         private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
         {
-            TranslateWindowMenu.Visibility = Visibility.Collapsed;
+            Headline.Visibility = Visibility.Collapsed;
         }
 
         
