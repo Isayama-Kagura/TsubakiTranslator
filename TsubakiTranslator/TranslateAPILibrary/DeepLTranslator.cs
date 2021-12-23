@@ -31,7 +31,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             var client = CommonFunction.Client;
 
-            string url = "https://api-free.deepl.com/v2/translate";
+            //string url = "https://api-free.deepl.com/v2/translate";
+            string url = "https://api.deepl.com/v2/translate";
 
             try
             {
