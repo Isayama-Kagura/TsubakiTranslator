@@ -23,43 +23,39 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="25" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
 
 
-        <DockPanel x:Name="Headline" Grid.Row="0"  LastChildFill="False">
+        <DockPanel Grid.Row="0"  LastChildFill="False">
 
             <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
                     ToolTip="关闭" Foreground="White" Cursor="Hand"  
                     Content="{materialDesign:PackIcon Kind=WindowClose }"
-                    Click="TranslateWindow_CloseButton_Click" 
-                    Height="25"/>
+                    Click="TranslateWindow_CloseButton_Click" />
 
             <Button x:Name="PinButton"
                     DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     ToolTip="不固定" Foreground="White" Cursor="Hand" Visibility="Collapsed"
                     Content="{materialDesign:PackIcon Kind=Pin }" 
-                    Height="25"
                     Click="Pin_Button_Click"/>
 
             <Button x:Name="PinOffButton"
                     DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     ToolTip="固定最前" Foreground="White" Cursor="Hand" 
                     Content="{materialDesign:PackIcon Kind=PinOff }" 
-                    Height="25"
                     Click="PinOff_Button_Click"/>
 
             <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     ToolTip="最小化" Foreground="White" Cursor="Hand" 
                     Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
-                    Height="25"
                     Click="TranslateWindow_MinimizeButton_Click"/>
 
             <Menu x:Name="TranslateWindowMenu" Background="Transparent" Foreground="WhiteSmoke" DockPanel.Dock="Left" 
-                  Cursor="Hand"  ToolTip="窗口选择" IsEnabled="False">
-                <MenuItem Header="{materialDesign:PackIcon Kind=Menu }"   Height="25">
+                  Cursor="Hand"  ToolTip="窗口选择" IsEnabled="False" >
+                <MenuItem Header="{materialDesign:PackIcon Kind=Menu }" Height="25">
                     <MenuItem Header="翻译窗口"  Background="Black" Click="Tranlate_Display_MenuItem_Click"/>
                     <MenuItem Header="Hook文本选择"  Background="Black" Click="Hook_Display_MenuItem_Click"/>
                 </MenuItem>

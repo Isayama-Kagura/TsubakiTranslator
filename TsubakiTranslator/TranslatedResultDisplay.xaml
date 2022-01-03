@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TsubakiTranslator"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     
     <DockPanel >
@@ -48,23 +48,15 @@
                                  MessageQueue="{materialDesign:MessageQueue}" />
 
         <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
-            <!--<TextBlock x:Name="SourceText"
-                       Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                       Margin="7" TextWrapping="Wrap" FontSize="20"
-                       Text="{Binding BindingText, Mode=TwoWay}" Foreground="WhiteSmoke"     
-                       MouseRightButtonDown="SourceText_TextBlock_MouseRightButtonDown"/>-->
 
             <TextBox x:Name="SourceText"
                      Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
-                     Margin="7 15 7 10" TextWrapping="Wrap" FontSize="20"
+                     Margin="7" TextWrapping="Wrap" FontSize="20" Visibility="Collapsed"
                      Text="{Binding BindingText, Mode=TwoWay}" Foreground="BurlyWood"  
                      IsReadOnly="True"/>
             
         </StackPanel>
 
-        
-
     </DockPanel>
-
 
 </UserControl>

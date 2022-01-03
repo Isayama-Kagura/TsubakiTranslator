@@ -189,14 +189,12 @@ namespace TsubakiTranslator
 
         private void TranslateWindow_MouseEnter(object sender, MouseEventArgs e)
         {
-            Headline.Visibility = Visibility.Visible;
+            TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
         }
 
         private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
         {
-            Headline.Visibility = Visibility.Collapsed;
+            TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
         }
-
-        
     }
 }
