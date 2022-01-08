@@ -32,7 +32,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             HttpContent content = new StringContent(bodyString);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            string url = @"https://web.yeekit.com/site/dotranslate";
+            string url = @"https://www.yeekit.com/site/dotranslate";
 
             HttpClient client = CommonFunction.Client;
 
