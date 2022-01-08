@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
 using TsubakiTranslator.TranslateAPILibrary;
 
@@ -29,12 +30,15 @@ namespace TsubakiTranslator
 
         private void Init()
         {
+            SourceText.Foreground = new SolidColorBrush(MainWindow.WindowConfig.SourceTextColor);
+
             translators = TranslateHandler.GetSelectedTranslators(UserConfigPage.TranslateAPIConfig);
 
             displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
+                resultItem.ResultTextBlock.Foreground = new SolidColorBrush(MainWindow.WindowConfig.TranslatedTextColor);
                 TranslateResultPanel.Children.Add(resultItem);
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }

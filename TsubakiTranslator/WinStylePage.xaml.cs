@@ -20,9 +20,34 @@ namespace TsubakiTranslator
     /// </summary>
     public partial class WinStylePage : UserControl
     {
+        private class ColorItem
+        {
+            public ColorItem(string content, Color value)
+            {
+                Content = content;
+                Value = value;
+            }
+
+            public string Content { get;}
+            public Color Value { get;}
+        }
+
         public WinStylePage()
         {
             InitializeComponent();
+
+            List<ColorItem> list = new List<ColorItem>();
+
+            list.Add(new ColorItem("烟白", Colors.WhiteSmoke));
+            list.Add(new ColorItem("原木", Colors.BurlyWood));
+            list.Add(new ColorItem("天蓝", Colors.SkyBlue));
+            list.Add(new ColorItem("金菊黄", Colors.Goldenrod));
+            list.Add(new ColorItem("石灰绿", Colors.LimeGreen));
+            list.Add(new ColorItem("苍紫罗兰", Colors.PaleVioletRed));
+            
+
+            SourceTextColorComboBox.ItemsSource = list;
+            TranslatedTextColorComboBox.ItemsSource = list;
         }
 
         private void DefaultTransparency_Button_Click(object sender, RoutedEventArgs e)

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TsubakiTranslator"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -23,11 +24,30 @@
                         TickPlacement="Both" 
                         Value="{Binding TranslateWindowTransparency, Mode=TwoWay}" />
             </DockPanel>
+
+            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Margin="20 10 20 10" Text="翻译字体颜色"/>
+
+            <DockPanel LastChildFill="False">
+                <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                      IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
+                      DisplayMemberPath="Content" SelectedValuePath="Value"
+                      SelectedValue="{Binding SourceTextColor, Mode=TwoWay}"
+                      materialDesign:HintAssist.Hint="源文本颜色" Width="122.8"/>
+                <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                      IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
+                      DisplayMemberPath="Content" SelectedValuePath="Value"
+                      SelectedValue="{Binding TranslatedTextColor, Mode=TwoWay}"
+                      materialDesign:HintAssist.Hint="翻译文本颜色"/>
+            </DockPanel>
             
+
         </StackPanel>
-        
-        
-      
-            
+
+
     </Grid>
 </UserControl>

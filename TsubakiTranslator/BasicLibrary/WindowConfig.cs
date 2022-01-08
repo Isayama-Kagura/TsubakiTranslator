@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows.Media;
 
 namespace TsubakiTranslator.BasicLibrary
 {
@@ -15,6 +16,8 @@ namespace TsubakiTranslator.BasicLibrary
             TranslateWindowTop = 200;
             TranslateWindowTopmost = false;
             TranslateWindowTransparency = 165;
+            SourceTextColor = Colors.BurlyWood;
+            TranslatedTextColor = Colors.WhiteSmoke;
         }
 
         private double mainWindowWidth;
@@ -25,6 +28,8 @@ namespace TsubakiTranslator.BasicLibrary
         private double translateWindowTop;
         private bool translateWindowTopmost;
         private int translateWindowTransparency;
+        private Color sourceTextColor;
+        private Color translatedTextColor;
 
 
         public double MainWindowWidth
@@ -72,6 +77,18 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => translateWindowTransparency;
             set => SetProperty(ref translateWindowTransparency, value);
+        }
+
+        public Color SourceTextColor
+        {
+            get => sourceTextColor;
+            set => SetProperty(ref sourceTextColor, value);
+        }
+
+        public Color TranslatedTextColor
+        {
+            get => translatedTextColor;
+            set => SetProperty(ref translatedTextColor, value);
         }
 
     }
