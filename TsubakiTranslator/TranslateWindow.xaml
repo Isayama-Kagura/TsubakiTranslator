@@ -61,6 +61,19 @@
                 </MenuItem>
             </Menu>
 
+            <StackPanel  Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" 
+                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
+                    Click="FormatFontSizeDecrease_Button_Click"/>
+                
+                <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" 
+                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeIncrease}" ToolTip="放大字体"
+                    Click="FormatFontSizeIncrease_Button_Click"/>
+
+            </StackPanel>
+
         </DockPanel>
 
         <ContentControl x:Name="TranslateWindowContent" Grid.Row="1"/>

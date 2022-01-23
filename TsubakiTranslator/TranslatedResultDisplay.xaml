@@ -21,11 +21,6 @@
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
                     Click="ChevronTripleLeft_Button_Click" />
 
-            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
-                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
-                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
-                    Click="FormatFontSizeDecrease_Button_Click" />
-
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Right">
@@ -37,10 +32,6 @@
                     Content="{ materialDesign:PackIcon Kind=ChevronTripleRight}" ToolTip="最新翻译"
                     Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White"
                     Click="ChevronTripleRight_Button_Click" />
-            <Button Margin="3" Style="{StaticResource MaterialDesignIconForegroundButton}"
-                    Content="{ materialDesign:PackIcon Kind=FormatFontSizeIncrease}" ToolTip="放大字体"
-                    Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Foreground="White" 
-                    Click="FormatFontSizeIncrease_Button_Click" />
         </StackPanel>
 
 

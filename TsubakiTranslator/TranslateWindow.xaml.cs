@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
@@ -195,6 +196,24 @@ namespace TsubakiTranslator
         private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
         {
             TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
+        }
+
+        private void FormatFontSizeDecrease_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var t in TranslatedResultDisplay.TranslateResultPanel.Children)
+                if (t is TextBox)
+                    ((TextBox)t).FontSize--;
+                else
+                    ((TranslatedResultItem)t).DecreaseFontSize();
+        }
+
+        private void FormatFontSizeIncrease_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var t in TranslatedResultDisplay.TranslateResultPanel.Children)
+                if (t is TextBox)
+                    ((TextBox)t).FontSize++;
+                else
+                    ((TranslatedResultItem)t).IncreaseFontSize();
         }
     }
 }

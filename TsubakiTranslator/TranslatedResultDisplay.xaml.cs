@@ -195,24 +195,5 @@ namespace TsubakiTranslator
 
         }
 
-        private void FormatFontSizeDecrease_Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            foreach(var t in TranslateResultPanel.Children)
-                if (t is TextBox)
-                    ((TextBox)t).FontSize--;
-                else
-                    ((TranslatedResultItem)t).DecreaseFontSize();
-
-        }
-
-        private void FormatFontSizeIncrease_Button_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (var t in TranslateResultPanel.Children)
-                if (t is TextBox)
-                    ((TextBox)t).FontSize++;
-                else
-                    ((TranslatedResultItem)t).IncreaseFontSize();
-        }
     }
 }
