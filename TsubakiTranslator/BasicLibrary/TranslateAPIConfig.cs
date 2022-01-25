@@ -6,6 +6,10 @@ namespace TsubakiTranslator.BasicLibrary
     {
         private string sourceLanguage = "Japanese";
 
+        private bool ttsIsEnabled;
+        private string ttsRegion;
+        private string ttsResourceKey;
+
         private bool aliyunIsEnabled;
 
         private bool baiduIsEnabled;
@@ -37,6 +41,24 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => sourceLanguage;
             set => SetProperty(ref sourceLanguage, value);
+        }
+
+        public bool TTSIsEnabled
+        {
+            get => ttsIsEnabled;
+            set => SetProperty(ref ttsIsEnabled, value);
+        }
+
+        public string TTSRegion
+        {
+            get => ttsRegion;
+            set => SetProperty(ref ttsRegion, value);
+        }
+
+        public string TTSResourceKey
+        {
+            get => ttsResourceKey;
+            set => SetProperty(ref ttsResourceKey, value);
         }
 
         public bool AliyunIsEnabled

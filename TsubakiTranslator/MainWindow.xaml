@@ -74,7 +74,7 @@
                     x:Name="RadioButtonGroupChoiceChipOutline" >
 
             <ListViewItem x:Name="MyGame" Content="翻译选择" Selected="ListViewItem_UserGame_Selected"/>
-            <ListViewItem Content="翻译设置" Selected="ListViewItem_UserConfig_Selected"/>
+            <ListViewItem Content="使用设置" Selected="ListViewItem_UserConfig_Selected"/>
             <ListViewItem Content="界面设置" Selected="ListViewItem_WinStyle_Selected"/>
             <ListViewItem Content="关于我" Selected="ListViewItem_AboutMe_Selected"/>
 

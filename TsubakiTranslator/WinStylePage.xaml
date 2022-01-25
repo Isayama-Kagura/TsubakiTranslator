@@ -33,13 +33,11 @@
             <DockPanel LastChildFill="False">
                 <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
                       Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                      IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
                       DisplayMemberPath="Content" SelectedValuePath="Value"
                       SelectedValue="{Binding SourceTextColor, Mode=TwoWay}"
                       materialDesign:HintAssist.Hint="源文本颜色" Width="122.8"/>
                 <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
                       Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                      IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
                       DisplayMemberPath="Content" SelectedValuePath="Value"
                       SelectedValue="{Binding TranslatedTextColor, Mode=TwoWay}"
                       materialDesign:HintAssist.Hint="翻译文本颜色"/>

@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
+using Microsoft.CognitiveServices.Speech;
+using Microsoft.CognitiveServices.Speech.Audio;
 
 namespace TsubakiTranslator
 {
@@ -21,6 +23,7 @@ namespace TsubakiTranslator
 
         private ClipboardHookHandler clipboardHookHandler;
 
+        private SpeechSynthesizer synthesizer;
         public bool IsHookMode { get;  }
 
         private void Init()
@@ -32,6 +35,31 @@ namespace TsubakiTranslator
                 PinOffButton.Visibility = Visibility.Collapsed;
             }
             this.Background = new SolidColorBrush(Color.FromArgb((byte)MainWindow.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
+
+            //TTS
+            if (UserConfigPage.TranslateAPIConfig.TTSIsEnabled)
+            {
+                TTSButton.IsEnabled = true;
+                var config = SpeechConfig.FromSubscription(UserConfigPage.TranslateAPIConfig.TTSResourceKey, UserConfigPage.TranslateAPIConfig.TTSRegion);
+                // Note: if only language is set, the default voice of that language is chosen.
+                if (UserConfigPage.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
+                {
+                    // The voice setting will overwrite language setting.
+                    // The voice setting will not overwrite the voice element in input SSML.
+                    config.SpeechSynthesisLanguage = "ja-JP";
+                    config.SpeechSynthesisVoiceName = "ja-JP-NanamiNeural";
+                }
+
+                else
+                {
+                    config.SpeechSynthesisLanguage = "en-US";
+                    config.SpeechSynthesisVoiceName = "en-US-AmberNeural";
+                }
+
+                synthesizer = new SpeechSynthesizer(config);
+            }
+                
+
         }
 
         //Hook文本模式
@@ -40,8 +68,6 @@ namespace TsubakiTranslator
             InitializeComponent();
             this.mainWindow = mainWindow;
             this.textHookHandler = textHookHandler;
-
-            Init();
             IsHookMode = true;
 
 
@@ -49,9 +75,13 @@ namespace TsubakiTranslator
             HookResultDisplay = new HookResultDisplay(this);
             TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
 
+            Init();
+
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 
             TranslateWindowContent.Content = HookResultDisplay;
+
+            TranslatedResultPanel.Visibility = Visibility.Hidden;
         }
 
         //监视剪切板模式
@@ -59,8 +89,6 @@ namespace TsubakiTranslator
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-
-            Init();
             IsHookMode = false;
 
 
@@ -69,6 +97,8 @@ namespace TsubakiTranslator
             //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
             clipboardHookHandler = new ClipboardHookHandler(mainWindow);
             TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler, sourceTextHandler);
+
+            Init();
 
             //textHookHandler.ProcessGame.Exited += GameExitHandler;
 
@@ -91,11 +121,12 @@ namespace TsubakiTranslator
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("点击左上角按钮可重新选择源文本。", "好", () => { }));
+                Task.Run(() => messageQueue.Enqueue("点击左上角菜单可重新选择源文本。", "好", () => { }));
 
             //翻译当前选择的文本
             Task.Run(()=>TranslatedResultDisplay.TranslateHookText(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
 
+            TranslatedResultPanel.Visibility = Visibility.Visible;
         }
 
 
@@ -126,11 +157,13 @@ namespace TsubakiTranslator
         private void Tranlate_Display_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             TranslateWindowContent.Content = TranslatedResultDisplay;
+            TranslatedResultPanel.Visibility = Visibility.Visible;
         }
 
         private void Hook_Display_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             TranslateWindowContent.Content = HookResultDisplay;
+            TranslatedResultPanel.Visibility = Visibility.Hidden;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -214,6 +247,12 @@ namespace TsubakiTranslator
                     ((TextBox)t).FontSize++;
                 else
                     ((TranslatedResultItem)t).IncreaseFontSize();
+        }
+
+        private void VolumeSource_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string sourceText = TranslatedResultDisplay.SourceText.Text;
+            Parallel.Invoke(async () => { await synthesizer.SpeakTextAsync(sourceText); });
         }
     }
 }

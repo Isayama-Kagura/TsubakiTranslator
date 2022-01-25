@@ -11,11 +11,14 @@
         <materialDesign:Card Background="WhiteSmoke" >
             <StackPanel>
 
-                <Expander HorizontalAlignment="Stretch" Header="翻译源语言选择" Background="WhiteSmoke">
+                <Expander HorizontalAlignment="Stretch" Header="源语言选择" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
                                 Margin="24,8,24,16">
-                        <ComboBox materialDesign:HintAssist.Hint="语言"
+                        <TextBlock Text="选择要提取文本的对应语言。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <ComboBox materialDesign:HintAssist.Hint="源语言"
                                   SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
                                   SelectedValuePath="Tag">
                             <ComboBoxItem Content="日语"  Tag="Japanese"/>
@@ -26,7 +29,34 @@
                 </Expander>
 
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-                
+
+                <Expander HorizontalAlignment="Stretch" Header="Azure文本转语音" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+
+                        <TextBlock Text="可通过TTS功能收听源文本语音，详情请搜索『Microsoft Azure TTS』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        
+                        <CheckBox x:Name="TTSEnabledComboBox"
+                            Content="启用" IsChecked="{Binding TTSIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="Region" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=TTSEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=TTSRegion,Mode=TwoWay}"/>
+                        <TextBox materialDesign:HintAssist.Hint="ResourceKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=TTSEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=TTSResourceKey,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
                 <Expander HorizontalAlignment="Stretch" Header="阿里云翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"

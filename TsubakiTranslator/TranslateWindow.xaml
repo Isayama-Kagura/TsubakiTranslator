@@ -61,16 +61,21 @@
                 </MenuItem>
             </Menu>
 
-            <StackPanel  Orientation="Horizontal" DockPanel.Dock="Left">
+            <StackPanel x:Name="TranslatedResultPanel"  Orientation="Horizontal" DockPanel.Dock="Left">
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" 
+                    Foreground="White" Cursor="Hand" Height="25"
                     Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
                     Click="FormatFontSizeDecrease_Button_Click"/>
                 
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" 
+                    Foreground="White" Cursor="Hand" Height="25"
                     Content="{ materialDesign:PackIcon Kind=FormatFontSizeIncrease}" ToolTip="放大字体"
                     Click="FormatFontSizeIncrease_Button_Click"/>
+
+                <Button x:Name="TTSButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" Height="25" IsEnabled="False"
+                    Content="{ materialDesign:PackIcon Kind=VolumeSource}" ToolTip="朗读文本"
+                    Click="VolumeSource_Button_Click"/>
 
             </StackPanel>
 
