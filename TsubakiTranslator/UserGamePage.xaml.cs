@@ -18,6 +18,13 @@ namespace TsubakiTranslator
 
         public GamesConfig GamesConfig { get; }
 
+        private class GameProcess
+        {
+            public int PID { get; set; }
+            public string ProcessName { get; set; }
+            public string ProcessDetail { get; set; }
+        }
+
         public UserGamePage()
         {
             InitializeComponent();
@@ -46,10 +53,6 @@ namespace TsubakiTranslator
             HistoryGameInfo.DataContext = null;
             HistoryGameInfo.DataContext = item;
 
-            //HistoryGameName.Text = item.GameName;
-            //HistoryGameHookCode.Text = item.HookCode;
-            //HistoryGameDuplicateTimes.Text = item.DuplicateTimes.ToString();
-
         }
 
         //历史游戏记录中打开游戏
@@ -62,12 +65,14 @@ namespace TsubakiTranslator
             int.TryParse(HistoryDuplicateTimes.Text, out int times);
             item.DuplicateTimes = times;
 
-            string processInfo = (string)HistoryGameProcessList.SelectedItem;
+            GameProcess processInfo = (GameProcess)HistoryGameProcessList.SelectedItem;
 
             if (processInfo == null)
                 return;
 
-            Process gameProcess = GetGameProcessByProcessString(processInfo);
+            item.ProcessName = processInfo.ProcessName;
+
+            Process gameProcess = Process.GetProcessById(processInfo.PID);
 
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
 
@@ -96,11 +101,11 @@ namespace TsubakiTranslator
         //注入进程打开游戏
         private async void AcceptProcess_Button_Click(object sender, RoutedEventArgs e)
         {
-            string processInfo = (string)GameProcessList.SelectedItem;
+            GameProcess processInfo = (GameProcess)GameProcessList.SelectedItem;
             if (processInfo == null)
                 return;
 
-            Process gameProcess = GetGameProcessByProcessString(processInfo);
+            Process gameProcess = Process.GetProcessById(processInfo.PID);
 
             int.TryParse(GameProcessDuplicateTimes.Text, out int times);
 
@@ -108,7 +113,8 @@ namespace TsubakiTranslator
             {
                 HookCode = GameProcessHookCode.Text,
                 DuplicateTimes = times,
-                GameName = gameProcess.ProcessName
+                GameName = gameProcess.ProcessName,
+                ProcessName = gameProcess.ProcessName
             };
 
             GamesConfig.GameDatas.Add(item);
@@ -131,28 +137,21 @@ namespace TsubakiTranslator
         private void SetProcessItems()
         {
             Process[] ps = Process.GetProcesses();
-            List<string> list = new List<string>(); 
+            List<GameProcess> list = new List<GameProcess>(); 
 
             foreach (Process p in ps)
-                list.Add($"{p.ProcessName} - {p.Id}");
+            {
+                GameProcess gameProcess = new GameProcess { PID = p.Id,  ProcessName = p.ProcessName , ProcessDetail = $"{p.ProcessName} - {p.Id}" };
+                list.Add(gameProcess);
+            }
+                
 
-            list.Sort();
-            ObservableCollection<string> processStrings = new ObservableCollection<string>(list);
+            list.Sort((x,y) => string.Compare(x.ProcessName, y.ProcessName));
+            ObservableCollection<GameProcess> processStrings = new ObservableCollection<GameProcess>(list);
             GameProcessList.ItemsSource = processStrings;
             HistoryGameProcessList.ItemsSource = processStrings;
         }
 
-        private Process GetGameProcessByProcessString(string processString)
-        {
-            Regex reg = new Regex(@"\s-\s(\d+?)$");
-            Match match = reg.Match(processString);
-
-            int.TryParse(match.Groups[1].Value, out int pid);
-
-            Process gameProcess = Process.GetProcessById(pid);
-
-            return gameProcess;
-        }
 
         private void AddRegexRule_Button_Click(object sender, RoutedEventArgs e)
         {

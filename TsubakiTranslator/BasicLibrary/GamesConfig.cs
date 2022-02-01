@@ -35,6 +35,11 @@ namespace TsubakiTranslator.BasicLibrary
         /// </summary>
         private string gameName;
 
+        /// <summary>
+        /// 游戏名（非进程名，但在游戏名未知的情况下先使用进程名替代）
+        /// </summary>
+        private string processName;
+
 
         /// <summary>
         /// 特殊码值，仅在hook模式有效
@@ -58,6 +63,12 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => gameName;
             set => SetProperty(ref gameName, value);
+        }
+
+        public string ProcessName
+        {
+            get => processName;
+            set => SetProperty(ref processName, value);
         }
         public string HookCode
         {

@@ -30,7 +30,8 @@
                             <ComboBox x:Name="HistoryGameProcessList" Margin="5"
                                       materialDesign:HintAssist.Hint="游戏进程"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                      IsTextSearchEnabled="True" 
+                                      IsTextSearchEnabled="True" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
+                                      SelectedValue="{Binding ProcessName, Mode=OneWay}"
                                       materialDesign:TextFieldAssist.HasClearButton="True">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -91,7 +92,7 @@
                             <ComboBox x:Name="GameProcessList" Margin="5"
                                       materialDesign:HintAssist.Hint="游戏进程"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                      IsTextSearchEnabled="True" 
+                                      IsTextSearchEnabled="True" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
                                       materialDesign:TextFieldAssist.HasClearButton="True">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
