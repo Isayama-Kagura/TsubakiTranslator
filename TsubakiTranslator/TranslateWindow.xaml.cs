@@ -7,6 +7,9 @@ using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
+using System.Windows.Threading;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace TsubakiTranslator
 {
@@ -23,16 +26,26 @@ namespace TsubakiTranslator
 
         private ClipboardHookHandler clipboardHookHandler;
 
+        private DispatcherTimer timer;
+
         private SpeechSynthesizer synthesizer;
         public bool IsHookMode { get;  }
 
         private void Init()
         {
             this.DataContext = MainWindow.WindowConfig;
+
+            //确保翻译窗口永远在前
+            WindowInteropHelper helper = new WindowInteropHelper(this);
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (sender, e) => BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
+
             if (MainWindow.WindowConfig.TranslateWindowTopmost)
             {
                 PinButton.Visibility = Visibility.Visible;
                 PinOffButton.Visibility = Visibility.Collapsed;
+                timer.Start();
             }
             this.Background = new SolidColorBrush(Color.FromArgb((byte)MainWindow.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
 
@@ -41,6 +54,7 @@ namespace TsubakiTranslator
             {
                 TTSButton.IsEnabled = true;
                 var config = SpeechConfig.FromSubscription(UserConfigPage.TranslateAPIConfig.TTSResourceKey, UserConfigPage.TranslateAPIConfig.TTSRegion);
+                config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
                 // Note: if only language is set, the default voice of that language is chosen.
                 if (UserConfigPage.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
                 {
@@ -144,7 +158,7 @@ namespace TsubakiTranslator
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
                 clipboardHookHandler.Dispose();
             }
-
+            timer.Stop();
             mainWindow.Show();
             
         }
@@ -207,6 +221,7 @@ namespace TsubakiTranslator
             PinButton.Visibility = Visibility.Collapsed;
             PinOffButton.Visibility = Visibility.Visible;
             this.Topmost = false;
+            timer.Stop();
         }
 
         private void PinOff_Button_Click(object sender, RoutedEventArgs e)
@@ -214,6 +229,7 @@ namespace TsubakiTranslator
             PinButton.Visibility = Visibility.Visible;
             PinOffButton.Visibility = Visibility.Collapsed;
             this.Topmost = true;
+            timer.Start();
         }
 
         private void TranslateWindow_MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -254,5 +270,14 @@ namespace TsubakiTranslator
             string sourceText = TranslatedResultDisplay.SourceText.Text;
             Parallel.Invoke(async () => { await synthesizer.SpeakTextAsync(sourceText); });
         }
+
+
+        /// <summary>   
+        /// 该函数将指定的窗口设置到Z序的顶部。   
+        /// </summary>   
+        /// 
+        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        public static extern int BringWindowToTop(IntPtr hWnd);
+
     }
 }
