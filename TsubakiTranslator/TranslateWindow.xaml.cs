@@ -77,7 +77,7 @@ namespace TsubakiTranslator
         }
 
         //Hook文本模式
-        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler )
+        public TranslateWindow(Window mainWindow, TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler, WindowHookHandler windowHookHandler)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
@@ -90,6 +90,15 @@ namespace TsubakiTranslator
             TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
 
             Init();
+
+            windowHookHandler.WhenGamePositionChanged += (leftOffset, topOffset) =>
+            {
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    Left += leftOffset;
+                    Top += topOffset;
+                });
+            };
 
             textHookHandler.ProcessGame.Exited += GameExitHandler;
 

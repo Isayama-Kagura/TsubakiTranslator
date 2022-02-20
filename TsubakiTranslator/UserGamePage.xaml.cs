@@ -74,6 +74,8 @@ namespace TsubakiTranslator
 
             Process gameProcess = Process.GetProcessById(processInfo.PID);
 
+            var windowHookHandler = new WindowHookHandler(gameProcess.MainWindowHandle);
+
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
 
 
@@ -84,7 +86,7 @@ namespace TsubakiTranslator
 
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
-            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler, windowHookHandler);
             translateWindow.Show();
 
 
@@ -118,6 +120,8 @@ namespace TsubakiTranslator
             };
 
             GamesConfig.GameDatas.Add(item);
+            
+            var windowHookHandler = new WindowHookHandler(gameProcess.MainWindowHandle);
 
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
 
@@ -125,7 +129,7 @@ namespace TsubakiTranslator
 
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
-            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler, windowHookHandler);
             translateWindow.Show();
 
 
