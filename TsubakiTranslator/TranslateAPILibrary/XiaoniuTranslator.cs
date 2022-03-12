@@ -9,6 +9,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
     public class XiaoniuTranslator : ITranslator
     {
         private readonly string name = "小牛";
+
+        private string ApiKey;
         public string Name { get => name; }
 
         public string SourceLanguage { get; set; }
@@ -20,25 +22,27 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string retString;
 
-            var sb = new StringBuilder("https://test.niutrans.com/NiuTransServer/testaligntrans?")
-                .Append("&from=").Append(SourceLanguage)
-                .Append("&to=").Append(desLang)
-                .Append("&src_text=").Append(Uri.EscapeDataString(sourceText))
-                .Append("&source=").Append("text")
-                .Append("&dictNo=")
-                .Append("&memoryNo=")
-                .Append("&isUseDict=").Append("0")
-                .Append("&isUseMemory=").Append("0")
-                .Append("&time=").Append(CommonFunction.GetTimeStamp());
+            var body = new
+            {
+                from = SourceLanguage,
+                to = desLang,
+                apikey = ApiKey,
+                src_text = sourceText,
+            };
 
-            string url = sb.ToString();
+            string bodyString = JsonSerializer.Serialize(body);
 
-            var client = CommonFunction.Client;
+            string url = @"https://api.niutrans.com/NiuTransServer/translation";
+
+            HttpClient client = CommonFunction.Client;
+
+            HttpContent content = new StringContent(bodyString);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
 
             try
             {
-                HttpResponseMessage response = client.GetAsync(url).GetAwaiter().GetResult(); //改成自己的
+                HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();//改成自己的
                 response.EnsureSuccessStatusCode();//用来抛异常的
                 retString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             }
@@ -53,7 +57,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             XiaoniuTransOutInfo oinfo = JsonSerializer.Deserialize<XiaoniuTransOutInfo>(retString);
 
-            if (oinfo.error_code == null || oinfo.error_code == "52000")
+            if (oinfo.error_code == null)
                 return oinfo.tgt_text;
             else
                 return oinfo.error_msg;
@@ -64,7 +68,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public void TranslatorInit(string param1, string param2)
         {
-
+            ApiKey = param1;
         }
 
         class XiaoniuTransOutInfo

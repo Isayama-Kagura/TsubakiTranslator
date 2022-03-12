@@ -30,6 +30,7 @@ namespace TsubakiTranslator.BasicLibrary
         private string tencentSecretKey;
 
         private bool xiaoniuIsEnabled;
+        private string xiaoniuApiKey;
 
         private bool volcengineIsEnabled;
 
@@ -139,6 +140,12 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => xiaoniuIsEnabled;
             set => SetProperty(ref xiaoniuIsEnabled, value);
+        }
+
+        public string XiaoniuApiKey
+        {
+            get => xiaoniuApiKey;
+            set => SetProperty(ref xiaoniuApiKey, value);
         }
 
         public bool VolcengineIsEnabled

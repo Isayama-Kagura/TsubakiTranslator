@@ -181,8 +181,14 @@
                         <TextBlock Text="详情请搜索『小牛翻译』。" 
                                    Style="{StaticResource MaterialDesignHelperTextBlock}" 
                                    FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
+                        <CheckBox x:Name="XiaoniuEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding XiaoniuIsEnabled,Mode=TwoWay}"/>
 
+                        <TextBox materialDesign:HintAssist.Hint="API-Key" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=XiaoniuEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=XiaoniuApiKey,Mode=TwoWay}"/>
 
                     </StackPanel>
                 </Expander>

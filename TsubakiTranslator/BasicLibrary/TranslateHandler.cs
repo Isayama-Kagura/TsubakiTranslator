@@ -57,6 +57,7 @@ namespace TsubakiTranslator.BasicLibrary
             if (translateAPIConfig.XiaoniuIsEnabled)
             {
                 ITranslator xiaoniu = new XiaoniuTranslator();
+                xiaoniu.TranslatorInit(translateAPIConfig.XiaoniuApiKey, "");
                 translators.AddLast(xiaoniu);
             }
 
