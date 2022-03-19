@@ -192,6 +192,7 @@ namespace TsubakiTranslator
         {
             GamesConfig.ClipBoardRegexRules.Clear();
         }
+
     }
   
 

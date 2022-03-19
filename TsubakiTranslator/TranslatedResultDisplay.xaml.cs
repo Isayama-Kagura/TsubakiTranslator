@@ -27,7 +27,6 @@ namespace TsubakiTranslator
         SourceTextHandler sourceTextHandler;
 
         ClipboardHookHandler clipboardHookHandler;
-
         private void Init()
         {
             SourceText.Foreground = new SolidColorBrush(MainWindow.WindowConfig.SourceTextColor);
@@ -51,6 +50,7 @@ namespace TsubakiTranslator
             results = new TranslateDataList(40);
         }
 
+        //对应正常注入模式
         public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
@@ -65,6 +65,7 @@ namespace TsubakiTranslator
 
         }
 
+        //对应剪切板翻译模式
         public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
@@ -78,7 +79,6 @@ namespace TsubakiTranslator
             this.clipboardHookHandler.ClipboardUpdated += TranslteClipboardText;
 
         }
-
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
         {
@@ -111,11 +111,16 @@ namespace TsubakiTranslator
 
         public void TranslteClipboardText(object sender, EventArgs e)
         {
+            IDataObject iData = Clipboard.GetDataObject();
+            if (!iData.GetDataPresent(DataFormats.Text))
+                return;
+
             string sourceText = Clipboard.GetText();
             sourceText = Regex.Replace(sourceText, @"[\r\n\t\f]", "");
             sourceText = sourceTextHandler.HandleText(sourceText);
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
+
 
         private void TranslateAndDisplay(string sourceText)
         {

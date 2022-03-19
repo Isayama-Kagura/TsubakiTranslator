@@ -182,8 +182,6 @@
 
                 </Button>
 
-
-
             </DockPanel>
 
             <ListView x:Name="GameList">

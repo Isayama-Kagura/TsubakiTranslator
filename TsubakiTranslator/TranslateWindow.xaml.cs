@@ -117,6 +117,9 @@ namespace TsubakiTranslator
             //textHookHandler.ProcessGame.Exited += GameExitHandler;
 
             TranslateWindowContent.Content = TranslatedResultDisplay;
+
+            if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue("剪切板文本发生变化时将自动翻译。", "好", () => { }));
         }
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
