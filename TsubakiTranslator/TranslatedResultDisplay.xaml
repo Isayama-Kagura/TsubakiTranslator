@@ -38,6 +38,9 @@
         <materialDesign:Snackbar DockPanel.Dock="Bottom" x:Name="ResultDisplaySnackbar"
                                  MessageQueue="{materialDesign:MessageQueue}" />
 
+        <ScrollViewer materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" 
+                  HorizontalScrollBarVisibility="Disabled"
+                   Style="{StaticResource ScrollViewerStyle}">
         <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
 
             <TextBox x:Name="SourceText"
@@ -47,6 +50,7 @@
                      IsReadOnly="True" FontWeight="Bold"/>
             
         </StackPanel>
+        </ScrollViewer>
 
     </DockPanel>
 
