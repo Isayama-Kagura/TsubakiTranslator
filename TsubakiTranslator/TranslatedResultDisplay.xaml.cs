@@ -29,15 +29,15 @@ namespace TsubakiTranslator
         ClipboardHookHandler clipboardHookHandler;
         private void Init()
         {
-            SourceText.Foreground = new SolidColorBrush(MainWindow.WindowConfig.SourceTextColor);
+            SourceText.Foreground = new SolidColorBrush(App.WindowConfig.SourceTextColor);
 
-            translators = TranslateHandler.GetSelectedTranslators(UserConfigPage.TranslateAPIConfig);
+            translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig);
 
             displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
-                resultItem.ResultTextBlock.Foreground = new SolidColorBrush(MainWindow.WindowConfig.TranslatedTextColor);
+                resultItem.ResultTextBlock.Foreground = new SolidColorBrush(App.WindowConfig.TranslatedTextColor);
                 TranslateResultPanel.Children.Add(resultItem);
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }

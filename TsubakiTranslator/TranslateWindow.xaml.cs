@@ -33,7 +33,7 @@ namespace TsubakiTranslator
 
         private void Init()
         {
-            this.DataContext = MainWindow.WindowConfig;
+            this.DataContext = App.WindowConfig;
 
             //确保翻译窗口永远在前
             WindowInteropHelper helper = new WindowInteropHelper(this);
@@ -41,22 +41,22 @@ namespace TsubakiTranslator
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (sender, e) => BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
 
-            if (MainWindow.WindowConfig.TranslateWindowTopmost)
+            if (App.WindowConfig.TranslateWindowTopmost)
             {
                 PinButton.Visibility = Visibility.Visible;
                 PinOffButton.Visibility = Visibility.Collapsed;
                 timer.Start();
             }
-            this.Background = new SolidColorBrush(Color.FromArgb((byte)MainWindow.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
+            this.Background = new SolidColorBrush(Color.FromArgb((byte)App.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
 
             //TTS
-            if (UserConfigPage.TranslateAPIConfig.TTSIsEnabled)
+            if (App.TranslateAPIConfig.TTSIsEnabled)
             {
                 TTSButton.IsEnabled = true;
-                var config = SpeechConfig.FromSubscription(UserConfigPage.TranslateAPIConfig.TTSResourceKey, UserConfigPage.TranslateAPIConfig.TTSRegion);
+                var config = SpeechConfig.FromSubscription(App.TranslateAPIConfig.TTSResourceKey, App.TranslateAPIConfig.TTSRegion);
                 config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
                 // Note: if only language is set, the default voice of that language is chosen.
-                if (UserConfigPage.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
+                if (App.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
                 {
                     // The voice setting will overwrite language setting.
                     // The voice setting will not overwrite the voice element in input SSML.

@@ -9,18 +9,10 @@ namespace TsubakiTranslator
     public partial class UserConfigPage : UserControl
     {
 
-        public static TranslateAPIConfig TranslateAPIConfig
-        {
-            get;
-            set;
-        }
-
         public UserConfigPage()
         {
             InitializeComponent();
-
-            UserConfigPage.TranslateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json", new TranslateAPIConfig());
-            this.DataContext = TranslateAPIConfig;
+            this.DataContext = App.TranslateAPIConfig;
         }
 
         //private void SelectPath_Button_Click(object sender, System.Windows.RoutedEventArgs e)

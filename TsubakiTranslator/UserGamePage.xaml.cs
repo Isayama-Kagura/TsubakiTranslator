@@ -16,7 +16,7 @@ namespace TsubakiTranslator
     public partial class UserGamePage : UserControl
     {
 
-        public GamesConfig GamesConfig { get; }
+        //public GamesConfig GamesConfig { get; }
 
         private class GameProcess
         {
@@ -29,10 +29,8 @@ namespace TsubakiTranslator
         {
             InitializeComponent();
 
-            GamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json", new GamesConfig());
-
-            GameList.ItemsSource = GamesConfig.GameDatas;
-            ClipboardRegexDataGrid.ItemsSource = GamesConfig.ClipBoardRegexRules;
+            GameList.ItemsSource = App.GamesConfig.GameDatas;
+            ClipboardRegexDataGrid.ItemsSource = App.GamesConfig.ClipBoardRegexRules;
 
         }
 
@@ -40,7 +38,7 @@ namespace TsubakiTranslator
         private void DeleteGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             GameData item = (GameData)GameList.SelectedItem;
-            GamesConfig.GameDatas.Remove(item);
+            App.GamesConfig.GameDatas.Remove(item);
         }
 
         private void OpenHistoryGame_Button_Click(object sender, RoutedEventArgs e)
@@ -117,7 +115,7 @@ namespace TsubakiTranslator
                 ProcessName = gameProcess.ProcessName
             };
 
-            GamesConfig.GameDatas.Add(item);
+            App.GamesConfig.GameDatas.Add(item);
 
             TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
 
@@ -172,7 +170,7 @@ namespace TsubakiTranslator
         private void MonitorClipBoard_Button_Click(object sender, RoutedEventArgs e)
         {
             LinkedList<RegexRuleData> regexRules = new LinkedList<RegexRuleData>();
-            foreach (var rule in GamesConfig.ClipBoardRegexRules)
+            foreach (var rule in App.GamesConfig.ClipBoardRegexRules)
                 regexRules.AddLast(rule);
             SourceTextHandler sourceTextHandler = new SourceTextHandler(1, regexRules);
 
@@ -185,12 +183,12 @@ namespace TsubakiTranslator
 
         private void Clipboard_AddRegexRule_Button_Click(object sender, RoutedEventArgs e)
         {
-            GamesConfig.ClipBoardRegexRules.Add(new RegexRuleData("", ""));
+            App.GamesConfig.ClipBoardRegexRules.Add(new RegexRuleData("", ""));
         }
 
         private void Clipboard_RemoveRegexRule_Button_Click(object sender, RoutedEventArgs e)
         {
-            GamesConfig.ClipBoardRegexRules.Clear();
+            App.GamesConfig.ClipBoardRegexRules.Clear();
         }
 
     }

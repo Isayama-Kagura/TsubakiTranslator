@@ -16,9 +16,6 @@ namespace TsubakiTranslator
         private AboutMePage AboutMePage { get; }
         private WinStylePage WinStylePage { get; }
 
-        private static WindowConfig windowConfig;
-        public static WindowConfig WindowConfig { get => windowConfig ; }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -28,10 +25,7 @@ namespace TsubakiTranslator
             AboutMePage = new AboutMePage();
             WinStylePage = new WinStylePage();
 
-
-            windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json" ,new WindowConfig());
-
-            this.DataContext = WindowConfig;
+            this.DataContext = App.WindowConfig;
 
             MyGame.IsSelected = true;
         }
@@ -64,14 +58,7 @@ namespace TsubakiTranslator
             WindowState = WindowState.Minimized;
         }
 
-        private void On_MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
 
-            FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            FileHandler.SerializeObject<GamesConfig>(UserGamePage.GamesConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
-            FileHandler.SerializeObject<TranslateAPIConfig>(UserConfigPage.TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-
-        }
 
         private void ListViewItem_AboutMe_Selected(object sender, RoutedEventArgs e)
         {

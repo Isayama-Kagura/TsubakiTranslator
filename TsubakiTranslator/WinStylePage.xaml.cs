@@ -52,7 +52,7 @@ namespace TsubakiTranslator
 
         private void DefaultTransparency_Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.WindowConfig.TranslateWindowTransparency = 165;
+            App.WindowConfig.TranslateWindowTransparency = 165;
         }
     }
 }

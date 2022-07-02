@@ -41,15 +41,15 @@
         <ScrollViewer materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True" 
                   HorizontalScrollBarVisibility="Disabled"
                    Style="{StaticResource ScrollViewerStyle}">
-        <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
+            <StackPanel x:Name="TranslateResultPanel" HorizontalAlignment="Center">
 
-            <TextBox x:Name="SourceText"
-                     Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
-                     Margin="7 0 7 7" TextWrapping="Wrap" FontSize="20" Visibility="Collapsed"
-                     Text="{Binding BindingText, Mode=TwoWay}" Foreground="WhiteSmoke"  
-                     IsReadOnly="True" FontWeight="Bold"/>
+                <TextBox x:Name="SourceText"
+                         Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
+                         Margin="7 0 7 7" TextWrapping="Wrap" FontSize="20" Visibility="Collapsed"
+                         Text="{Binding BindingText, Mode=TwoWay}" Foreground="WhiteSmoke"  
+                         IsReadOnly="True" FontWeight="Bold"/>
             
-        </StackPanel>
+            </StackPanel>
         </ScrollViewer>
 
     </DockPanel>
