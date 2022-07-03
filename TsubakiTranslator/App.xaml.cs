@@ -26,9 +26,18 @@ namespace TsubakiTranslator
         {
             base.OnStartup(e);
 
-            windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json", new WindowConfig());
-            gamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json", new GamesConfig());
-            translateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json", new TranslateAPIConfig());
+            windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
+            if(windowConfig == null)
+                windowConfig = new WindowConfig();
+
+            gamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
+            if (gamesConfig == null)
+                gamesConfig = new GamesConfig();
+
+            translateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
+            if(translateAPIConfig == null)
+                translateAPIConfig = new TranslateAPIConfig();
+
         }
 
         protected override void OnExit(ExitEventArgs e)

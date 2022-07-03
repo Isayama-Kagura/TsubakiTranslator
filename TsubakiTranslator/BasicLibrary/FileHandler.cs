@@ -38,11 +38,11 @@ namespace TsubakiTranslator.BasicLibrary
             }
         }
 
-        public static T DeserializeObject<T>(string path, T defaultResult)
+        public static T DeserializeObject<T>(string path)
         {
-            T result = defaultResult;
-            if(CreateFileIfNotExist(path))
-                SerializeObject<T>(result, path);
+            T result = default(T);
+            if (CreateFileIfNotExist(path))
+                return result;
 
             try
             {
