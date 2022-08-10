@@ -49,6 +49,21 @@ namespace TsubakiTranslator
             }
             this.Background = new SolidColorBrush(Color.FromArgb((byte)App.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
 
+            switch (App.WindowConfig.SourceTextVisibility)
+            {
+                case "Visible":
+                    TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
+                    break;
+                case "Auto":
+                    this.MouseEnter += TranslateWindow_MouseEnter;
+                    this.MouseLeave += TranslateWindow_MouseLeave;
+                    break;
+                case "Collapsed":
+                    TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
+                    break;
+            }
+
+
             //TTS
             if (App.TranslateAPIConfig.TTSIsEnabled)
             {

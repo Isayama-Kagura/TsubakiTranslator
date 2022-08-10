@@ -18,6 +18,7 @@ namespace TsubakiTranslator.BasicLibrary
             TranslateWindowTransparency = 165;
             SourceTextColor = Colors.BurlyWood;
             TranslatedTextColor = Colors.WhiteSmoke;
+            SourceTextVisibility = "Auto";
         }
 
         private double mainWindowWidth;
@@ -30,6 +31,7 @@ namespace TsubakiTranslator.BasicLibrary
         private int translateWindowTransparency;
         private Color sourceTextColor;
         private Color translatedTextColor;
+        private string sourceTextVisibility;
 
 
         public double MainWindowWidth
@@ -91,5 +93,10 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref translatedTextColor, value);
         }
 
+        public string SourceTextVisibility
+        {
+            get => sourceTextVisibility;
+            set => SetProperty(ref sourceTextVisibility, value);
+        }
     }
 }
