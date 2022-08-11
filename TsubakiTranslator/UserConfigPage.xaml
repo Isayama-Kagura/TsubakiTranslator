@@ -66,7 +66,19 @@
                         <TextBlock Text="详情请搜索『阿里云机器翻译』。" 
                                    Style="{StaticResource MaterialDesignHelperTextBlock}" 
                                    FontSize="13" Margin="0 8 0 8"/>
-                        <CheckBox Content="启用" IsChecked="{Binding AliyunIsEnabled,Mode=TwoWay}"/>
+                        <CheckBox Content="启用" x:Name="AliEnabledComboBox"
+                                  IsChecked="{Binding AliIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="SecretId" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=AliEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=AliSecretId,Mode=TwoWay}"/>
+                        <TextBox materialDesign:HintAssist.Hint="SecretKey" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=AliEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=AliSecretKey,Mode=TwoWay}"/>
                     </StackPanel>
                 </Expander>
 

@@ -10,7 +10,9 @@ namespace TsubakiTranslator.BasicLibrary
         private string ttsRegion;
         private string ttsResourceKey;
 
-        private bool aliyunIsEnabled;
+        private bool aliIsEnabled;
+        private string aliSecretId;
+        private string aliSecretKey;
 
         private bool baiduIsEnabled;
         private string baiduAppID;
@@ -62,10 +64,22 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref ttsResourceKey, value);
         }
 
-        public bool AliyunIsEnabled
+        public bool AliIsEnabled
         {
-            get => aliyunIsEnabled;
-            set => SetProperty(ref aliyunIsEnabled, value);
+            get => aliIsEnabled;
+            set => SetProperty(ref aliIsEnabled, value);
+        }
+
+        public string AliSecretId
+        {
+            get => aliSecretId;
+            set => SetProperty(ref aliSecretId, value);
+        }
+
+        public string AliSecretKey
+        {
+            get => aliSecretKey;
+            set => SetProperty(ref aliSecretKey, value);
         }
 
         public bool BaiduIsEnabled

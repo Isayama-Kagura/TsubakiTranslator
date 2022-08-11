@@ -13,8 +13,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
     public class TencentTranslator : ITranslator
     {
 
-        private string SecretId;//腾讯翻译API SecretId
-        private string SecretKey;//腾讯翻译API SecretKey
+        private string SecretId { get; set; }//腾讯翻译API SecretId
+        private string SecretKey { get; set; }//腾讯翻译API SecretKey
 
         private readonly string name = "腾讯";
         public string Name { get => name; }

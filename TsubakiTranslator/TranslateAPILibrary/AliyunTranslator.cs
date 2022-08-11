@@ -1,4 +1,11 @@
-﻿using System.Net.Http;
+﻿using RestSharp;
+using RestSharp.Serializers;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -13,54 +20,82 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public string SourceLanguage { get; set; }
 
+        private string SecretId { get; set; }
+        private string SecretKey { get; set; }
+
         public string Translate(string sourceText)
         {
             string desLang = "zh";
-            
 
-            string bodyString = $"srcLanguage={SourceLanguage}&tgtLanguage={desLang}&srcText={HttpUtility.UrlEncode(sourceText)}&bizType=general&source=aliyun";
-
-            string url = @"https://translate.alibaba.com/trans/TranslateTextAddAlignment.do";
-
-            HttpClient client = CommonFunction.Client;
-
-            HttpContent content = new StringContent(bodyString);
-            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            string method = "POST";
+            string accept = "application/json";
+            //string contentType = "application/json";
+            string date = DateTime.UtcNow.ToString("r");
+            string host = "mt.cn-hangzhou.aliyuncs.com";
+            string path = "/api/translate/web/general";
 
 
-            try
+            var body = new
             {
-                HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();//改成自己的
-                response.EnsureSuccessStatusCode();//用来抛异常的
-                string responseBody = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                FormatType = "text",
+                Scene = "general",
+                SourceLanguage = SourceLanguage,
+                SourceText = sourceText,
+                TargetLanguage = desLang,
+            };
 
-                Regex reg = new Regex(@",""listTargetText"":\[""(.*?)""\],");
-                Match match = reg.Match(responseBody);
-
-                string result = match.Groups[1].Value;
-                return result;
-                //string ret = result.payload.translations[0].translation;
-
-                //return ret;
-
-                //return responseBody;
-            }
-            catch (System.Net.Http.HttpRequestException ex)
+            string bodyString = JsonSerializer.Serialize(body);
+            string bodyMd5 = string.Empty;
+            using (MD5 md5Hash = MD5.Create())
             {
-
-                return ex.Message;
+                // 将输入字符串转换为字节数组并计算哈希数据  
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(bodyString));
+                // 返回BASE64字符串  
+                bodyMd5 = Convert.ToBase64String(data);
             }
-            catch (System.Threading.Tasks.TaskCanceledException ex)
+
+            string uuid = Guid.NewGuid().ToString();
+
+            string stringToSign = method + "\n" + accept + "\n" + bodyMd5 + "\n" + host + "\n" + date + "\n"
+                    + "x-acs-signature-method:HMAC-SHA1\n"
+                    + "x-acs-signature-nonce:" + uuid + "\n"
+                    + path;
+
+            string signature = string.Empty;
+            using (HMACSHA1 mac = new HMACSHA1(Encoding.UTF8.GetBytes(SecretKey)))
             {
-
-                return ex.Message;
+                byte[] hash = mac.ComputeHash(Encoding.UTF8.GetBytes(stringToSign));
+                signature = Convert.ToBase64String(hash);
             }
+
+            string authHeader = "acs " + SecretId + ":" + signature;
+
+            var client = new RestClient($"https://{host}");
+            var request = new RestRequest(path,Method.Post);
+            request.AddHeader("Authorization", authHeader);
+            request.AddHeader("Accept", accept);
+            request.AddHeader("Content-MD5", bodyMd5);
+            request.AddHeader("Content-Type", host);
+            request.AddHeader("Date", date);
+            request.AddHeader("x-acs-signature-method", "HMAC-SHA1");
+            request.AddHeader("x-acs-signature-nonce", uuid);
+
+            request.AddStringBody(bodyString,DataFormat.Json);
+
+
+            var response = client.Execute(request);
+
+            Regex reg = new Regex(@"""Translated"":""(.*?)""");
+            Match match = reg.Match(response.Content);
+            string result = match.Groups[1].Value;
+            return result;
 
         }
 
         public void TranslatorInit(string param1, string param2)
         {
-
+            SecretId = param1;
+            SecretKey = param2;
         }
     }
 }
