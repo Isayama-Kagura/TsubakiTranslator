@@ -29,7 +29,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string method = "POST";
             string accept = "application/json";
-            //string contentType = "application/json";
+            string contentType = "application/json; charset=utf-8";
             string date = DateTime.UtcNow.ToString("r");
             string host = "mt.cn-hangzhou.aliyuncs.com";
             string path = "/api/translate/web/general";
@@ -56,7 +56,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string uuid = Guid.NewGuid().ToString();
 
-            string stringToSign = method + "\n" + accept + "\n" + bodyMd5 + "\n" + host + "\n" + date + "\n"
+            string stringToSign = method + "\n" + accept + "\n" + bodyMd5 + "\n" + contentType + "\n" + date + "\n"
                     + "x-acs-signature-method:HMAC-SHA1\n"
                     + "x-acs-signature-nonce:" + uuid + "\n"
                     + path;
@@ -70,12 +70,12 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string authHeader = "acs " + SecretId + ":" + signature;
 
-            var client = new RestClient($"https://{host}");
-            var request = new RestRequest(path,Method.Post);
+            var client = new RestClient(CommonFunction.Client);
+            var request = new RestRequest($"https://{host}{path}",Method.Post);
             request.AddHeader("Authorization", authHeader);
             request.AddHeader("Accept", accept);
             request.AddHeader("Content-MD5", bodyMd5);
-            request.AddHeader("Content-Type", host);
+            //request.AddHeader("Content-Type", host);
             request.AddHeader("Date", date);
             request.AddHeader("x-acs-signature-method", "HMAC-SHA1");
             request.AddHeader("x-acs-signature-nonce", uuid);
@@ -85,10 +85,20 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             var response = client.Execute(request);
 
-            Regex reg = new Regex(@"""Translated"":""(.*?)""");
-            Match match = reg.Match(response.Content);
-            string result = match.Groups[1].Value;
-            return result;
+            string result = response.Content;
+            Regex codeReg = new Regex("},\"Code\":\"200\"");
+            if (codeReg.IsMatch(result))
+            {
+                Regex reg = new Regex(@",""Translated"":""(.*?)""},");
+                Match match = reg.Match(response.Content);
+                result = match.Groups[1].Value;
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+            
 
         }
 
