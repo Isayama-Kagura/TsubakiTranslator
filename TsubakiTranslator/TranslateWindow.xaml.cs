@@ -10,6 +10,7 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using MaterialDesignThemes.Wpf;
 
 namespace TsubakiTranslator
 {
@@ -43,24 +44,23 @@ namespace TsubakiTranslator
 
             if (App.WindowConfig.TranslateWindowTopmost)
             {
-                PinButton.Visibility = Visibility.Visible;
-                PinOffButton.Visibility = Visibility.Collapsed;
                 timer.Start();
             }
+            else
+            {
+                PackIcon packIcon = new PackIcon();
+                packIcon.Kind = PackIconKind.PinOff;
+                PinButton.Content = packIcon;
+            }
+
             this.Background = new SolidColorBrush(Color.FromArgb((byte)App.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
 
-            switch (App.WindowConfig.SourceTextVisibility)
+            if (!App.WindowConfig.SourceTextVisibility)
             {
-                case "Visible":
-                    TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
-                    break;
-                case "Auto":
-                    this.MouseEnter += TranslateWindow_MouseEnter;
-                    this.MouseLeave += TranslateWindow_MouseLeave;
-                    break;
-                case "Collapsed":
-                    TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
-                    break;
+                TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
+                PackIcon packIcon = new PackIcon();
+                packIcon.Kind = PackIconKind.BookOff;
+                SourceTextButton.Content = packIcon;
             }
 
 
@@ -236,33 +236,29 @@ namespace TsubakiTranslator
 
         private void Pin_Button_Click(object sender, RoutedEventArgs e)
         {
-            PinButton.Visibility = Visibility.Collapsed;
-            PinOffButton.Visibility = Visibility.Visible;
-            this.Topmost = false;
-            timer.Stop();
+            PackIcon packIcon = new PackIcon();
+            if (this.Topmost)
+            {
+                packIcon.Kind = PackIconKind.PinOff;
+                PinButton.Content = packIcon;
+                this.Topmost = false;
+                timer.Stop();
+            }
+            else
+            {
+                packIcon.Kind = PackIconKind.Pin;
+                PinButton.Content = packIcon;
+                this.Topmost = true;
+                timer.Start();
+            }
+
+            
         }
 
-        private void PinOff_Button_Click(object sender, RoutedEventArgs e)
-        {
-            PinButton.Visibility = Visibility.Visible;
-            PinOffButton.Visibility = Visibility.Collapsed;
-            this.Topmost = true;
-            timer.Start();
-        }
 
         private void TranslateWindow_MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
-        }
-
-        private void TranslateWindow_MouseEnter(object sender, MouseEventArgs e)
-        {
-            TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
-        }
-
-        private void TranslateWindow_MouseLeave(object sender, MouseEventArgs e)
-        {
-            TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
         }
 
         private void FormatFontSizeDecrease_Button_Click(object sender, RoutedEventArgs e)
@@ -290,6 +286,25 @@ namespace TsubakiTranslator
         }
 
 
+        private void SourceText_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PackIcon packIcon = new PackIcon();
+            if (App.WindowConfig.SourceTextVisibility)
+            {
+                App.WindowConfig.SourceTextVisibility = false;
+                packIcon.Kind = PackIconKind.BookOff;
+                SourceTextButton.Content = packIcon;
+                TranslatedResultDisplay.SourceText.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                App.WindowConfig.SourceTextVisibility = true;
+                packIcon.Kind = PackIconKind.Book;
+                SourceTextButton.Content = packIcon;
+                TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
+            }
+        }
+
         /// <summary>   
         /// 该函数将指定的窗口设置到Z序的顶部。   
         /// </summary>   
@@ -297,5 +312,7 @@ namespace TsubakiTranslator
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern int BringWindowToTop(IntPtr hWnd);
 
+
+        
     }
 }

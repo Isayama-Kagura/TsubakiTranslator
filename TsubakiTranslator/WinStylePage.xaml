@@ -43,20 +43,6 @@
                       materialDesign:HintAssist.Hint="翻译文本颜色"/>
             </DockPanel>
 
-
-            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-
-            <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                        Margin="20 10 20 10" Text="源文本显示"/>
-            
-            <ListBox Style="{StaticResource MaterialDesignChoiceChipOutlineListBox}" 
-                     SelectedValue="{Binding SourceTextVisibility, Mode=TwoWay}" 
-                     SelectedValuePath="Tag">
-                <ListBoxItem Content="可见" Tag="Visible" Margin="10,0,0,0" />
-                <ListBoxItem Content="变动" Tag="Auto"  IsSelected="True"/>
-                <ListBoxItem Content="隐藏" Tag="Collapsed" />
-            </ListBox>
-            
         </StackPanel>
 
 

@@ -26,8 +26,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-
-
         <DockPanel Grid.Row="0"  LastChildFill="False">
 
             <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
@@ -37,15 +35,9 @@
 
             <Button x:Name="PinButton"
                     DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    ToolTip="不固定" Foreground="White" Cursor="Hand" Visibility="Collapsed"
+                    ToolTip="固定开关" Foreground="White" Cursor="Hand"
                     Content="{materialDesign:PackIcon Kind=Pin }" 
                     Click="Pin_Button_Click"/>
-
-            <Button x:Name="PinOffButton"
-                    DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    ToolTip="固定最前" Foreground="White" Cursor="Hand" 
-                    Content="{materialDesign:PackIcon Kind=PinOff }" 
-                    Click="PinOff_Button_Click"/>
 
             <Button  DockPanel.Dock="Right" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     ToolTip="最小化" Foreground="White" Cursor="Hand" 
@@ -61,6 +53,11 @@
             </Menu>
 
             <StackPanel x:Name="TranslatedResultPanel"  Orientation="Horizontal" DockPanel.Dock="Left">
+                <Button x:Name="SourceTextButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" Height="25"
+                    Content="{ materialDesign:PackIcon Kind=Book}" ToolTip="源文本开关"
+                    Click="SourceText_Button_Click"/>
+                
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"
                     Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
