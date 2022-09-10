@@ -12,13 +12,14 @@
         Height="{Binding MainWindowHeight, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
-        MinHeight="400" MinWidth="750">
+        MinHeight="400" MinWidth="600">
 
 
     <!--窗口可改变尺寸-->
     <WindowChrome.WindowChrome >
         <WindowChrome CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -27,16 +28,16 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="120" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <materialDesign:ColorZone  x:Name="ColorZone" Mode="PrimaryMid" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  
-                                   Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="2"
+                                   Grid.Row="0"  Grid.Column="1"
                                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                    MouseLeftButtonDown="ColorZone_MouseLeftButtonDown"   
                                    MouseDoubleClick="ColorZone_MouseDoubleClick">
-            <DockPanel >
+            <DockPanel>
 
                 <Button  DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignIconForegroundButton}" 
                          ToolTip="关闭"  Cursor="Hand" BorderBrush="{x:Null}"  Margin="5"
@@ -49,37 +50,85 @@
                          Background="{x:Null}" Content="{materialDesign:PackIcon Kind=WindowMinimize }"
                          Click="MinimizeButton_Click"/>
 
-
                 <TextBlock DockPanel.Dock="Left"  Margin="16 0 0 0"  
-                           Text="{Binding SelectedItem.Content, ElementName=RadioButtonGroupChoiceChipOutline}" FontSize="30" 
+                           Text="Tsubaki 翻译器" FontSize="30" 
                            Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
             </DockPanel>
         </materialDesign:ColorZone>
 
-        <Canvas Grid.Column="0" Grid.Row="0"
-                materialDesign:ShadowAssist.ShadowDepth="Depth2">
-            <Image Source="/Resources/Icon/Tsubaki.png"  Stretch="Uniform" Height="68" Width="68"/>
-            <TextBlock Text="Tsubaki" FontSize="25" Canvas.Left="78.4" 
-                       Canvas.Top="3" Height="57" Width="97" FontWeight="Normal"
-                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
-            <TextBlock Text="翻译器" FontSize="25" Canvas.Left="87.4" 
-                       Canvas.Top="34.61" Height="57" Width="79" FontWeight="Normal"
-                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
-        </Canvas>
 
-        <ListView Grid.Row="1"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                    x:Name="RadioButtonGroupChoiceChipOutline" >
+        <Image Source="/Resources/Icon/Tsubaki.png"  Stretch="Uniform" Height="70" Width="70"
+               HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" />
 
-            <ListViewItem x:Name="MyGame" Content="翻译选择" Selected="ListViewItem_UserGame_Selected"/>
-            <ListViewItem Content="使用设置" Selected="ListViewItem_UserConfig_Selected"/>
-            <ListViewItem Content="界面设置" Selected="ListViewItem_WinStyle_Selected"/>
-            <ListViewItem Content="关于我" Selected="ListViewItem_AboutMe_Selected"/>
+        <materialDesign:Card Grid.Row="1"  Grid.ColumnSpan="2"  >
+            <TabControl materialDesign:ColorZoneAssist.Mode="Standard" Background="WhiteSmoke"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                        >
+                <TabItem Width="120"  IsSelected="True" >
+                    <TabItem.Header >
+                        <StackPanel  Width="auto"
+                                      Height="auto">
+                            <materialDesign:PackIcon Width="24"
+                                                        Height="24"
+                                                        HorizontalAlignment="Center"
+                                                        Kind="GamepadOutline" />
+                            <TextBlock HorizontalAlignment="Center"
+                                        Text="我的游戏" />
+                        </StackPanel>
+                    </TabItem.Header>
 
-        </ListView>
+                    <local:UserGamePage/>
 
-        <ContentControl x:Name="MainPageContent" Grid.Column="1" Grid.Row="1" />
+                </TabItem >
+                <TabItem Width="120">
+                    <TabItem.Header>
+                        <StackPanel  Width="auto"
+                                      Height="auto">
+                            <materialDesign:PackIcon Width="24"
+                                                        Height="24"
+                                                        HorizontalAlignment="Center"
+                                                        Kind="Api" />
+                            <TextBlock HorizontalAlignment="Center"
+                                        Text="接口配置" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <local:UserConfigPage />
+                </TabItem>
+
+                <TabItem Width="120">
+                    <TabItem.Header>
+                        <StackPanel  Width="auto"
+                                      Height="auto">
+                            <materialDesign:PackIcon Width="24"
+                                                        Height="24"
+                                                        HorizontalAlignment="Center"
+                                                        Kind="Cog" />
+                            <TextBlock HorizontalAlignment="Center"
+                                        Text="界面设置" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <local:WinStylePage />
+                </TabItem>
+
+                <TabItem Width="120">
+                    <TabItem.Header>
+                        <StackPanel  Width="auto"
+                                      Height="auto">
+                            <materialDesign:PackIcon Width="24"
+                                                        Height="24"
+                                                        HorizontalAlignment="Center"
+                                                        Kind="About" />
+                            <TextBlock HorizontalAlignment="Center"
+                                        Text="关于我" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <local:AboutMePage />
+                </TabItem>
+            </TabControl>
+        </materialDesign:Card>
+
 
     </Grid>
 </Window>
