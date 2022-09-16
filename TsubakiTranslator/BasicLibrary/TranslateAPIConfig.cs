@@ -22,6 +22,7 @@ namespace TsubakiTranslator.BasicLibrary
         private string caiyunToken;
 
         private bool deeplIsEnabled;
+        private string deeplApiUrl;
         private string deeplSecretKey;
 
         private bool ibmIsEnabled;
@@ -116,6 +117,12 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => deeplIsEnabled;
             set => SetProperty(ref deeplIsEnabled, value);
+        }
+        
+        public string DeeplApiUrl
+        {
+            get => deeplApiUrl;
+            set => SetProperty(ref deeplApiUrl, value);
         }
 
         public string DeeplSecretKey

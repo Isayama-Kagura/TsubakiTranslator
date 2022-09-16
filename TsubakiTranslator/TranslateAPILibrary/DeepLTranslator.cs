@@ -12,6 +12,10 @@ namespace TsubakiTranslator.TranslateAPILibrary
      */
     public class DeepLTranslator : ITranslator
     {
+        // DeepL免费版和收费版使用不同url
+        // https://api-free.deepl.com/v2/translate
+        // https://api.deepl.com/v2/translate
+        private string apiUrl;
         private string secretKey; //DeepL翻译API的秘钥
 
         private readonly string name = "DeepL";
@@ -31,8 +35,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             var client = CommonFunction.Client;
 
-            //string url = "https://api-free.deepl.com/v2/translate";
-            string url = "https://api.deepl.com/v2/translate";
+            string url = apiUrl;
 
             try
             {
@@ -65,7 +68,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public void TranslatorInit(string param1, string param2)
         {
-            secretKey = param1;
+            apiUrl = param1;
+            secretKey = param2;
         }
 
         class DeepLTranslateResult

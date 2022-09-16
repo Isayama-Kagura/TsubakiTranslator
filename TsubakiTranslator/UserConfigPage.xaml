@@ -152,7 +152,11 @@
                                    FontSize="13" Margin="0 8 0 8"/>
                         <CheckBox x:Name="DeeplEnabledComboBox"
                                   Content="启用" IsChecked="{Binding DeeplIsEnabled,Mode=TwoWay}"/>
-
+                        <TextBox materialDesign:HintAssist.Hint="ApiUrl" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=DeeplEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=DeeplApiUrl,Mode=TwoWay}"/>
                         <TextBox materialDesign:HintAssist.Hint="SecretKey" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  VerticalAlignment="Center"
