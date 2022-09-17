@@ -18,6 +18,7 @@ namespace TsubakiTranslator
     public partial class TranslatedResultDisplay : UserControl
     {
         SourceTextContent sourceTextContent;
+        List<TranslatedResultItem> translatedResultItems;
         Dictionary<string, TranslatedData> displayTextContent;
 
         TextHookHandler textHookHandler;
@@ -33,12 +34,14 @@ namespace TsubakiTranslator
 
             translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig);
 
+            translatedResultItems = new List<TranslatedResultItem>();
             displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
                 resultItem.ResultTextBlock.Foreground = new SolidColorBrush(App.WindowConfig.TranslatedTextColor);
                 TranslateResultPanel.Children.Add(resultItem);
+                translatedResultItems.Add(resultItem);  // bookkeeping to set the visibility status
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }
 
@@ -121,6 +124,13 @@ namespace TsubakiTranslator
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
 
+        public void SetTranslatorNameVisibility(Visibility visibility)
+        {
+            foreach (var item in translatedResultItems)
+            {
+                item.APINameTextBlock.Visibility = visibility;
+            }
+        }
 
         private void TranslateAndDisplay(string sourceText)
         {

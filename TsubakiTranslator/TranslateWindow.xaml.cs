@@ -63,6 +63,13 @@ namespace TsubakiTranslator
                 SourceTextButton.Content = packIcon;
             }
 
+            if (!App.WindowConfig.TranslatorNameVisibility)
+            {
+                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Collapsed);
+                PackIcon packIcon = new PackIcon();
+                packIcon.Kind = PackIconKind.ApiOff;
+                TranslatorNameButton.Content = packIcon;
+            }
 
             //TTS
             if (App.TranslateAPIConfig.TTSIsEnabled)
@@ -302,6 +309,26 @@ namespace TsubakiTranslator
                 packIcon.Kind = PackIconKind.Book;
                 SourceTextButton.Content = packIcon;
                 TranslatedResultDisplay.SourceText.Visibility = Visibility.Visible;
+            }
+        }
+
+
+        private void TranslatorName_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PackIcon packIcon = new PackIcon();
+            if (App.WindowConfig.TranslatorNameVisibility)
+            {
+                App.WindowConfig.TranslatorNameVisibility = false;
+                packIcon.Kind = PackIconKind.ApiOff;
+                TranslatorNameButton.Content = packIcon;
+                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Collapsed);
+            }
+            else
+            {
+                App.WindowConfig.TranslatorNameVisibility = true;
+                packIcon.Kind = PackIconKind.Api;
+                TranslatorNameButton.Content = packIcon;
+                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Visible);
             }
         }
 
