@@ -28,6 +28,9 @@ namespace TsubakiTranslator
         SourceTextHandler sourceTextHandler;
 
         ClipboardHookHandler clipboardHookHandler;
+
+        public bool TranslatorEnabled { get; set; } = true;
+
         private void Init()
         {
             SourceText.Foreground = new SolidColorBrush(App.WindowConfig.SourceTextColor);
@@ -145,12 +148,13 @@ namespace TsubakiTranslator
                 currentResult.ResultText.Add(key, "");
             }
 
-            Parallel.ForEach(translators,
-                t => {
-                    string result = t.Translate(currentResult.SourceText);
-                    currentResult.ResultText[t.Name] = result;
-                    displayTextContent[t.Name].TranslatedResult = result;
-                });
+            if (TranslatorEnabled)
+                Parallel.ForEach(translators,
+                    t => {
+                        string result = t.Translate(currentResult.SourceText);
+                        currentResult.ResultText[t.Name] = result;
+                        displayTextContent[t.Name].TranslatedResult = result;
+                    });
         }
 
         class SourceTextContent : ObservableObject

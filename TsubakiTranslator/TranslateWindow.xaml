@@ -58,6 +58,11 @@
                     Content="{ materialDesign:PackIcon Kind=Book}" ToolTip="源文本开关"
                     Click="SourceText_Button_Click"/>
 
+                <Button x:Name="TranslatorEnableButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" Height="25"
+                    Content="{ materialDesign:PackIcon Kind=Translate}" ToolTip="翻译引擎开关"
+                    Click="TranslatorEnable_Button_Click"/>
+
                 <Button x:Name="TranslatorNameButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"
                     Content="{ materialDesign:PackIcon Kind=Api}" ToolTip="翻译引擎名称开关"

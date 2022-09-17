@@ -332,6 +332,23 @@ namespace TsubakiTranslator
             }
         }
 
+        private void TranslatorEnable_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PackIcon packIcon = new PackIcon();
+            if (TranslatedResultDisplay.TranslatorEnabled)
+            {
+                TranslatedResultDisplay.TranslatorEnabled = false;
+                packIcon.Kind = PackIconKind.TranslateOff;
+                TranslatorEnableButton.Content = packIcon;
+            }
+            else
+            {
+                TranslatedResultDisplay.TranslatorEnabled = true;
+                packIcon.Kind = PackIconKind.Translate;
+                TranslatorEnableButton.Content = packIcon;
+            }
+        }
+
         /// <summary>   
         /// 该函数将指定的窗口设置到Z序的顶部。   
         /// </summary>   
