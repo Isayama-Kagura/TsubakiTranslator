@@ -65,6 +65,7 @@ A：当文本单字重复时，可设置重复次数进行去重（e.g. aaabbbcc
 - [Textractor](https://github.com/Artikash/Textractor)
 - [MaterialDesignInXamlToolkit](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit)
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [RestSharp](https://github.com/restsharp/RestSharp)
 
 ## 部分代码参考
 - [御坂翻译器](https://github.com/hanmin0822/MisakaTranslator)

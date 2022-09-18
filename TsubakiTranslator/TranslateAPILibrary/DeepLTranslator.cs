@@ -23,6 +23,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public string SourceLanguage { get; set; }
 
+        public DeepLTranslator(bool isFreeApi)
+        {
+            if (isFreeApi)
+                apiUrl = @"https://api-free.deepl.com/v2/translate";
+            else
+                apiUrl = @"https://api.deepl.com/v2/translate";
+        }
+
         public string Translate(string sourceText)
         {
             string desLang = "ZH";
@@ -68,8 +76,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public void TranslatorInit(string param1, string param2)
         {
-            apiUrl = param1;
-            secretKey = param2;
+            secretKey = param1;
         }
 
         class DeepLTranslateResult

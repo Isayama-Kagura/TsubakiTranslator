@@ -18,7 +18,6 @@ namespace TsubakiTranslator
     public partial class TranslatedResultDisplay : UserControl
     {
         SourceTextContent sourceTextContent;
-        List<TranslatedResultItem> translatedResultItems;
         Dictionary<string, TranslatedData> displayTextContent;
 
         TextHookHandler textHookHandler;
@@ -37,14 +36,14 @@ namespace TsubakiTranslator
 
             translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig);
 
-            translatedResultItems = new List<TranslatedResultItem>();
             displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
+                if(!App.WindowConfig.TranslatorNameVisibility)
+                    resultItem.APINameTextBlock.Visibility = Visibility.Collapsed;
                 resultItem.ResultTextBlock.Foreground = new SolidColorBrush(App.WindowConfig.TranslatedTextColor);
                 TranslateResultPanel.Children.Add(resultItem);
-                translatedResultItems.Add(resultItem);  // bookkeeping to set the visibility status
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }
 
@@ -88,6 +87,9 @@ namespace TsubakiTranslator
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
         {
+            if (!TranslatorEnabled)
+                return;
+
             if (textHookHandler.SelectedHookCode == null )
                 return;
 
@@ -117,6 +119,9 @@ namespace TsubakiTranslator
 
         public void TranslteClipboardText(object sender, EventArgs e)
         {
+            if (!TranslatorEnabled)
+                return;
+
             IDataObject iData = Clipboard.GetDataObject();
             if (!iData.GetDataPresent(DataFormats.Text))
                 return;
@@ -125,14 +130,6 @@ namespace TsubakiTranslator
             sourceText = Regex.Replace(sourceText, @"[\r\n\t\f]", "");
             sourceText = sourceTextHandler.HandleText(sourceText);
             Task.Run(()=> TranslateAndDisplay(sourceText));
-        }
-
-        public void SetTranslatorNameVisibility(Visibility visibility)
-        {
-            foreach (var item in translatedResultItems)
-            {
-                item.APINameTextBlock.Visibility = visibility;
-            }
         }
 
         private void TranslateAndDisplay(string sourceText)
@@ -148,13 +145,13 @@ namespace TsubakiTranslator
                 currentResult.ResultText.Add(key, "");
             }
 
-            if (TranslatorEnabled)
-                Parallel.ForEach(translators,
-                    t => {
-                        string result = t.Translate(currentResult.SourceText);
-                        currentResult.ResultText[t.Name] = result;
-                        displayTextContent[t.Name].TranslatedResult = result;
-                    });
+            
+            Parallel.ForEach(translators,
+                t => {
+                    string result = t.Translate(currentResult.SourceText);
+                    currentResult.ResultText[t.Name] = result;
+                    displayTextContent[t.Name].TranslatedResult = result;
+                });
         }
 
         class SourceTextContent : ObservableObject

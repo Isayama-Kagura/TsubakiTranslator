@@ -43,6 +43,15 @@
                       materialDesign:HintAssist.Hint="翻译文本颜色"/>
             </DockPanel>
 
+            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+            <DockPanel LastChildFill="False">
+                <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Margin="20 10 20 10" Text="显示翻译API名字"/>
+                <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" DockPanel.Dock="Left"
+                            ToolTip="显示翻译API名字"  IsChecked="{Binding TranslatorNameVisibility, Mode=TwoWay}"/>
+            </DockPanel>
+
         </StackPanel>
 
 

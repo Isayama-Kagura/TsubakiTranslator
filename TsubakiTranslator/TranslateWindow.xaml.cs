@@ -63,14 +63,6 @@ namespace TsubakiTranslator
                 SourceTextButton.Content = packIcon;
             }
 
-            if (!App.WindowConfig.TranslatorNameVisibility)
-            {
-                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Collapsed);
-                PackIcon packIcon = new PackIcon();
-                packIcon.Kind = PackIconKind.ApiOff;
-                TranslatorNameButton.Content = packIcon;
-            }
-
             //TTS
             if (App.TranslateAPIConfig.TTSIsEnabled)
             {
@@ -312,40 +304,22 @@ namespace TsubakiTranslator
             }
         }
 
-
-        private void TranslatorName_Button_Click(object sender, RoutedEventArgs e)
-        {
-            PackIcon packIcon = new PackIcon();
-            if (App.WindowConfig.TranslatorNameVisibility)
-            {
-                App.WindowConfig.TranslatorNameVisibility = false;
-                packIcon.Kind = PackIconKind.ApiOff;
-                TranslatorNameButton.Content = packIcon;
-                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Collapsed);
-            }
-            else
-            {
-                App.WindowConfig.TranslatorNameVisibility = true;
-                packIcon.Kind = PackIconKind.Api;
-                TranslatorNameButton.Content = packIcon;
-                TranslatedResultDisplay.SetTranslatorNameVisibility(Visibility.Visible);
-            }
-        }
-
         private void TranslatorEnable_Button_Click(object sender, RoutedEventArgs e)
         {
             PackIcon packIcon = new PackIcon();
             if (TranslatedResultDisplay.TranslatorEnabled)
             {
                 TranslatedResultDisplay.TranslatorEnabled = false;
-                packIcon.Kind = PackIconKind.TranslateOff;
+                packIcon.Kind = PackIconKind.Play;
                 TranslatorEnableButton.Content = packIcon;
+                TranslatorEnableButton.ToolTip = "启动翻译";
             }
             else
             {
                 TranslatedResultDisplay.TranslatorEnabled = true;
-                packIcon.Kind = PackIconKind.Translate;
+                packIcon.Kind = PackIconKind.Pause;
                 TranslatorEnableButton.Content = packIcon;
+                TranslatorEnableButton.ToolTip = "暂停翻译";
             }
         }
 

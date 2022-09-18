@@ -4,20 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"  >
-    <Grid Margin="0,5,7,5">
+    <Grid Margin="0,5,0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="7" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Firebrick" 
-                   HorizontalAlignment="Center" FontWeight="Bold"
+                   HorizontalAlignment="Center" FontWeight="Bold" Margin="0,0,20,0"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="1" Text=""/>
 
-        <TextBlock x:Name="ResultTextBlock" FontSize="20" Grid.Column="2"  Foreground="WhiteSmoke"
+        <TextBlock x:Name="ResultTextBlock" FontSize="20" Grid.Column="1"  Foreground="WhiteSmoke"
                    TextWrapping="Wrap" FontWeight="Bold"
                    Text="{Binding TranslatedResult, Mode=TwoWay}"/>
 

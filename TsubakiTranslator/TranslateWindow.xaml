@@ -60,13 +60,8 @@
 
                 <Button x:Name="TranslatorEnableButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"
-                    Content="{ materialDesign:PackIcon Kind=Translate}" ToolTip="翻译引擎开关"
+                    Content="{ materialDesign:PackIcon Kind=Pause}" ToolTip="暂停翻译"
                     Click="TranslatorEnable_Button_Click"/>
-
-                <Button x:Name="TranslatorNameButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25"
-                    Content="{ materialDesign:PackIcon Kind=Api}" ToolTip="翻译引擎名称开关"
-                    Click="TranslatorName_Button_Click"/>
 
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"
