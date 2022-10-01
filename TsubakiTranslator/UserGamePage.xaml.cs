@@ -167,6 +167,7 @@ namespace TsubakiTranslator
             data.RegexRuleItems.Clear();
         }
 
+        //剪切板模式
         private void MonitorClipBoard_Button_Click(object sender, RoutedEventArgs e)
         {
             LinkedList<RegexRuleData> regexRules = new LinkedList<RegexRuleData>();
@@ -191,6 +192,15 @@ namespace TsubakiTranslator
             App.GamesConfig.ClipBoardRegexRules.Clear();
         }
 
+
+        //剪切板模式
+        private void OcrMode_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window mainWindow = Window.GetWindow(this);
+            mainWindow.Hide();
+            TranslateWindow translateWindow = new TranslateWindow(mainWindow);
+            translateWindow.Show();
+        }
     }
   
 

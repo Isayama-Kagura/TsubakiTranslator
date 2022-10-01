@@ -182,6 +182,39 @@
 
                 </Button>
 
+                <Button DockPanel.Dock="Right"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        Width="63" Content="OCR"  Cursor="Hand" Margin="10">
+                    <Button.CommandParameter>
+                        <StackPanel>
+                            <StackPanel Margin="5" HorizontalAlignment="Center" >
+                                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">使用OCR功能请确保满足如下要求：</TextBlock>
+                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【1】Windows10 Build 10240 以上系统</TextBlock>
+                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【2】Windows设置->时间和语言->语言->首选语言 </TextBlock>
+                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">中添加对应语言（支持日语、美式英语）</TextBlock>
+                                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">使用方法：截图软件截取文本区域，自动翻译</TextBlock>
+
+                            </StackPanel>
+                            
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Click="OcrMode_Button_Click"
+                                        Content="确定"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        IsDefault="True"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        HorizontalAlignment="Center" Margin="5"
+                                        Content="取消" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Button.CommandParameter>
+
+                </Button>
+
             </DockPanel>
 
             <ListView x:Name="GameList">

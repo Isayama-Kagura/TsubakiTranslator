@@ -13,7 +13,7 @@
     <Company>OTAKU Technology Co., Ltd.</Company>
     <PackageProjectUrl>https://github.com/Isayama-Kagura/TsubakiTranslator</PackageProjectUrl>
     <Copyright>© 2021 Tsubaki Translator</Copyright>
-    <Version>1.0.4.3</Version>
+    <Version>1.0.5.0</Version>
     <Product>Tsubaki Translator</Product>
   </PropertyGroup>
 
@@ -59,6 +59,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Textractor\x86\TextractorCLI.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\WinOCR\WinOCR.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

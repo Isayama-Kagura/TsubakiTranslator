@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using TsubakiTranslator.BasicLibrary;
 using TsubakiTranslator.TranslateAPILibrary;
 
@@ -27,6 +29,9 @@ namespace TsubakiTranslator
         SourceTextHandler sourceTextHandler;
 
         ClipboardHookHandler clipboardHookHandler;
+
+        OcrHandler ocrHandler;
+
 
         public bool TranslatorEnabled { get; set; } = true;
 
@@ -55,7 +60,7 @@ namespace TsubakiTranslator
             results = new TranslateDataList(40);
         }
 
-        //对应正常注入模式
+        //对应注入模式
         public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
@@ -82,7 +87,22 @@ namespace TsubakiTranslator
             this.sourceTextHandler = sourceTextHandler;
 
             this.clipboardHookHandler.ClipboardUpdated += TranslteClipboardText;
+        }
 
+        //对应OCR翻译模式
+        public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler, OcrHandler ocrHandler)
+        {
+            InitializeComponent();
+
+            Init();
+
+            this.clipboardHookHandler = clipboardHookHandler;
+
+            this.ocrHandler = ocrHandler;
+
+            this.clipboardHookHandler.ClipboardUpdated += HandleClipboardImage;
+
+            ocrHandler.OcrProcess.OutputDataReceived += TranslateOcrText;
         }
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
@@ -123,6 +143,7 @@ namespace TsubakiTranslator
                 return;
 
             IDataObject iData = Clipboard.GetDataObject();
+           
             if (!iData.GetDataPresent(DataFormats.Text))
                 return;
 
@@ -130,6 +151,46 @@ namespace TsubakiTranslator
             sourceText = Regex.Replace(sourceText, @"[\r\n\t\f]", "");
             sourceText = sourceTextHandler.HandleText(sourceText);
             Task.Run(()=> TranslateAndDisplay(sourceText));
+        }
+
+        public void HandleClipboardImage(object sender, EventArgs e)
+        {
+            if (!TranslatorEnabled)
+                return;
+
+            IDataObject iData = Clipboard.GetDataObject();
+            if (iData.GetDataPresent(DataFormats.Bitmap))
+            {
+                var image = Clipboard.GetImage();
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+
+                using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + @"temp.png", FileMode.Create))
+                {
+                    encoder.Save(stream);
+                }
+
+                ocrHandler.RecognizeText(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
+               
+            }
+        }
+
+        public void TranslateOcrText(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            if (!TranslatorEnabled)
+                return;
+
+
+            string content = outLine.Data.Trim();//实际获取到的内容
+
+            if (content.Equals(""))
+                return;
+
+
+            Task.Run(() => TranslateAndDisplay(content));
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp.png"))
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
+
         }
 
         private void TranslateAndDisplay(string sourceText)

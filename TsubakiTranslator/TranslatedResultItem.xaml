@@ -11,7 +11,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Firebrick" 
-                   HorizontalAlignment="Center" FontWeight="Bold" Margin="0,0,20,0"
+                   HorizontalAlignment="Center" FontWeight="Bold" Width="75"
                    Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
 

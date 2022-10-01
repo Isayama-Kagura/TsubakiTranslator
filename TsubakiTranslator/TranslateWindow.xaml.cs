@@ -30,7 +30,10 @@ namespace TsubakiTranslator
         private DispatcherTimer timer;
 
         private SpeechSynthesizer synthesizer;
-        public bool IsHookMode { get;  }
+
+        private OcrHandler ocrHandler;
+        private OcrHandler OcrHandler { get => ocrHandler;}
+
 
         private void Init()
         {
@@ -96,8 +99,6 @@ namespace TsubakiTranslator
             InitializeComponent();
             this.mainWindow = mainWindow;
             this.textHookHandler = textHookHandler;
-            IsHookMode = true;
-
 
             //注意顺序，Hook窗口的事件处理先于Translate结果窗口
             HookResultDisplay = new HookResultDisplay(this);
@@ -117,8 +118,6 @@ namespace TsubakiTranslator
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-            IsHookMode = false;
-
 
             //注意顺序，Hook窗口的事件处理先于Translate结果窗口
             //HookResultDisplay = new HookResultDisplay(this);
@@ -134,6 +133,30 @@ namespace TsubakiTranslator
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
                 Task.Run(() => messageQueue.Enqueue("剪切板文本发生变化时将自动翻译。", "好", () => { }));
+        }
+
+        //OCR模式
+        public TranslateWindow(Window mainWindow)
+        {
+            InitializeComponent();
+
+            this.mainWindow = mainWindow;
+            ocrHandler = new OcrHandler(App.TranslateAPIConfig.SourceLanguage);
+
+            //注意顺序，Hook窗口的事件处理先于Translate结果窗口
+            //HookResultDisplay = new HookResultDisplay(this);
+            //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
+            clipboardHookHandler = new ClipboardHookHandler(mainWindow);
+            TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler,OcrHandler);
+
+            Init();
+
+            //textHookHandler.ProcessGame.Exited += GameExitHandler;
+
+            TranslateWindowContent.Content = TranslatedResultDisplay;
+
+            if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue("剪切板有新图片时将自动翻译。", "好", () => { }));
         }
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
@@ -163,17 +186,23 @@ namespace TsubakiTranslator
 
         private void On_TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (IsHookMode)
+            if (TextHookHandler != null)
             {
                 TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
                 TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.TranslateHookText;
                 textHookHandler.ProcessGame.Exited -= GameExitHandler;
                 TextHookHandler.CloseTextractor();
             }
-            else
+            if(clipboardHookHandler != null)
             {
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
                 clipboardHookHandler.Dispose();
+            }
+
+            if(ocrHandler != null)
+            {
+                ocrHandler.OcrProcess.OutputDataReceived -= TranslatedResultDisplay.TranslateOcrText;
+                ocrHandler.CloseWinOCR();
             }
             timer.Stop();
             mainWindow.Show();
