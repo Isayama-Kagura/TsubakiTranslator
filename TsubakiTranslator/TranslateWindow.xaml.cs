@@ -193,7 +193,7 @@ namespace TsubakiTranslator
                 textHookHandler.ProcessGame.Exited -= GameExitHandler;
                 TextHookHandler.CloseTextractor();
             }
-            if(clipboardHookHandler != null)
+            if(clipboardHookHandler != null && ocrHandler == null)
             {
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
                 clipboardHookHandler.Dispose();
@@ -202,11 +202,14 @@ namespace TsubakiTranslator
             if(ocrHandler != null)
             {
                 ocrHandler.OcrProcess.OutputDataReceived -= TranslatedResultDisplay.TranslateOcrText;
+                clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.HandleClipboardImage;
                 ocrHandler.CloseWinOCR();
             }
             timer.Stop();
             mainWindow.Show();
-            
+
+            mainWindow.Topmost = true;
+            mainWindow.Topmost = false;
         }
 
         private void TranslateWindow_CloseButton_Click(object sender, RoutedEventArgs e)

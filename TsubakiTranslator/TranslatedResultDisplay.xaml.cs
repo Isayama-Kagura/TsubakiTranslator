@@ -162,11 +162,11 @@ namespace TsubakiTranslator
             if (iData.GetDataPresent(DataFormats.Bitmap))
             {
                 var image = Clipboard.GetImage();
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
 
                 using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + @"temp.png", FileMode.Create))
                 {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(image));
                     encoder.Save(stream);
                 }
 
@@ -180,12 +180,10 @@ namespace TsubakiTranslator
             if (!TranslatorEnabled)
                 return;
 
-
             string content = outLine.Data.Trim();//实际获取到的内容
 
             if (content.Equals(""))
                 return;
-
 
             Task.Run(() => TranslateAndDisplay(content));
             if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp.png"))
