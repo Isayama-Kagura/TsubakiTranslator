@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using RestSharp;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
-    //API文档 https://www.deepl.com/docs-api/accessing-the-api/error-handling/
-    /*
-     * DeepL translator integration
-     * Author: kjstart
-     * API version: v2
-     */
+    //API文档 https://www.deepl.com/docs-api
     public class DeepLTranslator : ITranslator
     {
         // DeepL免费版和收费版使用不同url
@@ -37,31 +33,16 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string resultStr;
 
-            string payload = $"text={ sourceText }&auth_key={ secretKey}&source_lang={ SourceLanguage}&target_lang={ desLang}";
+            var client = new RestClient(CommonFunction.Client);
+            var request = new RestRequest(apiUrl, Method.Post);
+            request.AddHeader("Authorization", $"DeepL-Auth-Key {secretKey}");
 
-            HttpContent body = new StringContent(payload, null, "application/x-www-form-urlencoded");
+            request.AddQueryParameter("text", sourceText).AddQueryParameter("source_lang", SourceLanguage).AddQueryParameter("target_lang", desLang);
 
-            var client = CommonFunction.Client;
+            var response = client.Execute(request);
 
-            string url = apiUrl;
+            resultStr = response.Content;
 
-            try
-            {
-                HttpResponseMessage response = client.PostAsync(url, body).GetAwaiter().GetResult();
-                response.EnsureSuccessStatusCode();//用来抛异常的
-                resultStr = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            }
-            catch (System.Net.Http.HttpRequestException ex)
-            {
-
-                return ex.Message;
-            }
-            catch (System.Threading.Tasks.TaskCanceledException ex)
-            {
-
-                return ex.Message;
-            }
 
             DeepLTranslateResult translateResult = JsonSerializer.Deserialize<DeepLTranslateResult>(resultStr);
             if (translateResult != null && translateResult.translations != null && translateResult.translations.Count > 0)
