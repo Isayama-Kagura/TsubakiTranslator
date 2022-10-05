@@ -184,7 +184,7 @@ namespace TsubakiTranslator
         }
 
 
-        private void On_TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void On_TranslateWindow_Closed(object sender, EventArgs e)
         {
             if (TextHookHandler != null)
             {
@@ -203,6 +203,7 @@ namespace TsubakiTranslator
             {
                 ocrHandler.OcrProcess.OutputDataReceived -= TranslatedResultDisplay.TranslateOcrText;
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.HandleClipboardImage;
+                clipboardHookHandler.Dispose();
                 ocrHandler.CloseWinOCR();
             }
             timer.Stop();
@@ -362,7 +363,5 @@ namespace TsubakiTranslator
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern int BringWindowToTop(IntPtr hWnd);
 
-
-        
     }
 }

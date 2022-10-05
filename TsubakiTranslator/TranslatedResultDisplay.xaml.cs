@@ -153,7 +153,7 @@ namespace TsubakiTranslator
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
 
-        public void HandleClipboardImage(object sender, EventArgs e)
+        public async void HandleClipboardImage(object sender, EventArgs e)
         {
             if (!TranslatorEnabled)
                 return;
@@ -163,14 +163,24 @@ namespace TsubakiTranslator
             {
                 var image = Clipboard.GetImage();
 
-                using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + @"temp.png", FileMode.Create))
+                try
                 {
-                    BitmapEncoder encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(image));
-                    encoder.Save(stream);
-                }
+                    using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + @"temp.png", FileMode.Create))
+                    {
+                        BitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(image));
+                        encoder.Save(stream);
+                    }
 
-                ocrHandler.RecognizeText(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
+                    await ocrHandler.RecognizeText(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
+                }
+                catch(System.IO.IOException)
+                {
+                    if (this.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                        await Task.Run(() => messageQueue.Enqueue("截图速度太快啦，稍微等等吧。", "好", () => { }));
+                }
+                
+                
                
             }
         }

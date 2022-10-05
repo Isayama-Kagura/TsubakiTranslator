@@ -54,10 +54,10 @@ namespace TsubakiTranslator.BasicLibrary
         /// 结束注入进程
         /// </summary>
         /// <param name="pid"></param>
-        public void RecognizeText(string imagePath)
+        public async Task RecognizeText(string imagePath)
         {
-            OcrProcess.StandardInput.WriteLine($"recognize {language} {imagePath}");
-            OcrProcess.StandardInput.Flush();
+            await OcrProcess.StandardInput.WriteLineAsync($"recognize {language} {imagePath}");
+            await OcrProcess.StandardInput.FlushAsync();
             
         }
 

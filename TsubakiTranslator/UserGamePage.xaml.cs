@@ -193,7 +193,7 @@ namespace TsubakiTranslator
         }
 
 
-        //剪切板模式
+        //OCR模式
         private void OcrMode_Button_Click(object sender, RoutedEventArgs e)
         {
             Window mainWindow = Window.GetWindow(this);
