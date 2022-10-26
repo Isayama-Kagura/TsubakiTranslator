@@ -7,17 +7,19 @@
     <Grid Margin="0,5,0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Firebrick" 
-                   HorizontalAlignment="Center" FontWeight="Bold" Width="75"
-                   Text="{Binding TranslatorName, Mode=TwoWay}"/>
+                   FontWeight="Bold"  Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
 
-        <TextBlock x:Name="ResultTextBlock" FontSize="20" Grid.Column="1"  Foreground="WhiteSmoke"
-                   TextWrapping="Wrap" FontWeight="Bold"
-                   Text="{Binding TranslatedResult, Mode=TwoWay}"/>
+        <TextBox x:Name="ResultTextBlock" Grid.Column="2"
+                         Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
+                         Margin="7 0 7 7" TextWrapping="Wrap" FontSize="20"
+                         Text="{Binding TranslatedResult, Mode=TwoWay}" Foreground="WhiteSmoke"  
+                         IsReadOnly="True" FontWeight="Bold"/>
 
     </Grid>
 </UserControl>
