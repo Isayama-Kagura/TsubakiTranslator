@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using MaterialDesignThemes.Wpf;
+using System.Runtime.Versioning;
 
 namespace TsubakiTranslator
 {
@@ -27,12 +28,13 @@ namespace TsubakiTranslator
 
         private ClipboardHookHandler clipboardHookHandler;
 
-        private DispatcherTimer timer;
+        private DispatcherTimer topmostTimer;
+        private DispatcherTimer TopmostTimer { get=> topmostTimer; }
 
         private SpeechSynthesizer synthesizer;
 
-        private OcrHandler ocrHandler;
-        private OcrHandler OcrHandler { get => ocrHandler;}
+        private OcrProgram ocrProgram;
+        private OcrProgram OcrProgram { get => ocrProgram; }
 
 
         private void Init()
@@ -41,13 +43,13 @@ namespace TsubakiTranslator
 
             //确保翻译窗口永远在前
             WindowInteropHelper helper = new WindowInteropHelper(this);
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (sender, e) => BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
+            topmostTimer = new DispatcherTimer();
+            TopmostTimer.Interval = TimeSpan.FromSeconds(1);
+            TopmostTimer.Tick += (sender, e) => BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
 
             if (App.WindowConfig.TranslateWindowTopmost)
             {
-                timer.Start();
+                TopmostTimer.Start();
             }
             else
             {
@@ -69,7 +71,7 @@ namespace TsubakiTranslator
             //TTS
             if (App.TranslateAPIConfig.TTSIsEnabled)
             {
-                TTSButton.IsEnabled = true;
+                TTSButton.Visibility = Visibility.Visible;
                 var config = SpeechConfig.FromSubscription(App.TranslateAPIConfig.TTSResourceKey, App.TranslateAPIConfig.TTSRegion);
                 config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
                 // Note: if only language is set, the default voice of that language is chosen.
@@ -119,9 +121,6 @@ namespace TsubakiTranslator
             InitializeComponent();
             this.mainWindow = mainWindow;
 
-            //注意顺序，Hook窗口的事件处理先于Translate结果窗口
-            //HookResultDisplay = new HookResultDisplay(this);
-            //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
             clipboardHookHandler = new ClipboardHookHandler(mainWindow);
             TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler, sourceTextHandler);
 
@@ -140,23 +139,21 @@ namespace TsubakiTranslator
         {
             InitializeComponent();
 
-            this.mainWindow = mainWindow;
-            ocrHandler = new OcrHandler(App.TranslateAPIConfig.SourceLanguage);
+            ScreenshotButton.Visibility = Visibility.Visible;
 
-            //注意顺序，Hook窗口的事件处理先于Translate结果窗口
-            //HookResultDisplay = new HookResultDisplay(this);
-            //TranslatedResultDisplay = new TranslatedResultDisplay(textHookHandler, sourceTextHandler);
-            clipboardHookHandler = new ClipboardHookHandler(mainWindow);
-            TranslatedResultDisplay = new TranslatedResultDisplay(clipboardHookHandler,OcrHandler);
+            this.mainWindow = mainWindow;
+
+            ocrProgram = new OcrProgram(App.TranslateAPIConfig.SourceLanguage);
+
+            TranslatedResultDisplay = new TranslatedResultDisplay();
 
             Init();
 
-            //textHookHandler.ProcessGame.Exited += GameExitHandler;
 
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("剪切板有新图片时将自动翻译。", "好", () => { }));
+                Task.Run(() => messageQueue.Enqueue("点击截取文本按钮进行OCR识别翻译。", "好", () => { }));
         }
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
@@ -193,20 +190,13 @@ namespace TsubakiTranslator
                 textHookHandler.ProcessGame.Exited -= GameExitHandler;
                 TextHookHandler.CloseTextractor();
             }
-            if(clipboardHookHandler != null && ocrHandler == null)
+            if (clipboardHookHandler != null)
             {
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
                 clipboardHookHandler.Dispose();
             }
 
-            if(ocrHandler != null)
-            {
-                ocrHandler.OcrProcess.OutputDataReceived -= TranslatedResultDisplay.TranslateOcrText;
-                clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.HandleClipboardImage;
-                clipboardHookHandler.Dispose();
-                ocrHandler.CloseWinOCR();
-            }
-            timer.Stop();
+            TopmostTimer.Stop();
             mainWindow.Show();
 
             mainWindow.Topmost = true;
@@ -274,14 +264,14 @@ namespace TsubakiTranslator
                 packIcon.Kind = PackIconKind.PinOff;
                 PinButton.Content = packIcon;
                 this.Topmost = false;
-                timer.Stop();
+                TopmostTimer.Stop();
             }
             else
             {
                 packIcon.Kind = PackIconKind.Pin;
                 PinButton.Content = packIcon;
                 this.Topmost = true;
-                timer.Start();
+                TopmostTimer.Start();
             }
 
             
@@ -363,5 +353,25 @@ namespace TsubakiTranslator
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern int BringWindowToTop(IntPtr hWnd);
 
+
+        [SupportedOSPlatform("windows10.0.10240")]
+        private async void Screenshot_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (TopmostTimer.IsEnabled)
+                TopmostTimer.Stop();
+
+            await ScreenshotWindow.Start();
+
+            if (App.WindowConfig.TranslateWindowTopmost)
+                TopmostTimer.Start();
+
+
+            string ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
+
+            if (TranslatedResultDisplay.TranslatorEnabled && !ocrResult.Trim().Equals(""))
+                TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
+
+
+        }
     }
 }

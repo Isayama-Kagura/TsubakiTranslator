@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -9,18 +8,14 @@ namespace TsubakiTranslator.BasicLibrary
     {
         const int WM_CLIPBOARDUPDATE = 0x031D;
 
-        [DllImport("User32.dll")]
-        static extern bool AddClipboardFormatListener(IntPtr hwnd);
-
-        [DllImport("User32.dll")]
-        static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+        
 
         HwndSource _hwndSource;
 
         public void Dispose()
         {
             _hwndSource.RemoveHook(new HwndSourceHook(OnHooked));
-            RemoveClipboardFormatListener(_hwndSource.Handle);
+            User32.RemoveClipboardFormatListener(_hwndSource.Handle);
             //_hwndSource?.Dispose();
         }
 
@@ -28,7 +23,7 @@ namespace TsubakiTranslator.BasicLibrary
         {
             WindowInteropHelper helper = new WindowInteropHelper(window);
             _hwndSource = HwndSource.FromHwnd(helper.Handle);
-            bool r = AddClipboardFormatListener(_hwndSource.Handle);
+            bool r = User32.AddClipboardFormatListener(_hwndSource.Handle);
             if (r)
             {
                 _hwndSource.AddHook(new HwndSourceHook(OnHooked));

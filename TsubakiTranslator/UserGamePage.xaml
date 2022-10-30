@@ -192,7 +192,6 @@
                                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【1】Windows10 Build 10240 以上系统</TextBlock>
                                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【2】Windows设置->时间和语言->语言->首选语言 </TextBlock>
                                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">中添加对应语言（支持日语、美式英语）</TextBlock>
-                                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">使用方法：截图软件截取文本区域，自动翻译</TextBlock>
 
                             </StackPanel>
                             

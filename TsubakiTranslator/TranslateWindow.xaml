@@ -74,10 +74,15 @@
                     Click="FormatFontSizeIncrease_Button_Click"/>
 
                 <Button x:Name="TTSButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25" IsEnabled="False"
+                    Foreground="White" Cursor="Hand" Height="25" Visibility="Collapsed"
                     Content="{ materialDesign:PackIcon Kind=VolumeSource}" ToolTip="朗读文本"
                     Click="VolumeSource_Button_Click"/>
 
+
+                <Button x:Name="ScreenshotButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    Foreground="White" Cursor="Hand" Height="25" Visibility="Collapsed"
+                    Content="{ materialDesign:PackIcon Kind=MonitorScreenshot}" ToolTip="截取文本"
+                        Click="Screenshot_Button_Click"/>
             </StackPanel>
 
         </DockPanel>

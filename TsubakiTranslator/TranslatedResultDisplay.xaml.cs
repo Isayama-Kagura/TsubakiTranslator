@@ -30,9 +30,6 @@ namespace TsubakiTranslator
 
         ClipboardHookHandler clipboardHookHandler;
 
-        OcrHandler ocrHandler;
-
-
         public bool TranslatorEnabled { get; set; } = true;
 
         private void Init()
@@ -90,19 +87,12 @@ namespace TsubakiTranslator
         }
 
         //对应OCR翻译模式
-        public TranslatedResultDisplay(ClipboardHookHandler clipboardHookHandler, OcrHandler ocrHandler)
+        public TranslatedResultDisplay()
         {
             InitializeComponent();
 
             Init();
 
-            this.clipboardHookHandler = clipboardHookHandler;
-
-            this.ocrHandler = ocrHandler;
-
-            this.clipboardHookHandler.ClipboardUpdated += HandleClipboardImage;
-
-            ocrHandler.OcrProcess.OutputDataReceived += TranslateOcrText;
         }
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
@@ -153,55 +143,9 @@ namespace TsubakiTranslator
             Task.Run(()=> TranslateAndDisplay(sourceText));
         }
 
-        public async void HandleClipboardImage(object sender, EventArgs e)
-        {
-            if (!TranslatorEnabled)
-                return;
+        
 
-            IDataObject iData = Clipboard.GetDataObject();
-            if (iData.GetDataPresent(DataFormats.Bitmap))
-            {
-                var image = Clipboard.GetImage();
-
-                try
-                {
-                    using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + @"temp.png", FileMode.Create))
-                    {
-                        BitmapEncoder encoder = new PngBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(image));
-                        encoder.Save(stream);
-                    }
-
-                    await ocrHandler.RecognizeText(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
-                }
-                catch(System.IO.IOException)
-                {
-                    if (this.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                        await Task.Run(() => messageQueue.Enqueue("截图速度太快啦，稍微等等吧。", "好", () => { }));
-                }
-                
-                
-               
-            }
-        }
-
-        public void TranslateOcrText(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (!TranslatorEnabled)
-                return;
-
-            string content = outLine.Data.Trim();//实际获取到的内容
-
-            if (content.Equals(""))
-                return;
-
-            Task.Run(() => TranslateAndDisplay(content));
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp.png"))
-                File.Delete(AppDomain.CurrentDomain.BaseDirectory + @"temp.png");
-
-        }
-
-        private void TranslateAndDisplay(string sourceText)
+        public void TranslateAndDisplay(string sourceText)
         {
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
             results.AddTranslateData(currentResult);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,15 @@ namespace TsubakiTranslator
             translateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
             if(translateAPIConfig == null)
                 translateAPIConfig = new TranslateAPIConfig();
+
+            foreach (var proc in Process.GetProcessesByName("TsubakiTranslator").Where(proc => proc.Id != Process.GetCurrentProcess().Id))
+            {
+                try
+                {
+                    proc.Kill();
+                }
+                catch { }
+            }
 
         }
 
