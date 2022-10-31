@@ -14,6 +14,6 @@
                 </TextBlock>
             </Viewbox>
         </Border>
-        <Label x:Name="labelHeader" Content="Select a window or draw a box." HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="WhiteSmoke"/>
+        <Label x:Name="labelHeader" Content="选择窗口或左键选区" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="WhiteSmoke"/>
     </Grid>
 </Window>

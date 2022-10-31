@@ -104,6 +104,21 @@
                             <materialDesign:PackIcon Width="24"
                                                         Height="24"
                                                         HorizontalAlignment="Center"
+                                                        Kind="TextRecognition" />
+                            <TextBlock HorizontalAlignment="Center"
+                                        Text="OCR配置" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <local:OcrSettingPage />
+                </TabItem>
+
+                <TabItem Width="120">
+                    <TabItem.Header>
+                        <StackPanel  Width="auto"
+                                      Height="auto">
+                            <materialDesign:PackIcon Width="24"
+                                                        Height="24"
+                                                        HorizontalAlignment="Center"
                                                         Kind="Cog" />
                             <TextBlock HorizontalAlignment="Center"
                                         Text="界面设置" />
@@ -125,7 +140,10 @@
                         </StackPanel>
                     </TabItem.Header>
                     <local:AboutMePage />
+                    
                 </TabItem>
+                
+                
             </TabControl>
         </materialDesign:Card>
 

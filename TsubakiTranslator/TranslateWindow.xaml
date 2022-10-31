@@ -12,7 +12,8 @@
         Topmost="{Binding TranslateWindowTopmost, Mode=TwoWay}"
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
-        MinHeight="100" MinWidth="400" Closed="On_TranslateWindow_Closed"
+        MinHeight="100" MinWidth="400" Closed="On_TranslateWindow_Closed" Closing="TranslateWindow_Closing"
+        Loaded="TranslateWindow_Loaded" Deactivated="TranslateWindow_Deactivated"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
     <!--窗口可改变尺寸-->
@@ -44,11 +45,12 @@
                     Content="{materialDesign:PackIcon Kind=WindowMinimize }" 
                     Click="TranslateWindow_MinimizeButton_Click"/>
 
-            <Menu x:Name="TranslateWindowMenu" Background="Transparent" Foreground="WhiteSmoke" DockPanel.Dock="Left" 
+            <Menu x:Name="TranslateWindowMenu" materialDesign:MenuAssist.TopLevelMenuItemHeight="25"
+                  Background="Transparent" Foreground="WhiteSmoke" DockPanel.Dock="Left" 
                   Cursor="Hand"  ToolTip="窗口选择" IsEnabled="False" >
-                <MenuItem Header="{materialDesign:PackIcon Kind=Menu }" Height="25">
-                    <MenuItem Header="翻译窗口"  Background="Black" Click="Tranlate_Display_MenuItem_Click"/>
-                    <MenuItem Header="Hook文本选择"  Background="Black" Click="Hook_Display_MenuItem_Click"/>
+                <MenuItem Header="{materialDesign:PackIcon Kind=Menu }">
+                    <MenuItem Header="翻译窗口" Foreground="Black"  Click="Tranlate_Display_MenuItem_Click"/>
+                    <MenuItem Header="Hook文本选择"  Foreground="Black" Click="Hook_Display_MenuItem_Click"/>
                 </MenuItem>
             </Menu>
 

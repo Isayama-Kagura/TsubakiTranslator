@@ -28,30 +28,18 @@ namespace TsubakiTranslator
 
         private ClipboardHookHandler clipboardHookHandler;
 
-        private DispatcherTimer topmostTimer;
-        private DispatcherTimer TopmostTimer { get=> topmostTimer; }
-
         private SpeechSynthesizer synthesizer;
 
         private OcrProgram ocrProgram;
         private OcrProgram OcrProgram { get => ocrProgram; }
 
-
+        private HotkeyHandler hotkeyHandler;
+        private HotkeyHandler HotkeyHandler { get=> hotkeyHandler; }
         private void Init()
         {
             this.DataContext = App.WindowConfig;
 
-            //确保翻译窗口永远在前
-            WindowInteropHelper helper = new WindowInteropHelper(this);
-            topmostTimer = new DispatcherTimer();
-            TopmostTimer.Interval = TimeSpan.FromSeconds(1);
-            TopmostTimer.Tick += (sender, e) => BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
-
-            if (App.WindowConfig.TranslateWindowTopmost)
-            {
-                TopmostTimer.Start();
-            }
-            else
+            if (!App.WindowConfig.TranslateWindowTopmost)
             {
                 PackIcon packIcon = new PackIcon();
                 packIcon.Kind = PackIconKind.PinOff;
@@ -135,6 +123,7 @@ namespace TsubakiTranslator
         }
 
         //OCR模式
+        
         public TranslateWindow(Window mainWindow)
         {
             InitializeComponent();
@@ -149,12 +138,14 @@ namespace TsubakiTranslator
 
             Init();
 
-
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
             if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("点击截取文本按钮进行OCR识别翻译。", "好", () => { }));
+                Task.Run(() => messageQueue.Enqueue("点击截取文本按钮或快捷键进行OCR识别翻译。", "好", () => { }));
         }
+
+
+        
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
         {
@@ -196,7 +187,9 @@ namespace TsubakiTranslator
                 clipboardHookHandler.Dispose();
             }
 
-            TopmostTimer.Stop();
+           
+            //TopmostTimer.Stop();
+            //topmostTimer = null;
             mainWindow.Show();
 
             mainWindow.Topmost = true;
@@ -264,19 +257,16 @@ namespace TsubakiTranslator
                 packIcon.Kind = PackIconKind.PinOff;
                 PinButton.Content = packIcon;
                 this.Topmost = false;
-                TopmostTimer.Stop();
+                //TopmostTimer.Stop();
             }
             else
             {
                 packIcon.Kind = PackIconKind.Pin;
                 PinButton.Content = packIcon;
                 this.Topmost = true;
-                TopmostTimer.Start();
+                //TopmostTimer.Start();
             }
-
-            
         }
-
 
         private void TranslateWindow_MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -346,32 +336,73 @@ namespace TsubakiTranslator
             }
         }
 
-        /// <summary>   
-        /// 该函数将指定的窗口设置到Z序的顶部。   
-        /// </summary>   
-        /// 
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        public static extern int BringWindowToTop(IntPtr hWnd);
-
-
         [SupportedOSPlatform("windows10.0.10240")]
         private async void Screenshot_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (TopmostTimer.IsEnabled)
-                TopmostTimer.Stop();
-
             await ScreenshotWindow.Start();
 
+            if(ScreenshotWindow.Bitmap != null)
+            {
+                string ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
+
+                if (TranslatedResultDisplay.TranslatorEnabled && !ocrResult.Trim().Equals(""))
+                    TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
+            }
+        }
+
+        [SupportedOSPlatform("windows10.0.10240")]
+        private void TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (HotkeyHandler != null)
+            {
+                //截屏热键处理
+                HotkeyHandler.UnRegisterHotKey();
+                HwndSource source = HwndSource.FromHwnd(HotkeyHandler.MainFormHandle);
+                source.RemoveHook(WndProc);
+            }
+        }
+
+        private void TranslateWindow_Deactivated(object sender, EventArgs e)
+        {
             if (App.WindowConfig.TranslateWindowTopmost)
-                TopmostTimer.Start();
-
-
-            string ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
-
-            if (TranslatedResultDisplay.TranslatorEnabled && !ocrResult.Trim().Equals(""))
-                TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
-
+            {
+                WindowInteropHelper helper = new WindowInteropHelper(this);
+                User32.BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
+            }
 
         }
+
+        [SupportedOSPlatform("windows10.0.10240")]
+        private void TranslateWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //截屏热键处理
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            hotkeyHandler = new HotkeyHandler();
+            HotkeyHandler.RegisterHotKey(handle, App.OcrConfig.ScreenshotHotkey);
+
+            HwndSource source = HwndSource.FromHwnd(handle);
+            source.AddHook(WndProc);
+        }
+
+        /// <summary>
+        /// 热键的功能
+        /// </summary>
+        /// <param name="m"></param>
+        [SupportedOSPlatform("windows10.0.10240")]
+        protected IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handle)
+        {
+            switch (msg)
+            {
+                case 0x0312: //这个是window消息定义的 注册的热键消息
+                    if (wParam.ToString().Equals(HotkeyHandler.Id + ""))
+                    {
+                        this.Screenshot_Button_Click(null, null);
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        
     }
 }

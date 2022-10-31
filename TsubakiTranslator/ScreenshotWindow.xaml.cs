@@ -99,6 +99,7 @@ namespace TsubakiTranslator
                 }
                 else
                 {
+                    bitmap = null;
                     this.Close();
                 }
             }
