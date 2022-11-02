@@ -13,7 +13,7 @@
         MaxWidth="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
         MaxHeight="{StaticResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         MinHeight="100" MinWidth="400" Closed="On_TranslateWindow_Closed" Closing="TranslateWindow_Closing"
-        Loaded="TranslateWindow_Loaded" Deactivated="TranslateWindow_Deactivated"
+        Loaded="TranslateWindow_Loaded" MouseEnter="TranslateWindow_MouseEnter"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
     <!--窗口可改变尺寸-->
@@ -58,7 +58,7 @@
                 <Button x:Name="SourceTextButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"
                     Content="{ materialDesign:PackIcon Kind=Book}" ToolTip="源文本开关"
-                    Click="SourceText_Button_Click"/>
+                    Click="DisplaySourceText_Button_Click"/>
 
                 <Button x:Name="TranslatorEnableButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="25"

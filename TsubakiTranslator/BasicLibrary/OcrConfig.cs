@@ -10,11 +10,18 @@ namespace TsubakiTranslator.BasicLibrary
     public class OcrConfig : ObservableObject
     {
         private ScreenshotHotkey screenshotHotkey = new ScreenshotHotkey();
+        private int interval = 2;
 
         public ScreenshotHotkey ScreenshotHotkey
         {
             get => screenshotHotkey;
             set => SetProperty(ref screenshotHotkey, value);
+        }
+
+        public int Interval
+        {
+            get => interval;
+            set => SetProperty(ref interval, value);
         }
     }
     public class ScreenshotHotkey : ObservableObject

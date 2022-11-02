@@ -24,5 +24,28 @@
         </DockPanel>
 
         <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                    Margin="20 10 20 10" Text="自动截图间隔"/>
+
+        <DockPanel LastChildFill="False">
+
+            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:TextFieldAssist.SuffixText="秒" Margin="20 0 20 10"
+                      SelectedValue="{Binding Interval, Mode=TwoWay}" SelectedValuePath="Content"
+                      materialDesign:HintAssist.Hint="自动模式下截图的间隔">       
+                <ComboBoxItem Content="2" />
+                <ComboBoxItem Content="3" />
+                <ComboBoxItem Content="4" />
+                <ComboBoxItem Content="5" />
+                <ComboBoxItem Content="6" />
+                <ComboBoxItem Content="7" />
+                <ComboBoxItem Content="8" />
+                <ComboBoxItem Content="9" />
+                <ComboBoxItem Content="10" />
+            </ComboBox>
+        </DockPanel>
+
+        <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
     </StackPanel>
 </UserControl>

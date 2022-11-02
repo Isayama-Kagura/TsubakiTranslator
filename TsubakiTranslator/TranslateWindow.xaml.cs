@@ -7,11 +7,11 @@ using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-using System.Windows.Threading;
-using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using MaterialDesignThemes.Wpf;
 using System.Runtime.Versioning;
+using System.Timers;
+using System.Drawing;
 
 namespace TsubakiTranslator
 {
@@ -35,6 +35,10 @@ namespace TsubakiTranslator
 
         private HotkeyHandler hotkeyHandler;
         private HotkeyHandler HotkeyHandler { get=> hotkeyHandler; }
+
+        private Timer autoOcrTimer;
+        private Timer AutoOcrTimer { get => autoOcrTimer; }
+        private Bitmap LastBitmap { get; set; }
         private void Init()
         {
             this.DataContext = App.WindowConfig;
@@ -46,7 +50,7 @@ namespace TsubakiTranslator
                 PinButton.Content = packIcon;
             }
 
-            this.Background = new SolidColorBrush(Color.FromArgb((byte)App.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
+            this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb((byte)App.WindowConfig.TranslateWindowTransparency, 0, 0, 0));
 
             if (!App.WindowConfig.SourceTextVisibility)
             {
@@ -132,20 +136,15 @@ namespace TsubakiTranslator
 
             this.mainWindow = mainWindow;
 
-            ocrProgram = new OcrProgram(App.TranslateAPIConfig.SourceLanguage);
-
             TranslatedResultDisplay = new TranslatedResultDisplay();
 
             Init();
 
+            ocrProgram = new OcrProgram(App.TranslateAPIConfig.SourceLanguage);
+
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
-            if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                Task.Run(() => messageQueue.Enqueue("点击截取文本按钮或快捷键进行OCR识别翻译。", "好", () => { }));
         }
-
-
-        
 
         public void GameExitHandler(object sendingProcess, EventArgs outLine)
         {
@@ -187,9 +186,6 @@ namespace TsubakiTranslator
                 clipboardHookHandler.Dispose();
             }
 
-           
-            //TopmostTimer.Stop();
-            //topmostTimer = null;
             mainWindow.Show();
 
             mainWindow.Topmost = true;
@@ -298,7 +294,7 @@ namespace TsubakiTranslator
         }
 
 
-        private void SourceText_Button_Click(object sender, RoutedEventArgs e)
+        private void DisplaySourceText_Button_Click(object sender, RoutedEventArgs e)
         {
             PackIcon packIcon = new PackIcon();
             if (App.WindowConfig.SourceTextVisibility)
@@ -339,20 +335,36 @@ namespace TsubakiTranslator
         [SupportedOSPlatform("windows10.0.10240")]
         private async void Screenshot_Button_Click(object sender, RoutedEventArgs e)
         {
-            await ScreenshotWindow.Start();
-
-            if(ScreenshotWindow.Bitmap != null)
+            //两种OCR模式的不同处理
+            if (App.GamesConfig.IsAutoScreenshot)
             {
+                AutoOcrTimer.Stop();
+
+                await ScreenshotWindow.Start();
+
+                AutoOcrTimer.Start();
+            }
+            else if(TranslatedResultDisplay.TranslatorEnabled)
+            {
+                await ScreenshotWindow.Start();
+
                 string ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
 
-                if (TranslatedResultDisplay.TranslatorEnabled && !ocrResult.Trim().Equals(""))
+                if (ocrResult!= null && !ocrResult.Trim().Equals(""))
                     TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
             }
+
+
+            
         }
 
         [SupportedOSPlatform("windows10.0.10240")]
         private void TranslateWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if(OcrProgram != null)
+            {
+                ScreenshotWindow.Current = null;
+            }
             if (HotkeyHandler != null)
             {
                 //截屏热键处理
@@ -360,21 +372,23 @@ namespace TsubakiTranslator
                 HwndSource source = HwndSource.FromHwnd(HotkeyHandler.MainFormHandle);
                 source.RemoveHook(WndProc);
             }
-        }
 
-        private void TranslateWindow_Deactivated(object sender, EventArgs e)
-        {
-            if (App.WindowConfig.TranslateWindowTopmost)
+            if(AutoOcrTimer != null)
             {
-                WindowInteropHelper helper = new WindowInteropHelper(this);
-                User32.BringWindowToTop(HwndSource.FromHwnd(helper.Handle).Handle);
+                AutoOcrTimer.Stop();
+                AutoOcrTimer.Dispose();
             }
 
         }
 
+
+        //OCR模式
         [SupportedOSPlatform("windows10.0.10240")]
         private void TranslateWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            if (OcrProgram == null)
+                return;
+
             //截屏热键处理
             IntPtr handle = new WindowInteropHelper(this).Handle;
             hotkeyHandler = new HotkeyHandler();
@@ -382,6 +396,55 @@ namespace TsubakiTranslator
 
             HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(WndProc);
+
+            if (App.GamesConfig.IsAutoScreenshot)
+            {
+                //设置定时间隔(毫秒为单位)
+                int interval = App.OcrConfig.Interval*1000;
+                autoOcrTimer = new System.Timers.Timer(interval);
+                //设置执行一次（false）还是一直执行(true)
+                AutoOcrTimer.AutoReset = true;
+                //绑定Elapsed事件
+                AutoOcrTimer.Elapsed += new System.Timers.ElapsedEventHandler(async (s,e) =>
+                {
+                    if (!TranslatedResultDisplay.TranslatorEnabled)
+                        return;
+
+                    Bitmap bitmap = BasicLibrary.ScreenshotHandler.GetCapture(ScreenshotWindow.DrawRegion);
+
+                    if(LastBitmap != null && !ScreenshotHandler.ImageBase64Compare(bitmap,LastBitmap) || LastBitmap == null)
+                    {
+                        string ocrResult = await OcrProgram.RecognizeAsync(bitmap);
+
+                        if (ocrResult != null && !ocrResult.Trim().Equals(""))
+                            TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
+
+                    }
+
+                    LastBitmap = bitmap;
+
+                });
+
+                if (App.OcrConfig.ScreenshotHotkey.Conflict)
+                {
+                    if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                        Task.Run(() => messageQueue.Enqueue($"快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！请按菜单按钮选定自动识别区域。", "好", () => { }));
+                }
+                else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                    Task.Run(() => messageQueue.Enqueue($"按菜单按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）选定自动识别区域。", "好", () => { }));
+            }
+            else
+            {
+                if (App.OcrConfig.ScreenshotHotkey.Conflict)
+                {
+                    if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                        Task.Run(() => messageQueue.Enqueue($"快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！请按菜单按钮进行OCR识别翻译。", "好", () => { }));
+                }
+                else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                    Task.Run(() => messageQueue.Enqueue($"按菜单按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）进行OCR识别翻译。", "好", () => { }));
+            }
+
+            
         }
 
         /// <summary>
@@ -403,6 +466,13 @@ namespace TsubakiTranslator
             return IntPtr.Zero;
         }
 
-        
+        private void TranslateWindow_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (App.WindowConfig.TranslateWindowTopmost)
+            {
+                this.Topmost = false;
+                this.Topmost = true;
+            }
+        }
     }
 }

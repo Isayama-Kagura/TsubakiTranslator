@@ -89,7 +89,7 @@
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
 
-                            <ComboBox x:Name="GameProcessList" Margin="5"
+                            <ComboBox x:Name="GameProcessList" Margin="5" 
                                       materialDesign:HintAssist.Hint="游戏进程"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       IsTextSearchEnabled="True" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
@@ -147,7 +147,7 @@
                             </StackPanel>
                             <DataGrid x:Name="ClipboardRegexDataGrid"
                                       CanUserReorderColumns="False"
-                                    CanUserSortColumns="False"
+                                    CanUserSortColumns="False" ItemsSource="{Binding ClipBoardRegexRules, Mode=TwoWay}"
                                     AutoGenerateColumns="False"
                                     SelectionUnit="Cell"
                                     SelectionMode="Single">
@@ -193,6 +193,15 @@
                                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【2】Windows设置->时间和语言->语言->首选语言 </TextBlock>
                                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">中添加对应语言（支持日语、美式英语）</TextBlock>
 
+                                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <RadioButton IsChecked="True" Margin="5"
+                                             Content="手动截图"
+                                             Style="{StaticResource MaterialDesignRadioButton}" />
+                                    <RadioButton IsChecked="{Binding IsAutoScreenshot, Mode=TwoWay}" Margin="5"
+                                             Content="区域自动截图"
+                                             Style="{StaticResource MaterialDesignRadioButton}" />
+                                </StackPanel>
+                                
                             </StackPanel>
                             
 
@@ -216,7 +225,7 @@
 
             </DockPanel>
 
-            <ListView x:Name="GameList">
+            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding GameName, Mode=TwoWay}"

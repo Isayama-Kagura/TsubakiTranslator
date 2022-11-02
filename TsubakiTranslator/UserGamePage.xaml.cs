@@ -29,9 +29,7 @@ namespace TsubakiTranslator
         {
             InitializeComponent();
 
-            GameList.ItemsSource = App.GamesConfig.GameDatas;
-            ClipboardRegexDataGrid.ItemsSource = App.GamesConfig.ClipBoardRegexRules;
-
+            this.DataContext = App.GamesConfig;
         }
 
 

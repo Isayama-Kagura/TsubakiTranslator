@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace TsubakiTranslator.BasicLibrary
 {
-    public static class Screenshot
+    public static class ScreenshotHandler
     {
         public static Bitmap GetCapture(Rect CaptureRegion)
         {
@@ -59,10 +59,35 @@ namespace TsubakiTranslator.BasicLibrary
             }
             return bitmap;
         }
-        //public static void SaveCapture(Bitmap CaptureBitmap)
-        //{
-        //    System.Windows.Forms.Clipboard.SetImage(CaptureBitmap);
 
-        //}
+
+        public static bool ImageBase64Compare(Bitmap firstImage, Bitmap secondImage)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                firstImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                String firstBitmap = Convert.ToBase64String(ms.ToArray());
+                ms.Position = 0;
+
+                secondImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                String secondBitmap = Convert.ToBase64String(ms.ToArray());
+
+                if (firstBitmap.Equals(secondBitmap))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            } ;
+            
+        }
+
+            //public static void SaveCapture(Bitmap CaptureBitmap)
+            //{
+            //    System.Windows.Forms.Clipboard.SetImage(CaptureBitmap);
+
+            //}
+        }
     }
-}

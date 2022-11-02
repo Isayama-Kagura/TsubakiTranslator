@@ -27,13 +27,16 @@ namespace TsubakiTranslator
     public partial class ScreenshotWindow : Window
     {
         public static ScreenshotWindow Current { get; set; }
-        public Bitmap BackgroundImage { get; set; }
+        private Bitmap BackgroundImage { get; set; }
         private System.Windows.Point StartPoint { get; set; }
         private double DpiScale { get; set; } = 1;
         private bool ManualRegionSelection { get; set; } = false;
 
         private static Bitmap bitmap;
         public static Bitmap Bitmap { get => bitmap; }
+
+        private static Rect drawRegion;
+        public static Rect DrawRegion { get => drawRegion; }
         private ScreenshotWindow()
         {
             InitializeComponent();
@@ -46,7 +49,7 @@ namespace TsubakiTranslator
             
             await Task.Delay(500);
             var screen = SystemInformation.VirtualScreen;
-            capture.BackgroundImage = BasicLibrary.Screenshot.GetCapture(new Rect(screen.Left, screen.Top, screen.Width, screen.Height));
+            capture.BackgroundImage = BasicLibrary.ScreenshotHandler.GetCapture(new Rect(screen.Left, screen.Top, screen.Width, screen.Height));
            
 
             capture.ShowDialog();
@@ -129,7 +132,16 @@ namespace TsubakiTranslator
                     {
                         await HideAllButBackground();
                         //BasicLibrary.Screenshot.SaveCapture(BasicLibrary.Screenshot.GetCapture(GetDrawnRegion(true)));
-                        bitmap = BasicLibrary.Screenshot.GetCapture(GetDrawnRegion(true));
+
+                        //两种OCR模式的不同处理
+                        if (App.GamesConfig.IsAutoScreenshot)
+                        {
+                            drawRegion = GetDrawnRegion(true);
+                        }
+                        else
+                        {
+                            bitmap = BasicLibrary.ScreenshotHandler.GetCapture(GetDrawnRegion(true));
+                        }
 
                         this.Close();
                     }
@@ -139,7 +151,6 @@ namespace TsubakiTranslator
                         //MainWindow.Current.WriteToLog(ex);
                         this.Close();
                     }
-                   
                 }
             }
             else if (e.ChangedButton == MouseButton.Left)

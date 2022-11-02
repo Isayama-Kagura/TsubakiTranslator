@@ -85,8 +85,9 @@ namespace TsubakiTranslator.BasicLibrary
 
     public class GamesConfig : ObservableObject
     {
-        public ObservableCollection<GameData> gameDatas;
-        public ObservableCollection<RegexRuleData> clipBoardRegexRules;
+        private ObservableCollection<GameData> gameDatas;
+        private ObservableCollection<RegexRuleData> clipBoardRegexRules;
+        private bool isAutoScreenshot = false;
 
         public GamesConfig()
         {
@@ -105,5 +106,10 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref clipBoardRegexRules, value);
         }
 
+        public bool IsAutoScreenshot
+        {
+            get => isAutoScreenshot;
+            set => SetProperty(ref isAutoScreenshot, value);
+        }
     }
 }
