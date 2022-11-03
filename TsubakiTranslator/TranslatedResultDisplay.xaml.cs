@@ -35,6 +35,7 @@ namespace TsubakiTranslator
         private void Init()
         {
             SourceText.Foreground = new SolidColorBrush(App.WindowConfig.SourceTextColor);
+            SourceText.FontFamily = new FontFamily(App.WindowConfig.SourceTextFontFamily);
 
             translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig);
 
@@ -42,9 +43,12 @@ namespace TsubakiTranslator
             foreach (ITranslator t in translators)
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
+
                 if(!App.WindowConfig.TranslatorNameVisibility)
                     resultItem.APINameTextBlock.Visibility = Visibility.Collapsed;
+
                 resultItem.ResultTextBlock.Foreground = new SolidColorBrush(App.WindowConfig.TranslatedTextColor);
+                resultItem.ResultTextBlock.FontFamily = new FontFamily(App.WindowConfig.TranslatedTextFontFamily);
                 TranslateResultPanel.Children.Add(resultItem);
                 displayTextContent.Add(t.Name, resultItem.TranslatedData);
             }

@@ -5,36 +5,20 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class WindowConfig : ObservableObject
     {
-        public WindowConfig()
-        {
-            MainWindowHeight = 400;
-            MainWindowWidth = 800;
-
-            TranslateWindowHeight = 400;
-            TranslateWindowWidth = 800;
-            TranslateWindowLeft = 400;
-            TranslateWindowTop = 200;
-            TranslateWindowTopmost = false;
-            TranslateWindowTransparency = 165;
-            SourceTextColor = Colors.BurlyWood;
-            TranslatedTextColor = Colors.WhiteSmoke;
-            SourceTextVisibility = true;
-            TranslatorNameVisibility = true;
-        }
-
-        private double mainWindowWidth;
-        private double mainWindowHeight;
-        private double translateWindowHeight;
-        private double translateWindowWidth;
-        private double translateWindowLeft;
-        private double translateWindowTop;
-        private bool translateWindowTopmost;
-        private int translateWindowTransparency;
-        private Color sourceTextColor;
-        private Color translatedTextColor;
-        private bool sourceTextVisibility;
-        private bool translatorNameVisibility;
-
+        private double mainWindowWidth = 400;
+        private double mainWindowHeight = 800;
+        private double translateWindowHeight = 400;
+        private double translateWindowWidth = 800;
+        private double translateWindowLeft = 400;
+        private double translateWindowTop = 200;
+        private bool translateWindowTopmost = false;
+        private int translateWindowTransparency = 165;
+        private Color sourceTextColor = Colors.BurlyWood;
+        private Color translatedTextColor = Colors.WhiteSmoke;
+        private bool sourceTextVisibility = true;
+        private bool translatorNameVisibility = true;
+        private string sourceTextFontFamily = "Microsoft YaHei UI";
+        private string translatedTextFontFamily = "Microsoft YaHei UI";
 
         public double MainWindowWidth
         {
@@ -105,6 +89,18 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => translatorNameVisibility;
             set => SetProperty(ref translatorNameVisibility, value);
+        }
+
+        public string SourceTextFontFamily
+        {
+            get => sourceTextFontFamily;
+            set => SetProperty(ref sourceTextFontFamily, value);
+        }
+
+        public string TranslatedTextFontFamily
+        {
+            get => translatedTextFontFamily;
+            set => SetProperty(ref translatedTextFontFamily, value);
         }
     }
 }

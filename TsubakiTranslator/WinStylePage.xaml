@@ -7,49 +7,73 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                    Margin="20 10 20 10" Text="翻译窗口透明度"/>
-
-        <DockPanel>
-            <Button DockPanel.Dock="Right" Margin="0 10 20 10"
-                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                    Content="默认值" Click="DefaultTransparency_Button_Click" Cursor="Hand"/>
-            <Slider Margin="20 10 20 10"
-                    Minimum="15" Maximum="255"
-                    Style="{StaticResource MaterialDesignDiscreteSlider}"
-                    TickFrequency="15"
-                    TickPlacement="Both" 
-                    Value="{Binding TranslateWindowTransparency, Mode=TwoWay}" />
-        </DockPanel>
-
-        <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                    Margin="20 10 20 10" Text="翻译字体颜色"/>
-
-        <DockPanel LastChildFill="False">
-            <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    DisplayMemberPath="Content" SelectedValuePath="Value"
-                    SelectedValue="{Binding SourceTextColor, Mode=TwoWay}"
-                    materialDesign:HintAssist.Hint="源文本颜色" Width="122.8"/>
-            <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    DisplayMemberPath="Content" SelectedValuePath="Value"
-                    SelectedValue="{Binding TranslatedTextColor, Mode=TwoWay}"
-                    materialDesign:HintAssist.Hint="翻译文本颜色"/>
-        </DockPanel>
-
-        <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-
-        <DockPanel LastChildFill="False">
+    <ScrollViewer materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"  
+                  HorizontalScrollBarVisibility="Disabled"
+                   Style="{StaticResource ScrollViewerStyle}">
+        <StackPanel>
             <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                    Margin="20 10 20 10" Text="显示翻译API名字"/>
-            <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" DockPanel.Dock="Left"
-                        ToolTip="显示翻译API名字"  IsChecked="{Binding TranslatorNameVisibility, Mode=TwoWay}"/>
-        </DockPanel>
+                        Margin="20 10 20 10" Text="翻译窗口透明度"/>
 
-    </StackPanel>
+            <DockPanel>
+                
+                <Slider Margin="20 10 20 10"
+                        Minimum="15" Maximum="255"
+                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                        TickFrequency="15"
+                        TickPlacement="Both" 
+                        Value="{Binding TranslateWindowTransparency, Mode=TwoWay}" />
+            </DockPanel>
+
+            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Margin="20 10 20 10" Text="翻译字体设置"/>
+
+            <DockPanel LastChildFill="False">
+                <ComboBox x:Name="SourceTextFontFamilyComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        SelectedValue="{Binding SourceTextFontFamily, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="源文本字体" />
+                <ComboBox x:Name="TranslatedTextFontFamilyComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        SelectedValue="{Binding TranslatedTextFontFamily, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="翻译文本字体"/>
+            
+            </DockPanel>
+
+            <DockPanel LastChildFill="False">
+                <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        DisplayMemberPath="Content" SelectedValuePath="Value"
+                        SelectedValue="{Binding SourceTextColor, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="源文本颜色" />
+                <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        DisplayMemberPath="Content" SelectedValuePath="Value"
+                        SelectedValue="{Binding TranslatedTextColor, Mode=TwoWay}"
+                        materialDesign:HintAssist.Hint="翻译文本颜色"/>
+            </DockPanel>
+
+            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+            <DockPanel LastChildFill="False">
+                <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Margin="20 10 20 10" Text="显示翻译API名字"/>
+                <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" DockPanel.Dock="Right" Margin="20 10 20 10"
+                            ToolTip="显示翻译API名字"  IsChecked="{Binding TranslatorNameVisibility, Mode=TwoWay}"/>
+            </DockPanel>
+
+            <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
+            <DockPanel LastChildFill="False">
+                <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Margin="20 10 20 10" Text="恢复默认界面"/>
+                <Button DockPanel.Dock="Right" Margin="20 10 20 10"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Content="默认值" Click="DefaultTransparency_Button_Click" Cursor="Hand"/>
+            </DockPanel>
+
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

@@ -9,13 +9,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
 
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                    Margin="20 10 20 10" Text="截屏快捷键"/>
-
         <DockPanel LastChildFill="False">
+        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                    Margin="20 10 20 10" Text="截屏快捷键" VerticalAlignment="Center"/>
+
+        
 
             <TextBox x:Name="ScreenshotHotkeyTextBox" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    VerticalAlignment="Top" Margin="20 10 20 10"
+                    VerticalAlignment="Top" Margin="20 10 20 10" DockPanel.Dock="Right"
                     AcceptsReturn="True"
                     TextWrapping="Wrap" IsReadOnly="True"
                     VerticalScrollBarVisibility="Auto" PreviewKeyDown="HotkeyTextBox_PreviewKeyDown" 
@@ -25,26 +26,28 @@
 
         <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
-        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+
+        <DockPanel LastChildFill="False" >
+            <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                     Margin="20 10 20 10" Text="自动截图间隔"/>
 
-        <DockPanel LastChildFill="False">
-
-            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:TextFieldAssist.SuffixText="秒" Margin="20 0 20 10"
                       SelectedValue="{Binding Interval, Mode=TwoWay}" SelectedValuePath="Content"
-                      materialDesign:HintAssist.Hint="自动模式下截图的间隔">       
-                <ComboBoxItem Content="2" />
-                <ComboBoxItem Content="3" />
-                <ComboBoxItem Content="4" />
-                <ComboBoxItem Content="5" />
-                <ComboBoxItem Content="6" />
-                <ComboBoxItem Content="7" />
-                <ComboBoxItem Content="8" />
-                <ComboBoxItem Content="9" />
-                <ComboBoxItem Content="10" />
-            </ComboBox>
-        </DockPanel>
+                      materialDesign:HintAssist.Hint="自动模式下截图的间隔" DockPanel.Dock="Right">
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                    <ComboBoxItem Content="5" />
+                    <ComboBoxItem Content="6" />
+                    <ComboBoxItem Content="7" />
+                    <ComboBoxItem Content="8" />
+                    <ComboBoxItem Content="9" />
+                    <ComboBoxItem Content="10" />
+                </ComboBox>
+         </DockPanel>
+
+        
 
         <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
     </StackPanel>
