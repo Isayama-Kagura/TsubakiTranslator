@@ -14,10 +14,9 @@
         <TextBlock x:Name="APINameTextBlock" FontSize="20" Grid.Column="0" Foreground="Firebrick" 
                    FontWeight="Bold"  Text="{Binding TranslatorName, Mode=TwoWay}"/>
 
-
         <TextBox x:Name="ResultTextBlock" Grid.Column="2"
                          Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" 
-                         Margin="7 0 7 7" TextWrapping="Wrap" FontSize="20"
+                         TextWrapping="Wrap" FontSize="20"
                          Text="{Binding TranslatedResult, Mode=TwoWay}" Foreground="WhiteSmoke"  
                          IsReadOnly="True" FontWeight="Bold"/>
 

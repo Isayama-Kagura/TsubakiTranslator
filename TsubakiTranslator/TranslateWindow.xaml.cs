@@ -38,7 +38,8 @@ namespace TsubakiTranslator
 
         private Timer autoOcrTimer;
         private Timer AutoOcrTimer { get => autoOcrTimer; }
-        private Bitmap LastBitmap { get; set; }
+        private Bitmap LastOcrBitmap { get; set; } = new Bitmap(100,100);
+        private string LastOcrResult { get; set; } = "";
         private void Init()
         {
             this.DataContext = App.WindowConfig;
@@ -412,16 +413,18 @@ namespace TsubakiTranslator
 
                     Bitmap bitmap = BasicLibrary.ScreenshotHandler.GetCapture(ScreenshotWindow.DrawRegion);
 
-                    if(LastBitmap != null && !ScreenshotHandler.ImageBase64Compare(bitmap,LastBitmap) || LastBitmap == null)
+                    if(!ScreenshotHandler.ImageBase64Compare(bitmap,LastOcrBitmap))
                     {
                         string ocrResult = await OcrProgram.RecognizeAsync(bitmap);
 
-                        if (ocrResult != null && !ocrResult.Trim().Equals(""))
-                            TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
+                        if(!LastOcrResult.Equals(ocrResult))
+                            if (ocrResult != null && !ocrResult.Trim().Equals(""))
+                                TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
 
+                        LastOcrResult = ocrResult;
                     }
 
-                    LastBitmap = bitmap;
+                    LastOcrBitmap = bitmap;
 
                 });
 
