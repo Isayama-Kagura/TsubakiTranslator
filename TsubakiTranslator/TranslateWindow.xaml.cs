@@ -126,6 +126,9 @@ namespace TsubakiTranslator
 
             ScreenshotButton.Visibility = Visibility.Visible;
 
+            AutoScreenshotButton.Visibility = Visibility.Visible;
+            AutoScreenshotButton.DataContext = App.OcrConfig;
+
             this.mainWindow = mainWindow;
 
             TranslatedResultDisplay = new TranslatedResultDisplay();
@@ -288,10 +291,11 @@ namespace TsubakiTranslator
             bool flag = true;
             string sourceText = TranslatedResultDisplay.SourceText.Text;
 
-            flag = await TTSHandler.SpeakTextAsync(sourceText);
-            if (!flag)
-                if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                    await Task.Run(() => messageQueue.Enqueue($"{TTSHandler.ErrorMessage}", "好", () => { }));
+            if(!sourceText.Equals(""))
+                flag = await TTSHandler.SpeakTextAsync(sourceText);
+
+            if (!flag && TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                await Task.Run(() => messageQueue.Enqueue($"{TTSHandler.ErrorMessage}", "好", () => { }));
 
         }
 
@@ -338,7 +342,7 @@ namespace TsubakiTranslator
         private async void Screenshot_Button_Click(object sender, RoutedEventArgs e)
         {
             //两种OCR模式的不同处理
-            if (App.GamesConfig.IsAutoScreenshot)
+            if (App.OcrConfig.IsAutoScreenshot)
             {
                 AutoOcrTimer.Stop();
 
@@ -399,56 +403,34 @@ namespace TsubakiTranslator
             HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(WndProc);
 
-            if (App.GamesConfig.IsAutoScreenshot)
+            //设置定时间隔(毫秒为单位)
+            int interval = App.OcrConfig.Interval*1000;
+            autoOcrTimer = new System.Timers.Timer(interval);
+            //设置执行一次（false）还是一直执行(true)
+            AutoOcrTimer.AutoReset = true;
+            //绑定Elapsed事件
+            AutoOcrTimer.Elapsed += new System.Timers.ElapsedEventHandler(async (s,e) =>
             {
-                //设置定时间隔(毫秒为单位)
-                int interval = App.OcrConfig.Interval*1000;
-                autoOcrTimer = new System.Timers.Timer(interval);
-                //设置执行一次（false）还是一直执行(true)
-                AutoOcrTimer.AutoReset = true;
-                //绑定Elapsed事件
-                AutoOcrTimer.Elapsed += new System.Timers.ElapsedEventHandler(async (s,e) =>
+                if (!TranslatedResultDisplay.TranslatorEnabled)
+                    return;
+
+                Bitmap bitmap = BasicLibrary.ScreenshotHandler.GetCapture(ScreenshotWindow.DrawRegion);
+
+                if(!ScreenshotHandler.ImageBase64Compare(bitmap,LastOcrBitmap))
                 {
-                    if (!TranslatedResultDisplay.TranslatorEnabled)
-                        return;
+                    string ocrResult = await OcrProgram.RecognizeAsync(bitmap);
 
-                    Bitmap bitmap = BasicLibrary.ScreenshotHandler.GetCapture(ScreenshotWindow.DrawRegion);
+                    if(!LastOcrResult.Equals(ocrResult))
+                        if (ocrResult != null && !ocrResult.Trim().Equals(""))
+                            TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
 
-                    if(!ScreenshotHandler.ImageBase64Compare(bitmap,LastOcrBitmap))
-                    {
-                        string ocrResult = await OcrProgram.RecognizeAsync(bitmap);
-
-                        if(!LastOcrResult.Equals(ocrResult))
-                            if (ocrResult != null && !ocrResult.Trim().Equals(""))
-                                TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
-
-                        LastOcrResult = ocrResult;
-                    }
-
-                    LastOcrBitmap = bitmap;
-
-                });
-
-                if (App.OcrConfig.ScreenshotHotkey.Conflict)
-                {
-                    if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                        Task.Run(() => messageQueue.Enqueue($"快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！请按菜单按钮选定自动识别区域。", "好", () => { }));
+                    LastOcrResult = ocrResult;
                 }
-                else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                    Task.Run(() => messageQueue.Enqueue($"按菜单按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）选定自动识别区域。", "好", () => { }));
-            }
-            else
-            {
-                if (App.OcrConfig.ScreenshotHotkey.Conflict)
-                {
-                    if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                        Task.Run(() => messageQueue.Enqueue($"快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！请按菜单按钮进行OCR识别翻译。", "好", () => { }));
-                }
-                else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
-                    Task.Run(() => messageQueue.Enqueue($"按菜单按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）进行OCR识别翻译。", "好", () => { }));
-            }
 
-            
+                LastOcrBitmap = bitmap;
+
+            });
+
         }
 
         /// <summary>
@@ -477,6 +459,29 @@ namespace TsubakiTranslator
                 this.Topmost = false;
                 this.Topmost = true;
             }
+        }
+
+        private void AutoScreenshot_ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (App.OcrConfig.ScreenshotHotkey.Conflict)
+            {
+                if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                    Task.Run(() => messageQueue.Enqueue($"自动模式，快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！按界面按钮选定识别区域。", "好", () => { }));
+            }
+            else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue($"自动模式，按界面按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）选定识别区域。", "好", () => { }));
+        }
+
+        private void AutoScreenshot_ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AutoOcrTimer.Stop();
+            if (App.OcrConfig.ScreenshotHotkey.Conflict)
+            {
+                if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                    Task.Run(() => messageQueue.Enqueue($"手动模式，快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）冲突！按界面按钮截图识别。", "好", () => { }));
+            }
+            else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                Task.Run(() => messageQueue.Enqueue($"手动模式，按界面按钮或快捷键（{App.OcrConfig.ScreenshotHotkey.Text}）截图识别。", "好", () => { }));
         }
     }
 }

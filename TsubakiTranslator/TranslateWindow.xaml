@@ -27,7 +27,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0"  LastChildFill="False">
+        <DockPanel  Grid.Row="0"  LastChildFill="False" Height="25">
 
             <Button DockPanel.Dock="Right"  Style="{StaticResource MaterialDesignFlatAccentButton}" 
                     ToolTip="关闭" Foreground="White" Cursor="Hand"  
@@ -54,37 +54,48 @@
                 </MenuItem>
             </Menu>
 
-            <StackPanel x:Name="TranslatedResultPanel"  Orientation="Horizontal" DockPanel.Dock="Left">
+            <StackPanel x:Name="TranslatedResultPanel"  Orientation="Horizontal" DockPanel.Dock="Left" >
                 <Button x:Name="SourceTextButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25"
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
                     Content="{ materialDesign:PackIcon Kind=Book}" ToolTip="源文本开关"
-                    Click="DisplaySourceText_Button_Click"/>
+                    Click="DisplaySourceText_Button_Click" />
 
                 <Button x:Name="TranslatorEnableButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25"
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
                     Content="{ materialDesign:PackIcon Kind=Pause}" ToolTip="暂停翻译"
                     Click="TranslatorEnable_Button_Click"/>
 
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25"
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
                     Content="{ materialDesign:PackIcon Kind=FormatFontSizeDecrease}" ToolTip="缩小字体"
                     Click="FormatFontSizeDecrease_Button_Click"/>
-                
+
                 <Button Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25"
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
                     Content="{ materialDesign:PackIcon Kind=FormatFontSizeIncrease}" ToolTip="放大字体"
                     Click="FormatFontSizeIncrease_Button_Click"/>
 
                 <Button x:Name="TTSButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25" Visibility="Collapsed"
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
+                    Visibility="Collapsed"
                     Content="{ materialDesign:PackIcon Kind=VolumeSource}" ToolTip="朗读文本"
                     Click="VolumeSource_Button_Click"/>
 
-
                 <Button x:Name="ScreenshotButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
-                    Foreground="White" Cursor="Hand" Height="25" Visibility="Collapsed"
-                    Content="{ materialDesign:PackIcon Kind=MonitorScreenshot}" ToolTip="截取文本"
+                        Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
+                        Visibility="Collapsed"
+                        Content="{ materialDesign:PackIcon Kind=Crop}" ToolTip="截取文本"
                         Click="Screenshot_Button_Click"/>
+
+                <ToggleButton x:Name="AutoScreenshotButton" Style="{StaticResource MaterialDesignSwitchDarkToggleButton}" 
+                              Cursor="Hand"  ToolTip="自动截图开关" Visibility="Collapsed" IsChecked="{Binding IsAutoScreenshot, Mode=TwoWay}"
+                              Checked="AutoScreenshot_ToggleButton_Checked" Unchecked="AutoScreenshot_ToggleButton_Unchecked">
+                    <materialDesign:PackIcon Kind="AccountTie"/>
+                    <materialDesign:ToggleButtonAssist.OnContent>
+                        <materialDesign:PackIcon Kind="RobotOutline" />
+                    </materialDesign:ToggleButtonAssist.OnContent>
+                </ToggleButton>
+
             </StackPanel>
 
         </DockPanel>
@@ -92,5 +103,5 @@
         <ContentControl x:Name="TranslateWindowContent" Grid.Row="1"/>
 
     </Grid>
-    
+
 </Window>

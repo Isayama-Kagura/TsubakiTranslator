@@ -15,7 +15,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
     class AliyunTranslator : ITranslator
     {
-        private readonly string name = "阿里云";
+        private readonly string name = "阿里";
         public string Name { get => name; }
 
         public string SourceLanguage { get; set; }

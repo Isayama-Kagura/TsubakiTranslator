@@ -9,9 +9,15 @@ namespace TsubakiTranslator.BasicLibrary
 {
     public class OcrConfig : ObservableObject
     {
+        private bool isAutoScreenshot = false;
         private ScreenshotHotkey screenshotHotkey = new ScreenshotHotkey();
         private int interval = 2;
 
+        public bool IsAutoScreenshot
+        {
+            get => isAutoScreenshot;
+            set => SetProperty(ref isAutoScreenshot, value);
+        }
         public ScreenshotHotkey ScreenshotHotkey
         {
             get => screenshotHotkey;
