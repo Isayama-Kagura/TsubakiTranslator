@@ -5,8 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TsubakiTranslator.BasicLibrary;
-using Microsoft.CognitiveServices.Speech;
-using Microsoft.CognitiveServices.Speech.Audio;
 using System.Windows.Interop;
 using MaterialDesignThemes.Wpf;
 using System.Runtime.Versioning;
@@ -27,8 +25,7 @@ namespace TsubakiTranslator
         public TextHookHandler TextHookHandler { get => textHookHandler; }
 
         private ClipboardHookHandler clipboardHookHandler;
-
-        private SpeechSynthesizer synthesizer;
+        private TTSHandler TTSHandler { get; set; }
 
         private OcrProgram ocrProgram;
         private OcrProgram OcrProgram { get => ocrProgram; }
@@ -65,24 +62,18 @@ namespace TsubakiTranslator
             if (App.TranslateAPIConfig.TTSIsEnabled)
             {
                 TTSButton.Visibility = Visibility.Visible;
-                var config = SpeechConfig.FromSubscription(App.TranslateAPIConfig.TTSResourceKey, App.TranslateAPIConfig.TTSRegion);
-                config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm);
-                // Note: if only language is set, the default voice of that language is chosen.
+
+
                 if (App.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
                 {
-                    // The voice setting will overwrite language setting.
-                    // The voice setting will not overwrite the voice element in input SSML.
-                    config.SpeechSynthesisLanguage = "ja-JP";
-                    config.SpeechSynthesisVoiceName = "ja-JP-NanamiNeural";
+                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TTSRegion, App.TranslateAPIConfig.TTSResourceKey, "ja-JP", "ja-JP-NanamiNeural");
                 }
 
                 else
                 {
-                    config.SpeechSynthesisLanguage = "en-US";
-                    config.SpeechSynthesisVoiceName = "en-US-AmberNeural";
+                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TTSRegion, App.TranslateAPIConfig.TTSResourceKey, "en-US", "en-US-AmberNeural");
                 }
 
-                synthesizer = new SpeechSynthesizer(config);
             }
                 
 
@@ -186,6 +177,10 @@ namespace TsubakiTranslator
                 clipboardHookHandler.ClipboardUpdated -= TranslatedResultDisplay.TranslteClipboardText;
                 clipboardHookHandler.Dispose();
             }
+            if(TTSHandler != null)
+            {
+                TTSHandler.Dispose();
+            }
 
             mainWindow.Show();
 
@@ -288,10 +283,16 @@ namespace TsubakiTranslator
                     ((TranslatedResultItem)t).IncreaseFontSize();
         }
 
-        private void VolumeSource_Button_Click(object sender, RoutedEventArgs e)
+        private async void VolumeSource_Button_Click(object sender, RoutedEventArgs e)
         {
+            bool flag = true;
             string sourceText = TranslatedResultDisplay.SourceText.Text;
-            Parallel.Invoke(async () => { await synthesizer.SpeakTextAsync(sourceText); });
+
+            flag = await TTSHandler.SpeakTextAsync(sourceText);
+            if (!flag)
+                if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
+                    await Task.Run(() => messageQueue.Enqueue($"{TTSHandler.ErrorMessage}", "好", () => { }));
+
         }
 
 

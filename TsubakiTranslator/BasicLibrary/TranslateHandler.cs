@@ -96,7 +96,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 dict.Add("阿里云", "ja");
                 dict.Add("百度", "auto");
-                dict.Add("彩云", "auto");
+                dict.Add("彩云", "ja");
                 dict.Add("DeepL", "JA");
                 dict.Add("IBM", "ja");
                 dict.Add("腾讯", "auto");
@@ -109,7 +109,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 dict.Add("阿里云", "en");
                 dict.Add("百度", "auto");
-                dict.Add("彩云", "auto");
+                dict.Add("彩云", "en");
                 dict.Add("DeepL", "EN");
                 dict.Add("IBM", "en");
                 dict.Add("腾讯", "auto");

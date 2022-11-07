@@ -42,7 +42,7 @@ namespace TsubakiTranslator.BasicLibrary
             }
             catch
             {
-                bitmapSource = null;
+                bitmapSource = default;
             }
 
             //BitmapSource to SoftwareBitmap

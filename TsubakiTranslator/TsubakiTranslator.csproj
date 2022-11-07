@@ -29,7 +29,6 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.0" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.23.0" />
     <PackageReference Include="RestSharp" Version="108.0.1" />
   </ItemGroup>
 
