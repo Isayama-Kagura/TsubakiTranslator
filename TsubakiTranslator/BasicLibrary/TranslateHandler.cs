@@ -74,11 +74,6 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(yeekit);
             }
 
-            if (translateAPIConfig.YoudaoIsEnabled)
-            {
-                ITranslator youdao = new YoudaoTranslator();
-                translators.AddLast(youdao);
-            }
 
             Dictionary<string, string> langDict = GetAPISourceLangDict(translateAPIConfig.SourceLanguage);
 
@@ -103,7 +98,6 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("小牛", "ja");
                 dict.Add("火山", "ja");
                 dict.Add("Yeekit", "nja");
-                dict.Add("有道", "jp");
             }
             else if (srcLang.Equals("English"))
             {
@@ -116,7 +110,6 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("小牛", "en"); 
                 dict.Add("火山", "en");
                 dict.Add("Yeekit", "nen");
-                dict.Add("有道", "en");
             }
             return dict;
  

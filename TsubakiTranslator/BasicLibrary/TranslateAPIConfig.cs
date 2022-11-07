@@ -39,7 +39,6 @@ namespace TsubakiTranslator.BasicLibrary
 
         private bool yeekitIsEnabled;
 
-        private bool youdaoIsEnabled;
 
         public string SourceLanguage
         {
@@ -181,10 +180,5 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref yeekitIsEnabled, value);
         }
 
-        public bool YoudaoIsEnabled
-        {
-            get => youdaoIsEnabled;
-            set => SetProperty(ref youdaoIsEnabled, value);
-        }
     }
 }
