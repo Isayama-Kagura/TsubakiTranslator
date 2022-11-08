@@ -182,26 +182,25 @@
 
                 </Button>
 
-                <Button DockPanel.Dock="Right"
+                <Button DockPanel.Dock="Right" Click="Ocr_Button_Click"
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         Width="63" Content="OCR"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
                         <StackPanel>
-                            <StackPanel Margin="5" HorizontalAlignment="Center" >
-                                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">使用OCR功能应满足的条件：</TextBlock>
-                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【1】Windows10 操作系统</TextBlock>
-                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">【2】在 Windows设置->时间和语言 </TextBlock>
-                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">->语言->首选语言 中添加语言</TextBlock>
-                                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">（支持日语、美式英语）</TextBlock>
-
+                            <StackPanel x:Name="OcrTipsPanel" Margin="5" HorizontalAlignment="Center" >
+                                <TextBlock >使用OCR功能应满足的条件：</TextBlock>
+                                <TextBlock >【1】Windows10 操作系统</TextBlock>
+                                <TextBlock >【2】在 Windows设置->时间和语言 </TextBlock>
+                                <TextBlock >->语言->首选语言 中添加语言</TextBlock>
+                                <TextBlock ></TextBlock>
+                                <TextBlock >当前电脑支持：</TextBlock>
                             </StackPanel>
                             
-
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         HorizontalAlignment="Center" Margin="5"
-                                        Click="OcrMode_Button_Click"
+                                        Click="OcrModeConfirm_Button_Click"
                                         Content="确定"/>
                                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True"

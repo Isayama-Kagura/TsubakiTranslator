@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,6 +30,19 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 language = "en-US";
             }
+        }
+
+        [SupportedOSPlatform("windows10.0.10240")]
+        public static System.Collections.Generic.IEnumerable<string> GetSupportedLanguages()
+        {
+            
+            //Console.WriteLine("Supported languages:");
+            var result = from lang in OcrEngine.AvailableRecognizerLanguages
+                         where lang.LanguageTag.Equals("ja") || lang.LanguageTag.Equals("en-US")
+                         select lang.DisplayName;
+
+            return result;
+            
         }
 
         [SupportedOSPlatform("windows10.0.10240")]

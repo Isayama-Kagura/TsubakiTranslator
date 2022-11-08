@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -192,12 +193,24 @@ namespace TsubakiTranslator
 
 
         //OCR模式
-        private void OcrMode_Button_Click(object sender, RoutedEventArgs e)
+        private void OcrModeConfirm_Button_Click(object sender, RoutedEventArgs e)
         {
             Window mainWindow = Window.GetWindow(this);
             mainWindow.Hide();
             TranslateWindow translateWindow = new TranslateWindow(mainWindow);
             translateWindow.Show();
+        }
+
+        [SupportedOSPlatform("windows10.0.10240")]
+        private void Ocr_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var languagesName = OcrProgram.GetSupportedLanguages();
+            foreach(string lang in languagesName ) 
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = lang;
+                OcrTipsPanel.Children.Add(tb);
+            }
         }
     }
   
