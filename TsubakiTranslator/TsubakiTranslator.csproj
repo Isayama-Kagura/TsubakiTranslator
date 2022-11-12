@@ -15,7 +15,7 @@
     <Company>OTAKU Technology Co., Ltd.</Company>
     <PackageProjectUrl>https://github.com/Isayama-Kagura/TsubakiTranslator</PackageProjectUrl>
     <Copyright>© 2021 Tsubaki Translator</Copyright>
-    <Version>1.0.5.2</Version>
+    <Version>1.0.5.3</Version>
     <Product>Tsubaki Translator</Product>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     
@@ -27,9 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.6.0" />
-    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,6 +18,8 @@ namespace TsubakiTranslator.BasicLibrary
         private string baiduAppID;
         private string baiduSecretKey;
 
+        private bool bingIsEnabled;
+
         private bool caiyunIsEnabled;
         private string caiyunToken;
 
@@ -99,6 +101,12 @@ namespace TsubakiTranslator.BasicLibrary
         {
             get => baiduSecretKey;
             set => SetProperty(ref baiduSecretKey, value);
+        }
+
+        public bool BingIsEnabled
+        {
+            get => bingIsEnabled;
+            set => SetProperty(ref bingIsEnabled, value);
         }
 
         public bool CaiyunIsEnabled

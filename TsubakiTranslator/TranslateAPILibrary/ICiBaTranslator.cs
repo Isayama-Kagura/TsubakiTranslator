@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
@@ -16,13 +17,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private readonly string name = "爱词霸";
         public string Name { get => name; }
 
-        
         public string Translate(string sourceText)
         {
             string desLang = "zh";
 
             string sign;
-
 
             using (MD5 md5Hash = MD5.Create())
             {
@@ -31,8 +30,6 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 // 返回16进制字符串  
                 sign = Convert.ToHexString(data).ToLower();
             }
-
-            
 
             sign = sign.Substring(0, 16);
 

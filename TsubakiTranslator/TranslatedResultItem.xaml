@@ -7,7 +7,7 @@
     <Grid Margin="0,5,0,5" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="7" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 

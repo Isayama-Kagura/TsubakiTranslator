@@ -26,6 +26,12 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(baidu);
             }
 
+            if (translateAPIConfig.BingIsEnabled)
+            {
+                ITranslator bing = new BingTranslator();
+                translators.AddLast(bing);
+            }
+
             if (translateAPIConfig.CaiyunIsEnabled)
             {
                 ITranslator caiyun = new CaiyunTranslator();
@@ -98,6 +104,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 dict.Add("阿里云", "ja");
                 dict.Add("百度", "auto");
+                dict.Add("必应", "ja");
                 dict.Add("彩云", "ja");
                 dict.Add("DeepL", "JA");
                 dict.Add("IBM", "ja");
@@ -111,6 +118,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 dict.Add("阿里云", "en");
                 dict.Add("百度", "auto");
+                dict.Add("必应", "en");
                 dict.Add("彩云", "en");
                 dict.Add("DeepL", "EN");
                 dict.Add("IBM", "en");

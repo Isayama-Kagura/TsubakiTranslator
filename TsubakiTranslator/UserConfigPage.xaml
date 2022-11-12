@@ -109,6 +109,21 @@
 
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
+
+                <Expander HorizontalAlignment="Stretch" Header="必应翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『Bing Microsoft Translator』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding BingIsEnabled,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
                 <Expander HorizontalAlignment="Stretch" Header="IBM翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
