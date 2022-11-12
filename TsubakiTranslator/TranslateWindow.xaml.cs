@@ -348,20 +348,22 @@ namespace TsubakiTranslator
 
                 await ScreenshotWindow.Start();
 
-                AutoOcrTimer.Start();
+                if (ScreenshotWindow.DrawRegion != default)
+                    AutoOcrTimer.Start();
             }
             else if(TranslatedResultDisplay.TranslatorEnabled)
             {
                 await ScreenshotWindow.Start();
 
-                string ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
+                string ocrResult = default;
+
+                if (ScreenshotWindow.Bitmap != null)
+                    ocrResult = await OcrProgram.RecognizeAsync(ScreenshotWindow.Bitmap);
 
                 if (ocrResult!= null && !ocrResult.Trim().Equals(""))
                     TranslatedResultDisplay.TranslateAndDisplay(ocrResult);
             }
 
-
-            
         }
 
         [SupportedOSPlatform("windows10.0.10240")]

@@ -87,7 +87,7 @@
                         Content="{ materialDesign:PackIcon Kind=Crop}" ToolTip="截取文本"
                         Click="Screenshot_Button_Click"/>
 
-                <ToggleButton x:Name="AutoScreenshotButton" Style="{StaticResource MaterialDesignSwitchDarkToggleButton}" 
+                <ToggleButton x:Name="AutoScreenshotButton" Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"  Width="48"
                               Cursor="Hand"  ToolTip="自动截图开关" Visibility="Collapsed" IsChecked="{Binding IsAutoScreenshot, Mode=TwoWay}"
                               Checked="AutoScreenshot_ToggleButton_Checked" Unchecked="AutoScreenshot_ToggleButton_Unchecked">
                     <materialDesign:PackIcon Kind="AccountTie"/>
