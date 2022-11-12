@@ -40,6 +40,7 @@ namespace TsubakiTranslator
         private void Init()
         {
             this.DataContext = App.WindowConfig;
+            AutoScreenshotButton.DataContext = App.OcrConfig;
 
             if (!App.WindowConfig.TranslateWindowTopmost)
             {
@@ -127,7 +128,7 @@ namespace TsubakiTranslator
             ScreenshotButton.Visibility = Visibility.Visible;
 
             AutoScreenshotButton.Visibility = Visibility.Visible;
-            AutoScreenshotButton.DataContext = App.OcrConfig;
+            
 
             this.mainWindow = mainWindow;
 

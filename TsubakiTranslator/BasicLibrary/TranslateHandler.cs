@@ -48,6 +48,13 @@ namespace TsubakiTranslator.BasicLibrary
 
             }
 
+            if (translateAPIConfig.ICiBaIsEnabled)
+            {
+                ITranslator iCiBa = new ICiBaTranslator();
+                translators.AddLast(iCiBa);
+
+            }
+
             if (translateAPIConfig.TencentIsEnabled)
             {
                 ITranslator tencent = new TencentTranslator();
@@ -94,6 +101,7 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("彩云", "ja");
                 dict.Add("DeepL", "JA");
                 dict.Add("IBM", "ja");
+                dict.Add("爱词霸", "ja");
                 dict.Add("腾讯", "auto");
                 dict.Add("小牛", "ja");
                 dict.Add("火山", "ja");
@@ -106,6 +114,7 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("彩云", "en");
                 dict.Add("DeepL", "EN");
                 dict.Add("IBM", "en");
+                dict.Add("爱词霸", "en");
                 dict.Add("腾讯", "auto");
                 dict.Add("小牛", "en"); 
                 dict.Add("火山", "en");

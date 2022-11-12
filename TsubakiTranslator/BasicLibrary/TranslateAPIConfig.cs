@@ -27,6 +27,7 @@ namespace TsubakiTranslator.BasicLibrary
 
         private bool ibmIsEnabled;
 
+        private bool iCiBaIsEnabled;
 
         private bool tencentIsEnabled;
         private string tencentSecretID;
@@ -136,7 +137,11 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref ibmIsEnabled, value);
         }
 
-
+        public bool ICiBaIsEnabled
+        {
+            get => iCiBaIsEnabled;
+            set => SetProperty(ref iCiBaIsEnabled, value);
+        }
 
         public bool TencentIsEnabled
         {

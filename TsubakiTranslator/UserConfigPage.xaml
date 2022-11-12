@@ -123,6 +123,20 @@
 
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
+                <Expander HorizontalAlignment="Stretch" Header="爱词霸翻译" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请搜索『金山词霸在线翻译』。" 
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox Content="启用" IsChecked="{Binding ICiBaIsEnabled,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Expander>
+
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
                 <Expander HorizontalAlignment="Stretch" Header="彩云小译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
