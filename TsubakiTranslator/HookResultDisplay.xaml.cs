@@ -28,6 +28,8 @@ namespace TsubakiTranslator
 
         public void DisplayHookResult(object sendingProcess, DataReceivedEventArgs outLine)
         {
+            if (outLine.Data == null)
+                return;
 
             Regex reg = new Regex(@"\[(.*?)\]");
             Match match = reg.Match(outLine.Data);

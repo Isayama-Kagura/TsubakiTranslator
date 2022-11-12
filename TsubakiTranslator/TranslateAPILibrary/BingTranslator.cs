@@ -25,7 +25,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         public BingTranslator()
         {
             Client = new RestClient(CommonFunction.Client);
-            Initialize();
+            Task.Run(async()=> await InitializeAsync());
         }
 
         public string Translate(string sourceText)
@@ -53,7 +53,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             }
             else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                Initialize();
+                Task.Run(async () => await InitializeAsync());
                 result = Translate(sourceText);
             }
             else
@@ -65,12 +65,19 @@ namespace TsubakiTranslator.TranslateAPILibrary
             return result;
         }
 
-        private void Initialize()
+        private async Task InitializeAsync()
         {
             string url = "https://cn.bing.com/translator";
             var request = new RestRequest(url, Method.Post);
-            var response = Client.Execute(request);
+            var response = await Client.ExecuteAsync(request);
             string result = response.Content;
+            if (result == null)
+            {
+                await Task.Delay(5000);
+                await InitializeAsync();
+                return;
+            }
+             
             Regex regex = new Regex("params_RichTranslateHelper = \\[(.+?),\"(.+?)\",.+?");
             var match = regex.Match(result);
             Token = match.Groups[2].Value;

@@ -102,7 +102,7 @@ namespace TsubakiTranslator.BasicLibrary
 
             if (srcLang.Equals("Japanese"))
             {
-                dict.Add("阿里云", "ja");
+                dict.Add("阿里", "ja");
                 dict.Add("百度", "auto");
                 dict.Add("必应", "ja");
                 dict.Add("彩云", "ja");
@@ -116,7 +116,7 @@ namespace TsubakiTranslator.BasicLibrary
             }
             else if (srcLang.Equals("English"))
             {
-                dict.Add("阿里云", "en");
+                dict.Add("阿里", "en");
                 dict.Add("百度", "auto");
                 dict.Add("必应", "en");
                 dict.Add("彩云", "en");

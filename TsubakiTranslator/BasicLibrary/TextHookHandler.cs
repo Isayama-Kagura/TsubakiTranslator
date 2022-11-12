@@ -27,11 +27,11 @@ namespace TsubakiTranslator.BasicLibrary
 
         public string SelectedHookCode { get; set; }
 
-        public TextHookHandler(Process p)
+        public TextHookHandler(Process p, string hookCode)
         {
             HookHandlerDict = new Dictionary<string, DataReceivedEventArgs>();
 
-            Init(p);
+            Init(p, hookCode);
         }
 
 
@@ -44,7 +44,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// 初始化Textractor,建立CLI与本软件间的通信
         /// </summary>
         /// <returns>成功返回真，失败返回假</returns>
-        public async void Init(Process gameProcess)
+        public async void Init(Process gameProcess, string hookCode)
         {
             bool isX86 = ProcessHelper.IsWinX86(gameProcess);
 
@@ -69,6 +69,9 @@ namespace TsubakiTranslator.BasicLibrary
             processTextractor = Process.Start(processStartInfo);
             await AttachProcess();
 
+            if (hookCode != null)
+                await AttachProcessByHookCode(hookCode);
+
             //ProcessTextractor.OutputDataReceived += (S, E) => { MessageBox.Show(E.Data); };
             ProcessTextractor.OutputDataReceived += OutputHandler;
 
@@ -81,7 +84,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// 注入进程
         /// </summary>
         /// <param name="pid"></param>
-        public async Task AttachProcess()
+        private async Task AttachProcess()
         {
             //ProcessTextractor.StandardInput.WriteLine("attach -P" + GamePID);
             //Console.Write("attach -P" + GamePID);
@@ -102,7 +105,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// 结束注入进程
         /// </summary>
         /// <param name="pid"></param>
-        public async Task DetachProcess()
+        private async Task DetachProcess()
         {
             //适用多个同名进程的情况，只在通过进程启动有效。
             Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
@@ -118,7 +121,7 @@ namespace TsubakiTranslator.BasicLibrary
         /// 给定特殊码注入，由Textractor作者指导方法
         /// </summary>
         /// <param name="pid"></param>
-        public async Task AttachProcessByHookCode(string hookCode)
+        private async Task AttachProcessByHookCode(string hookCode)
         {
             //解决有hookcode时莫名的报错。
             //await Task.Delay(10);
@@ -137,8 +140,11 @@ namespace TsubakiTranslator.BasicLibrary
         /// </summary>
         /// <param name="sendingProcess"></param>
         /// <param name="outLine"></param>
-        public void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        private void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
+            if (outLine.Data == null)
+                return;
+
             Regex reg = new Regex(@"\[(.*?)\]");
             Match match = reg.Match(outLine.Data);
 

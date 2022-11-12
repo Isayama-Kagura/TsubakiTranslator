@@ -101,7 +101,7 @@ namespace TsubakiTranslator
 
         public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            if (!TranslatorEnabled)
+            if (!TranslatorEnabled || outLine.Data == null)
                 return;
 
             if (textHookHandler.SelectedHookCode == null )

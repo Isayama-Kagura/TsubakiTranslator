@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TsubakiTranslator.BasicLibrary;
@@ -53,7 +54,7 @@ namespace TsubakiTranslator
         }
 
         //历史游戏记录中打开游戏
-        private async void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             GameData item = (GameData)GameList.SelectedItem;
 
@@ -71,8 +72,11 @@ namespace TsubakiTranslator
 
             Process gameProcess = Process.GetProcessById(processInfo.PID);
 
-            TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
-
+            TextHookHandler textHookHandler;
+            if (item.HookCode != null && item.HookCode.Trim().Length != 0)
+                textHookHandler = new TextHookHandler(gameProcess, item.HookCode);
+            else
+                textHookHandler = new TextHookHandler(gameProcess, null);
 
             LinkedList<RegexRuleData> regexRules = new LinkedList<RegexRuleData>();
             foreach (var rule in item.RegexRuleItems)
@@ -84,10 +88,6 @@ namespace TsubakiTranslator
             TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
             translateWindow.Show();
 
-
-            if (item.HookCode.Trim().Length != 0)
-                await textHookHandler.AttachProcessByHookCode(item.HookCode);
-
         }
 
         private void OpenGameByPid_Button_Click(object sender, RoutedEventArgs e)
@@ -96,7 +96,7 @@ namespace TsubakiTranslator
         }
 
         //注入进程打开游戏
-        private async void AcceptProcess_Button_Click(object sender, RoutedEventArgs e)
+        private void AcceptProcess_Button_Click(object sender, RoutedEventArgs e)
         {
             GameProcess processInfo = (GameProcess)GameProcessList.SelectedItem;
             if (processInfo == null)
@@ -116,7 +116,11 @@ namespace TsubakiTranslator
 
             App.GamesConfig.GameDatas.Add(item);
 
-            TextHookHandler textHookHandler = new TextHookHandler(gameProcess);
+            TextHookHandler textHookHandler;
+            if (GameProcessHookCode.Text != null && GameProcessHookCode.Text.Trim().Length != 0)
+                textHookHandler = new TextHookHandler(gameProcess, GameProcessHookCode.Text);
+            else
+                textHookHandler = new TextHookHandler(gameProcess, null);
 
             SourceTextHandler sourceTextHandler = new SourceTextHandler(times, new LinkedList<RegexRuleData>());
 
@@ -125,9 +129,6 @@ namespace TsubakiTranslator
             TranslateWindow translateWindow = new TranslateWindow(mainWindow, textHookHandler, sourceTextHandler);
             translateWindow.Show();
 
-
-            if (GameProcessHookCode.Text != null && GameProcessHookCode.Text.Trim().Length != 0)
-                await textHookHandler.AttachProcessByHookCode(GameProcessHookCode.Text);
         }
 
 
