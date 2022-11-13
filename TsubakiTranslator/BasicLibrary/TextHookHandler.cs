@@ -20,17 +20,10 @@ namespace TsubakiTranslator.BasicLibrary
         public Process ProcessGame { get => processGame; }
 
 
-        /// <summary>
-        /// key：Hook码，value：提取的文本
-        /// </summary>
-        public Dictionary<string, DataReceivedEventArgs> HookHandlerDict { get; }
-
         public string SelectedHookCode { get; set; }
 
         public TextHookHandler(Process p, string hookCode)
         {
-            HookHandlerDict = new Dictionary<string, DataReceivedEventArgs>();
-
             Init(p, hookCode);
         }
 
@@ -71,9 +64,6 @@ namespace TsubakiTranslator.BasicLibrary
 
             if (hookCode != null)
                 await AttachProcessByHookCode(hookCode);
-
-            //ProcessTextractor.OutputDataReceived += (S, E) => { MessageBox.Show(E.Data); };
-            ProcessTextractor.OutputDataReceived += OutputHandler;
 
             ProcessTextractor.BeginOutputReadLine();
 
@@ -134,36 +124,6 @@ namespace TsubakiTranslator.BasicLibrary
             }
         }
 
-
-        /// <summary>
-        /// 控制台输出事件，在这做内部消化处理
-        /// </summary>
-        /// <param name="sendingProcess"></param>
-        /// <param name="outLine"></param>
-        private void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (outLine.Data == null)
-                return;
-
-            Regex reg = new Regex(@"\[(.*?)\]");
-            Match match = reg.Match(outLine.Data);
-
-            if (match.Value.Length==0)
-                return;
-
-            //string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-            string hookcode = match.Groups[1].Value;
-
-            //lastEventArgs = outLine;
-
-            //MessageBox.Show(content+"\n"+hookcode);
-            if (HookHandlerDict.ContainsKey(hookcode))
-                HookHandlerDict[hookcode] = outLine;
-            else
-                HookHandlerDict.Add(hookcode, outLine);
-        }
-
-
         /// <summary>
         /// 关闭Textractor进程，关闭前Detach所有Hook
         /// </summary>
@@ -176,7 +136,6 @@ namespace TsubakiTranslator.BasicLibrary
             if (ProcessTextractor != null && ProcessTextractor.HasExited == false)
             {
                 await DetachProcess();
-                ProcessTextractor.OutputDataReceived -= OutputHandler;
                 ProcessTextractor.Kill();
                 
             }

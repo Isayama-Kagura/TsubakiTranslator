@@ -72,11 +72,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             var response = await Client.ExecuteAsync(request);
             string result = response.Content;
             if (result == null)
-            {
-                await Task.Delay(5000);
-                await InitializeAsync();
                 return;
-            }
              
             Regex regex = new Regex("params_RichTranslateHelper = \\[(.+?),\"(.+?)\",.+?");
             var match = regex.Match(result);

@@ -10,6 +10,8 @@ using MaterialDesignThemes.Wpf;
 using System.Runtime.Versioning;
 using System.Timers;
 using System.Drawing;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace TsubakiTranslator
 {
@@ -94,6 +96,7 @@ namespace TsubakiTranslator
             Init();
 
             textHookHandler.ProcessGame.Exited += GameExitHandler;
+            textHookHandler.ProcessTextractor.OutputDataReceived += On_TextHook_OutputDataReceived;
 
             TranslateWindowContent.Content = HookResultDisplay;
 
@@ -149,8 +152,32 @@ namespace TsubakiTranslator
             ));
         }
 
+        public void On_TextHook_OutputDataReceived(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            if (outLine.Data == null)
+                return;
+
+            Regex reg = new Regex(@"\[(.*?)\]");
+            Match match = reg.Match(outLine.Data);
+
+            if (match.Value.Length == 0)
+                return;
+
+            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
+            string hookcode = match.Groups[1].Value;
+
+            HookResultDisplay.UpdateHookResultItem(hookcode,content);
+
+            if (TranslatedResultDisplay.TranslatorEnabled && textHookHandler.SelectedHookCode != null 
+                && hookcode.Equals(textHookHandler.SelectedHookCode))
+            {
+                TranslatedResultDisplay.TranslateHookText(content);
+            }
+
+        }
+
         //供Hook文本选择界面使用
-        public void SwitchToTranslateDisplay()
+        public void SwitchToTranslateDisplay(string currentText)
         {
             if(!TranslateWindowMenu.IsEnabled)
                 TranslateWindowMenu.IsEnabled = true;
@@ -161,7 +188,7 @@ namespace TsubakiTranslator
                 Task.Run(() => messageQueue.Enqueue("点击左上角菜单可重新选择源文本。", "好", () => { }));
 
             //翻译当前选择的文本
-            Task.Run(()=>TranslatedResultDisplay.TranslateHookText(new Object(), textHookHandler.HookHandlerDict[textHookHandler.SelectedHookCode]));
+            TranslatedResultDisplay.TranslateHookText(currentText);
 
             TranslatedResultPanel.Visibility = Visibility.Visible;
         }
@@ -171,8 +198,7 @@ namespace TsubakiTranslator
         {
             if (TextHookHandler != null)
             {
-                TextHookHandler.ProcessTextractor.OutputDataReceived -= HookResultDisplay.DisplayHookResult;
-                TextHookHandler.ProcessTextractor.OutputDataReceived -= TranslatedResultDisplay.TranslateHookText;
+                TextHookHandler.ProcessTextractor.OutputDataReceived -= On_TextHook_OutputDataReceived;
                 textHookHandler.ProcessGame.Exited -= GameExitHandler;
                 TextHookHandler.CloseTextractor();
             }
@@ -243,7 +269,6 @@ namespace TsubakiTranslator
             }
 
         }
-
 
         private void Pin_Button_Click(object sender, RoutedEventArgs e)
         {

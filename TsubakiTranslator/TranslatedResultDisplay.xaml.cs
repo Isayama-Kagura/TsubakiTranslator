@@ -72,8 +72,6 @@ namespace TsubakiTranslator
 
             this.sourceTextHandler = sourceTextHandler;
 
-            textHookHandler.ProcessTextractor.OutputDataReceived += TranslateHookText;
-
         }
 
         //对应剪切板翻译模式
@@ -99,36 +97,16 @@ namespace TsubakiTranslator
 
         }
 
-        public void TranslateHookText(object sendingProcess, DataReceivedEventArgs outLine)
+
+        public void TranslateHookText(string text)
         {
-            if (!TranslatorEnabled || outLine.Data == null)
-                return;
-
-            if (textHookHandler.SelectedHookCode == null )
-                return;
-
-            Regex reg = new Regex(@"\[(.*?)\]");
-            Match match = reg.Match(outLine.Data);
-
-            if (match.Value.Length == 0)
-                return;
-
-            string hookcode = match.Groups[1].Value;
-
-            if (!hookcode.Equals(textHookHandler.SelectedHookCode))
-                return;
-
-            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-
-
-            string sourceText = sourceTextHandler.HandleText(content);
+            string sourceText = sourceTextHandler.HandleText(text);
 
             if (Regex.Replace(sourceText, @"\s", "").Equals(""))
                 return;
 
 
             Task.Run(() => TranslateAndDisplay(sourceText));
-
         }
 
         public void TranslteClipboardText(object sender, EventArgs e)

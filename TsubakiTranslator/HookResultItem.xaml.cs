@@ -29,7 +29,7 @@ namespace TsubakiTranslator
         {
             translateWindow.TextHookHandler.SelectedHookCode = HookData.HookCode;
             
-            translateWindow.SwitchToTranslateDisplay();
+            translateWindow.SwitchToTranslateDisplay(HookData.HookText);
         }
     }
 

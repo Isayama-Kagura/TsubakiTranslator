@@ -21,26 +21,11 @@ namespace TsubakiTranslator
             HookItemDict = new Dictionary<string, HookResultItem>();
             this.translateWindow = translateWindow;
 
-            translateWindow.TextHookHandler.ProcessTextractor.OutputDataReceived += DisplayHookResult;
-
         }
 
-
-        public void DisplayHookResult(object sendingProcess, DataReceivedEventArgs outLine)
+        public void UpdateHookResultItem(string hookcode, string content)
         {
-            if (outLine.Data == null)
-                return;
-
-            Regex reg = new Regex(@"\[(.*?)\]");
-            Match match = reg.Match(outLine.Data);
-
-            if (match.Value.Length == 0)
-                return;
-
-            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-            string hookcode = match.Groups[1].Value;
-
-            if(HookItemDict.ContainsKey(hookcode))
+            if (HookItemDict.ContainsKey(hookcode))
                 HookItemDict[hookcode].HookData.HookText = content;
             else
             {
@@ -54,7 +39,6 @@ namespace TsubakiTranslator
                     DisplayStackPanel.Children.Add(item);
                     ///  end
                 }));
-
             }
         }
     }
