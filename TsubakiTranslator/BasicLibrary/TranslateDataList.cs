@@ -19,12 +19,12 @@ namespace TsubakiTranslator
 
     public class TranslateDataList
     {
-        
+
         public int MaxLength { get; }
         private LinkedList<TranslateData> list;
 
         private LinkedListNode<TranslateData> currentData;
-        private LinkedListNode<TranslateData> CurrentData { get => currentData;  }
+        private LinkedListNode<TranslateData> CurrentData { get => currentData; }
 
         public TranslateDataList(int maxLength)
         {

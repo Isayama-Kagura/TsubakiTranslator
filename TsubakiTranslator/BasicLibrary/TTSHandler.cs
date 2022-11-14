@@ -1,10 +1,7 @@
 ﻿using RestSharp;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TsubakiTranslator.TranslateAPILibrary;
@@ -38,7 +35,7 @@ namespace TsubakiTranslator.BasicLibrary
             Client = new RestClient(CommonFunction.Client);
 
             //每9分钟请求一次
-            int interval = 9 * 60* 1000;
+            int interval = 9 * 60 * 1000;
             RequestTokenTimer = new Timer(interval);
             RequestTokenTimer.AutoReset = true;
             RequestTokenTimer.Elapsed += OnTimedEvent;
@@ -51,7 +48,7 @@ namespace TsubakiTranslator.BasicLibrary
         public async Task<bool> SpeakTextAsync(string text)
         {
             var request = new RestRequest($"https://{Region}.tts.speech.microsoft.com/cognitiveservices/v1", Method.Post);
-            request.AddHeader("Authorization", "Bearer "+Token);
+            request.AddHeader("Authorization", "Bearer " + Token);
             request.AddHeader("X-Microsoft-OutputFormat", "riff-24khz-16bit-mono-pcm");
             //request.AddHeader("content-type", "application/ssml+xml");
 
@@ -74,7 +71,7 @@ namespace TsubakiTranslator.BasicLibrary
                 }
                 return true;
             }
-            else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 OnTimedEvent(null, null);
                 errorMessage = response.ErrorException.Message;

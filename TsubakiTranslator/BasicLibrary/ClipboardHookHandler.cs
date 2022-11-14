@@ -8,7 +8,7 @@ namespace TsubakiTranslator.BasicLibrary
     {
         const int WM_CLIPBOARDUPDATE = 0x031D;
 
-        
+
 
         HwndSource _hwndSource;
 

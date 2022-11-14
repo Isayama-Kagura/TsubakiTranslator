@@ -61,7 +61,7 @@
         <Image Source="/Resources/Icon/Tsubaki.png"  Stretch="Uniform" Height="70" Width="70"
                HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" />
 
-        <materialDesign:Card Grid.Row="1"  Grid.ColumnSpan="2"  >
+        <materialDesign:Card Grid.Row="1"  Grid.ColumnSpan="2" materialDesign:ShadowAssist.ShadowDepth="Depth2" >
             <TabControl materialDesign:ColorZoneAssist.Mode="Standard" Background="WhiteSmoke"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Style="{StaticResource MaterialDesignNavigatilRailTabControl}"

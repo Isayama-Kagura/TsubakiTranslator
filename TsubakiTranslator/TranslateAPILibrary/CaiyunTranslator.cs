@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
@@ -55,7 +55,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             result = match.Groups[1].Value;
 
             return result;
-             
+
         }
 
         public void TranslatorInit(string param1, string param2 = "")

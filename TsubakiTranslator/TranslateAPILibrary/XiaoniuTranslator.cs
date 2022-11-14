@@ -1,7 +1,5 @@
-﻿using System.Text.Json;
-using System;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
+using System.Text.Json;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
@@ -83,5 +81,5 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
     }
 
-    
+
 }

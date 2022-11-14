@@ -1,14 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using TsubakiTranslator.BasicLibrary;
 using TsubakiTranslator.TranslateAPILibrary;
 
@@ -44,7 +41,7 @@ namespace TsubakiTranslator
             {
                 TranslatedResultItem resultItem = new TranslatedResultItem(t.Name, "");
 
-                if(!App.WindowConfig.TranslatorNameVisibility)
+                if (!App.WindowConfig.TranslatorNameVisibility)
                     resultItem.APINameTextBlock.Visibility = Visibility.Collapsed;
 
                 resultItem.ResultTextBlock.Foreground = new SolidColorBrush(App.WindowConfig.TranslatedTextColor);
@@ -115,17 +112,17 @@ namespace TsubakiTranslator
                 return;
 
             IDataObject iData = Clipboard.GetDataObject();
-           
+
             if (!iData.GetDataPresent(DataFormats.Text))
                 return;
 
             string sourceText = Clipboard.GetText();
             sourceText = Regex.Replace(sourceText, @"[\r\n\t\f]", "");
             sourceText = sourceTextHandler.HandleText(sourceText);
-            Task.Run(()=> TranslateAndDisplay(sourceText));
+            Task.Run(() => TranslateAndDisplay(sourceText));
         }
 
-        
+
 
         public void TranslateAndDisplay(string sourceText)
         {
@@ -140,9 +137,10 @@ namespace TsubakiTranslator
                 currentResult.ResultText.Add(key, "");
             }
 
-            
+
             Parallel.ForEach(translators,
-                t => {
+                t =>
+                {
                     string result = t.Translate(currentResult.SourceText);
                     currentResult.ResultText[t.Name] = result;
                     displayTextContent[t.Name].TranslatedResult = result;
@@ -186,7 +184,7 @@ namespace TsubakiTranslator
                 return;
             TranslateData result = results.GetFirstData();
             ShowTranslateResult(result);
-            
+
         }
 
         private void ChevronTripleRight_Button_Click(object sender, RoutedEventArgs e)

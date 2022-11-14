@@ -1,13 +1,9 @@
 ﻿using RestSharp;
-using RestSharp.Serializers;
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
@@ -71,7 +67,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             string authHeader = "acs " + SecretId + ":" + signature;
 
             var client = new RestClient(CommonFunction.Client);
-            var request = new RestRequest($"https://{host}{path}",Method.Post);
+            var request = new RestRequest($"https://{host}{path}", Method.Post);
             request.AddHeader("Authorization", authHeader);
             request.AddHeader("Accept", accept);
             request.AddHeader("Content-MD5", bodyMd5);
@@ -80,7 +76,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             request.AddHeader("x-acs-signature-method", "HMAC-SHA1");
             request.AddHeader("x-acs-signature-nonce", uuid);
 
-            request.AddStringBody(bodyString,DataFormat.Json);
+            request.AddStringBody(bodyString, DataFormat.Json);
 
 
             var response = client.Execute(request);
@@ -98,7 +94,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             {
                 return result;
             }
-            
+
 
         }
 

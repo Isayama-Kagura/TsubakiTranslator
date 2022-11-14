@@ -14,7 +14,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public string SourceLanguage { get; set; }
 
-        public string Translate(string sourceText )
+        public string Translate(string sourceText)
         {
             string desLang = "zh";
 

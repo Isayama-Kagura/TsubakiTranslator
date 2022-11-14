@@ -87,7 +87,7 @@ namespace TsubakiTranslator.BasicLibrary
     {
         private ObservableCollection<GameData> gameDatas;
         private ObservableCollection<RegexRuleData> clipBoardRegexRules;
-        
+
 
         public GamesConfig()
         {
@@ -106,6 +106,6 @@ namespace TsubakiTranslator.BasicLibrary
             set => SetProperty(ref clipBoardRegexRules, value);
         }
 
-        
+
     }
 }

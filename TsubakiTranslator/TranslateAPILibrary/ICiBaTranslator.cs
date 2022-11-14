@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
@@ -77,7 +73,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         public void TranslatorInit(string param1, string param2)
         {
-        
+
         }
     }
 }

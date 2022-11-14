@@ -1,14 +1,7 @@
-﻿using TsubakiTranslator.BasicLibrary;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 
 namespace TsubakiTranslator.BasicLibrary
@@ -36,7 +29,7 @@ namespace TsubakiTranslator.BasicLibrary
                 }
                 graphic.ReleaseHdc(graphDC);
                 User32.ReleaseDC(hWnd, hDC);
-                
+
                 // Get cursor information to draw on the screenshot.
                 //var ci = new User32.CursorInfo();
                 //ci.cbSize = Marshal.SizeOf(ci);
@@ -80,14 +73,14 @@ namespace TsubakiTranslator.BasicLibrary
                 {
                     return false;
                 }
-            } ;
-            
+            };
+
         }
 
-            //public static void SaveCapture(Bitmap CaptureBitmap)
-            //{
-            //    System.Windows.Forms.Clipboard.SetImage(CaptureBitmap);
+        //public static void SaveCapture(Bitmap CaptureBitmap)
+        //{
+        //    System.Windows.Forms.Clipboard.SetImage(CaptureBitmap);
 
-            //}
-        }
+        //}
     }
+}

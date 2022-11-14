@@ -10,8 +10,6 @@ using System.Windows.Media.Imaging;
 using Windows.Globalization;
 using Windows.Graphics.Imaging;
 using Windows.Media.Ocr;
-using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace TsubakiTranslator.BasicLibrary
 {
@@ -35,14 +33,14 @@ namespace TsubakiTranslator.BasicLibrary
         [SupportedOSPlatform("windows10.0.10240")]
         public static System.Collections.Generic.IEnumerable<string> GetSupportedLanguages()
         {
-            
+
             //Console.WriteLine("Supported languages:");
             var result = from lang in OcrEngine.AvailableRecognizerLanguages
                          where lang.LanguageTag.Equals("ja") || lang.LanguageTag.Equals("en-US")
                          select lang.DisplayName;
 
             return result;
-            
+
         }
 
         [SupportedOSPlatform("windows10.0.10240")]

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace TsubakiTranslator.BasicLibrary
@@ -83,11 +80,11 @@ namespace TsubakiTranslator.BasicLibrary
             Process[] processes = Process.GetProcessesByName(ProcessGame.ProcessName);
 
             foreach (Process process in processes)
-            {    
+            {
                 await ProcessTextractor.StandardInput.WriteLineAsync("attach -P" + process.Id);
                 await ProcessTextractor.StandardInput.FlushAsync();
             }
-            
+
         }
 
         /// <summary>
@@ -137,7 +134,7 @@ namespace TsubakiTranslator.BasicLibrary
             {
                 await DetachProcess();
                 ProcessTextractor.Kill();
-                
+
             }
 
             processTextractor = null;

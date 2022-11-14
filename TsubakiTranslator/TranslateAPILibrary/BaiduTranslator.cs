@@ -1,8 +1,6 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -16,7 +14,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private string secretKey;//百度翻译API 的密钥
 
         private readonly string name = "百度";
-        public string Name { get =>name; }
+        public string Name { get => name; }
 
         public string SourceLanguage { get; set; }
 
@@ -74,8 +72,8 @@ namespace TsubakiTranslator.TranslateAPILibrary
             return result;
 
 
-           
-            
+
+
         }
 
         public void TranslatorInit(string param1, string param2)

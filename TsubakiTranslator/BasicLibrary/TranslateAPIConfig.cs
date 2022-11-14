@@ -2,7 +2,7 @@
 
 namespace TsubakiTranslator.BasicLibrary
 {
-    public class TranslateAPIConfig: ObservableObject
+    public class TranslateAPIConfig : ObservableObject
     {
         private string sourceLanguage = "Japanese";
 
@@ -126,7 +126,7 @@ namespace TsubakiTranslator.BasicLibrary
             get => deeplIsEnabled;
             set => SetProperty(ref deeplIsEnabled, value);
         }
-        
+
         public bool DeeplIsFreeApi
         {
             get => deeplIsFreeApi;

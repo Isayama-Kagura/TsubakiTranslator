@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TsubakiTranslator.TranslateAPILibrary;
 
 namespace TsubakiTranslator.BasicLibrary
@@ -96,7 +95,7 @@ namespace TsubakiTranslator.BasicLibrary
             return translators;
         }
 
-        public static Dictionary<string,string> GetAPISourceLangDict(string srcLang)
+        public static Dictionary<string, string> GetAPISourceLangDict(string srcLang)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
@@ -124,12 +123,12 @@ namespace TsubakiTranslator.BasicLibrary
                 dict.Add("IBM", "en");
                 dict.Add("爱词霸", "en");
                 dict.Add("腾讯", "auto");
-                dict.Add("小牛", "en"); 
+                dict.Add("小牛", "en");
                 dict.Add("火山", "en");
                 dict.Add("Yeekit", "nen");
             }
             return dict;
- 
+
         }
 
 

@@ -1,11 +1,10 @@
 ﻿using System.Net.Http;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
 namespace TsubakiTranslator.TranslateAPILibrary
 {
-    public class YeekitTranslator:ITranslator
+    public class YeekitTranslator : ITranslator
     {
         private readonly string name = "Yeekit";
         public string Name { get => name; }

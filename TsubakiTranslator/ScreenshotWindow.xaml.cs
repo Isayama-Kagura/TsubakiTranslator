@@ -1,23 +1,15 @@
-﻿using System.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.IO;
 using TsubakiTranslator.BasicLibrary;
-using System.Runtime.InteropServices;
-using System.Windows.Controls.Primitives;
 
 namespace TsubakiTranslator
 {
@@ -46,11 +38,11 @@ namespace TsubakiTranslator
         {
             var capture = new ScreenshotWindow();
             //MainWindow.Current.WindowState = WindowState.Minimized;
-            
+
             await Task.Delay(500);
             var screen = SystemInformation.VirtualScreen;
             capture.BackgroundImage = BasicLibrary.ScreenshotHandler.GetCapture(new Rect(screen.Left, screen.Top, screen.Width, screen.Height));
-           
+
 
             capture.ShowDialog();
         }
@@ -63,18 +55,18 @@ namespace TsubakiTranslator
             this.Height = SystemParameters.VirtualScreenHeight;
             this.Left = SystemParameters.VirtualScreenLeft;
             this.Top = SystemParameters.VirtualScreenTop;
-            
+
             using (var ms = new MemoryStream())
-                {
-                    BackgroundImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    var bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.StreamSource = ms;
-                    bi.CacheOption = BitmapCacheOption.OnLoad;
-                    bi.EndInit();
-                    bi.Freeze();
-                    gridMain.Background = new ImageBrush(bi);
-                }
+            {
+                BackgroundImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.StreamSource = ms;
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.EndInit();
+                bi.Freeze();
+                gridMain.Background = new ImageBrush(bi);
+            }
 
             FrameWindowUnderCursor();
             this.Activate();
@@ -179,7 +171,7 @@ namespace TsubakiTranslator
         {
             if (scaleWithDPI)
             {
-                return new Rect(Math.Round(borderCapture.Margin.Left * DpiScale + SystemInformation.VirtualScreen.Left, 0), 
+                return new Rect(Math.Round(borderCapture.Margin.Left * DpiScale + SystemInformation.VirtualScreen.Left, 0),
                     Math.Round(borderCapture.Margin.Top * DpiScale + SystemInformation.VirtualScreen.Top, 0),
                     Math.Round(borderCapture.Width * DpiScale, 0),
                     Math.Round(borderCapture.Height * DpiScale, 0));
@@ -188,7 +180,7 @@ namespace TsubakiTranslator
             {
                 return new Rect(Math.Round(borderCapture.Margin.Left + SystemInformation.VirtualScreen.Left, 0),
                     Math.Round(borderCapture.Margin.Top + SystemInformation.VirtualScreen.Top, 0),
-                    Math.Round(borderCapture.Width, 0), 
+                    Math.Round(borderCapture.Width, 0),
                     Math.Round(borderCapture.Height, 0));
             }
         }
@@ -217,7 +209,8 @@ namespace TsubakiTranslator
                 User32.GetCursorPos(out point);
                 winList.Clear();
                 var devenv = System.Diagnostics.Process.GetProcesses().FirstOrDefault(proc => proc.MainWindowTitle.Contains("CleanShot") && proc.MainWindowTitle.Contains("Microsoft"));
-                User32.EnumWindows((hWin, lParam) => {
+                User32.EnumWindows((hWin, lParam) =>
+                {
                     if (hWin == thisHandle || hWin == shellHandle || hWin == desktopHandle || !User32.IsWindowVisible(hWin))
                     {
                         return true;

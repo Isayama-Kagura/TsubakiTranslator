@@ -28,12 +28,12 @@ namespace TsubakiTranslator
         private void Hook_Text_Select_Button_Click(object sender, RoutedEventArgs e)
         {
             translateWindow.TextHookHandler.SelectedHookCode = HookData.HookCode;
-            
+
             translateWindow.SwitchToTranslateDisplay(HookData.HookText);
         }
     }
 
-    
+
 
     public class HookData : ObservableObject
     {

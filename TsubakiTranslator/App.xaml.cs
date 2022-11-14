@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using TsubakiTranslator.BasicLibrary;
 
@@ -31,7 +27,7 @@ namespace TsubakiTranslator
             base.OnStartup(e);
 
             windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            if(windowConfig == null)
+            if (windowConfig == null)
                 windowConfig = new WindowConfig();
 
             gamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
@@ -39,7 +35,7 @@ namespace TsubakiTranslator
                 gamesConfig = new GamesConfig();
 
             translateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-            if(translateAPIConfig == null)
+            if (translateAPIConfig == null)
                 translateAPIConfig = new TranslateAPIConfig();
 
             ocrConfig = FileHandler.DeserializeObject<OcrConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/OcrConfig.json");
@@ -69,6 +65,6 @@ namespace TsubakiTranslator
 
     }
 
-    
+
 
 }

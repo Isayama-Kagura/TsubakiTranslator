@@ -1,10 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.Versioning;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TsubakiTranslator.BasicLibrary;
@@ -135,16 +132,16 @@ namespace TsubakiTranslator
         private void SetProcessItems()
         {
             Process[] ps = Process.GetProcesses();
-            List<GameProcess> list = new List<GameProcess>(); 
+            List<GameProcess> list = new List<GameProcess>();
 
             foreach (Process p in ps)
             {
-                GameProcess gameProcess = new GameProcess { PID = p.Id,  ProcessName = p.ProcessName , ProcessDetail = $"{p.ProcessName} - {p.Id}" };
+                GameProcess gameProcess = new GameProcess { PID = p.Id, ProcessName = p.ProcessName, ProcessDetail = $"{p.ProcessName} - {p.Id}" };
                 list.Add(gameProcess);
             }
-                
 
-            list.Sort((x,y) => string.Compare(x.ProcessName, y.ProcessName));
+
+            list.Sort((x, y) => string.Compare(x.ProcessName, y.ProcessName));
             ObservableCollection<GameProcess> processStrings = new ObservableCollection<GameProcess>(list);
             GameProcessList.ItemsSource = processStrings;
             HistoryGameProcessList.ItemsSource = processStrings;
@@ -156,7 +153,7 @@ namespace TsubakiTranslator
             var btn = sender as Button;
             var data = btn.DataContext as GameData;
 
-            data.RegexRuleItems.Add(new RegexRuleData("",""));
+            data.RegexRuleItems.Add(new RegexRuleData("", ""));
         }
 
         private void RemoveRegexRule_Button_Click(object sender, RoutedEventArgs e)
@@ -206,7 +203,7 @@ namespace TsubakiTranslator
         private void Ocr_Button_Click(object sender, RoutedEventArgs e)
         {
             var languagesName = OcrProgram.GetSupportedLanguages();
-            foreach(string lang in languagesName ) 
+            foreach (string lang in languagesName)
             {
                 TextBlock tb = new TextBlock();
                 tb.Text = lang;
@@ -214,6 +211,6 @@ namespace TsubakiTranslator
             }
         }
     }
-  
+
 
 }

@@ -1,8 +1,4 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -25,15 +21,15 @@ namespace TsubakiTranslator.TranslateAPILibrary
         public BingTranslator()
         {
             Client = new RestClient(CommonFunction.Client);
-            Task.Run(async()=> await InitializeAsync());
+            Task.Run(async () => await InitializeAsync());
         }
 
         public string Translate(string sourceText)
         {
             string desLang = "zh-Hans";
-            
 
-            string url = "https://cn.bing.com/ttranslatev3"+ $"?isVertical=1&&IG={Ig}&IID={Iid}"+ TranslateTimes++;
+
+            string url = "https://cn.bing.com/ttranslatev3" + $"?isVertical=1&&IG={Ig}&IID={Iid}" + TranslateTimes++;
             var request = new RestRequest(url, Method.Post);
             string bodyString = $"fromLang={SourceLanguage}&text={sourceText}&to={desLang}&token={Token}&key={Key}";
             request.AddStringBody(bodyString, "application/x-www-form-urlencoded");
@@ -51,7 +47,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 var match = regex.Match(responseBody);
                 result = match.Groups[1].Value;
             }
-            else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 Task.Run(async () => await InitializeAsync());
                 result = Translate(sourceText);
@@ -73,7 +69,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             string result = response.Content;
             if (result == null)
                 return;
-             
+
             Regex regex = new Regex("params_RichTranslateHelper = \\[(.+?),\"(.+?)\",.+?");
             var match = regex.Match(result);
             Token = match.Groups[2].Value;
@@ -81,7 +77,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             regex = new Regex(@"""rich_tta"" data-iid=""(.+?)""");
             match = regex.Match(result);
-            Iid = match.Groups[1].Value+".";
+            Iid = match.Groups[1].Value + ".";
 
             regex = new Regex(@""",IG:""(.+?)"",EventID:");
             match = regex.Match(result);

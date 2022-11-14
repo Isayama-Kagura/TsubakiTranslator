@@ -27,14 +27,14 @@ namespace TsubakiTranslator.BasicLibrary
             var jsonString = JsonSerializer.SerializeToUtf8Bytes<T>(value);
             try
             {
-                using(FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(jsonString, 0, jsonString.Length);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                MessageBox.Show(e.Message); 
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -55,7 +55,7 @@ namespace TsubakiTranslator.BasicLibrary
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
@@ -83,7 +83,7 @@ namespace TsubakiTranslator.BasicLibrary
 
         }
 
-        
+
 
     }
 }
