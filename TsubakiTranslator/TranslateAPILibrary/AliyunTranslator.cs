@@ -80,16 +80,19 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
 
             var response = client.Execute(request);
-
             string result = response.Content;
-            Regex codeReg = new Regex("},\"Code\":\"200\"");
-            if (codeReg.IsMatch(result))
+            if (response.IsSuccessful)
             {
-                Regex reg = new Regex(@",""Translated"":""(.*?)""},");
-                Match match = reg.Match(response.Content);
-                result = match.Groups[1].Value;
+                Regex codeReg = new Regex("},\"Code\":\"200\"");
+                if (codeReg.IsMatch(result))
+                {
+                    Regex reg = new Regex(@",""Translated"":""(.*?)""},");
+                    Match match = reg.Match(response.Content);
+                    result = match.Groups[1].Value;
+                }
                 return result;
             }
+            
             else
             {
                 return result;

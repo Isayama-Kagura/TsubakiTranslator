@@ -39,10 +39,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
             string result = "";
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            string responseBody = response.Content;
+            if (response.IsSuccessful)
             {
-                string responseBody = response.Content;
-
                 var regex = new Regex(@"""translations"":\[{""text"":""(.*?)""");
                 var match = regex.Match(responseBody);
                 result = match.Groups[1].Value;
@@ -54,7 +53,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
             }
             else
             {
-                result = response.ErrorMessage;
+                result = responseBody;
             }
 
 
