@@ -2,58 +2,26 @@
 
 namespace TsubakiTranslator.BasicLibrary
 {
-    public class OcrConfig : ObservableObject
+    public partial class OcrConfig : ObservableObject
     {
+        [ObservableProperty]
         private bool isAutoScreenshot = false;
+        [ObservableProperty]
         private ScreenshotHotkey screenshotHotkey = new ScreenshotHotkey();
+        [ObservableProperty]
         private int interval = 2;
 
-        public bool IsAutoScreenshot
-        {
-            get => isAutoScreenshot;
-            set => SetProperty(ref isAutoScreenshot, value);
-        }
-        public ScreenshotHotkey ScreenshotHotkey
-        {
-            get => screenshotHotkey;
-            set => SetProperty(ref screenshotHotkey, value);
-        }
-
-        public int Interval
-        {
-            get => interval;
-            set => SetProperty(ref interval, value);
-        }
     }
-    public class ScreenshotHotkey : ObservableObject
+    public partial class ScreenshotHotkey : ObservableObject
     {
+        [ObservableProperty]
         private byte modifiers = 0;
+        [ObservableProperty]
         private int key = 115;
+        [ObservableProperty]
         private string text = "F4";
+        [ObservableProperty]
         private bool conflict = false;
 
-        public byte Modifiers
-        {
-            get => modifiers;
-            set => SetProperty(ref modifiers, value);
-        }
-
-        public int Key
-        {
-            get => key;
-            set => SetProperty(ref key, value);
-        }
-
-        public string Text
-        {
-            get => text;
-            set => SetProperty(ref text, value);
-        }
-
-        public bool Conflict
-        {
-            get => conflict;
-            set => SetProperty(ref conflict, value);
-        }
     }
 }

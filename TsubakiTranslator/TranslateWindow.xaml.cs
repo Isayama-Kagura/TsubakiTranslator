@@ -62,19 +62,19 @@ namespace TsubakiTranslator
             }
 
             //TTS
-            if (App.TranslateAPIConfig.TTSIsEnabled)
+            if (App.TranslateAPIConfig.TtsIsEnabled)
             {
                 TTSButton.Visibility = Visibility.Visible;
 
 
                 if (App.TranslateAPIConfig.SourceLanguage.Equals("Japanese"))
                 {
-                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TTSRegion, App.TranslateAPIConfig.TTSResourceKey, "ja-JP", "ja-JP-NanamiNeural");
+                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TtsRegion, App.TranslateAPIConfig.TtsResourceKey, "ja-JP", "ja-JP-NanamiNeural");
                 }
 
                 else
                 {
-                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TTSRegion, App.TranslateAPIConfig.TTSResourceKey, "en-US", "en-US-AmberNeural");
+                    this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TtsRegion, App.TranslateAPIConfig.TtsResourceKey, "en-US", "en-US-AmberNeural");
                 }
 
             }

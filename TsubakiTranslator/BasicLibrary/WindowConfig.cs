@@ -3,104 +3,36 @@ using System.Windows.Media;
 
 namespace TsubakiTranslator.BasicLibrary
 {
-    public class WindowConfig : ObservableObject
+    public partial class WindowConfig : ObservableObject
     {
+        [ObservableProperty]
         private double mainWindowWidth = 400;
+        [ObservableProperty]
         private double mainWindowHeight = 800;
+        [ObservableProperty]
         private double translateWindowHeight = 400;
+        [ObservableProperty]
         private double translateWindowWidth = 800;
+        [ObservableProperty]
         private double translateWindowLeft = 400;
+        [ObservableProperty]
         private double translateWindowTop = 200;
+        [ObservableProperty]
         private bool translateWindowTopmost = false;
+        [ObservableProperty]
         private int translateWindowTransparency = 165;
+        [ObservableProperty]
         private Color sourceTextColor = Colors.BurlyWood;
+        [ObservableProperty]
         private Color translatedTextColor = Colors.WhiteSmoke;
+        [ObservableProperty]
         private bool sourceTextVisibility = true;
+        [ObservableProperty]
         private bool translatorNameVisibility = true;
+        [ObservableProperty]
         private string sourceTextFontFamily = "Microsoft YaHei UI";
+        [ObservableProperty]
         private string translatedTextFontFamily = "Microsoft YaHei UI";
 
-        public double MainWindowWidth
-        {
-            get => mainWindowWidth;
-            set => SetProperty(ref mainWindowWidth, value);
-        }
-        public double MainWindowHeight
-        {
-            get => mainWindowHeight;
-            set => SetProperty(ref mainWindowHeight, value);
-        }
-
-        public double TranslateWindowHeight
-        {
-            get => translateWindowHeight;
-            set => SetProperty(ref translateWindowHeight, value);
-        }
-
-        public double TranslateWindowWidth
-        {
-            get => translateWindowWidth;
-            set => SetProperty(ref translateWindowWidth, value);
-        }
-
-        public double TranslateWindowLeft
-        {
-            get => translateWindowLeft;
-            set => SetProperty(ref translateWindowLeft, value);
-        }
-
-        public double TranslateWindowTop
-        {
-            get => translateWindowTop;
-            set => SetProperty(ref translateWindowTop, value);
-        }
-
-        public bool TranslateWindowTopmost
-        {
-            get => translateWindowTopmost;
-            set => SetProperty(ref translateWindowTopmost, value);
-        }
-
-        public int TranslateWindowTransparency
-        {
-            get => translateWindowTransparency;
-            set => SetProperty(ref translateWindowTransparency, value);
-        }
-
-        public Color SourceTextColor
-        {
-            get => sourceTextColor;
-            set => SetProperty(ref sourceTextColor, value);
-        }
-
-        public Color TranslatedTextColor
-        {
-            get => translatedTextColor;
-            set => SetProperty(ref translatedTextColor, value);
-        }
-
-        public bool SourceTextVisibility
-        {
-            get => sourceTextVisibility;
-            set => SetProperty(ref sourceTextVisibility, value);
-        }
-
-        public bool TranslatorNameVisibility
-        {
-            get => translatorNameVisibility;
-            set => SetProperty(ref translatorNameVisibility, value);
-        }
-
-        public string SourceTextFontFamily
-        {
-            get => sourceTextFontFamily;
-            set => SetProperty(ref sourceTextFontFamily, value);
-        }
-
-        public string TranslatedTextFontFamily
-        {
-            get => translatedTextFontFamily;
-            set => SetProperty(ref translatedTextFontFamily, value);
-        }
     }
 }

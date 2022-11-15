@@ -42,18 +42,18 @@
                                    FontSize="13" Margin="0 8 0 8"/>
                         
                         <CheckBox x:Name="TTSEnabledComboBox"
-                            Content="启用" IsChecked="{Binding TTSIsEnabled,Mode=TwoWay}"/>
+                            Content="启用" IsChecked="{Binding TtsIsEnabled,Mode=TwoWay}"/>
 
                         <TextBox materialDesign:HintAssist.Hint="Region" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  VerticalAlignment="Center"
                                  IsEnabled="{Binding Path=IsChecked, ElementName=TTSEnabledComboBox}" Cursor="IBeam"
-                                 Text="{Binding Path=TTSRegion,Mode=TwoWay}"/>
+                                 Text="{Binding Path=TtsRegion,Mode=TwoWay}"/>
                         <TextBox materialDesign:HintAssist.Hint="ResourceKey" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  VerticalAlignment="Center"
                                  IsEnabled="{Binding Path=IsChecked, ElementName=TTSEnabledComboBox}" Cursor="IBeam"
-                                 Text="{Binding Path=TTSResourceKey,Mode=TwoWay}"/>
+                                 Text="{Binding Path=TtsResourceKey,Mode=TwoWay}"/>
                     </StackPanel>
                 </Expander>
 
