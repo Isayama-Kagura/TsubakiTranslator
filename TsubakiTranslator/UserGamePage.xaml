@@ -20,6 +20,8 @@
                         Width="60" Content="打开"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
                         <StackPanel x:Name="HistoryGameInfo"  Margin="10">
+                            <TextBlock Text="确保运行权限≥游戏权限，&#x000A;否则翻译器可能闪退"/>
+
                             <TextBox x:Name="HistoryGameName"
                                      Margin="5"
                                      materialDesign:HintAssist.Hint="游戏名"
@@ -88,6 +90,7 @@
                         Click="OpenGameByPid_Button_Click">
                     <Button.CommandParameter>
                         <StackPanel  Margin="10">
+                            <TextBlock Text="确保运行权限≥游戏权限，&#x000A;否则翻译器可能闪退" />
 
                             <ComboBox x:Name="GameProcessList" Margin="5" 
                                       materialDesign:HintAssist.Hint="游戏进程"
@@ -187,13 +190,12 @@
                         Width="63" Content="OCR"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
                         <StackPanel>
-                            <StackPanel x:Name="OcrTipsPanel" Margin="5" HorizontalAlignment="Center" >
+                            <StackPanel  Margin="5" HorizontalAlignment="Center" >
                                 <TextBlock >使用OCR功能应满足的条件：</TextBlock>
                                 <TextBlock >【1】Windows10 操作系统</TextBlock>
                                 <TextBlock >【2】在 Windows设置->时间和语言 </TextBlock>
-                                <TextBlock >->语言->首选语言 中添加语言</TextBlock>
-                                <TextBlock ></TextBlock>
-                                <TextBlock >当前电脑支持：</TextBlock>
+                                <TextBlock Text="->语言->首选语言 中添加语言&#x000A;&#x000A;当前电脑支持："/>
+                                <StackPanel x:Name="OcrTipsPanel"/>
                             </StackPanel>
                             
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >

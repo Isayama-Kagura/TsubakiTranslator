@@ -202,6 +202,8 @@ namespace TsubakiTranslator
         [SupportedOSPlatform("windows10.0.10240")]
         private void Ocr_Button_Click(object sender, RoutedEventArgs e)
         {
+            OcrTipsPanel.Children.Clear();
+
             var languagesName = OcrProgram.GetSupportedLanguages();
             foreach (string lang in languagesName)
             {
