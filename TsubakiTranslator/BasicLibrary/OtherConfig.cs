@@ -1,15 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace TsubakiTranslator.BasicLibrary
 {
-    public partial class OcrConfig : ObservableObject
+    public partial class OtherConfig : ObservableObject
     {
         [ObservableProperty]
         private bool isAutoScreenshot = false;
         [ObservableProperty]
         private ScreenshotHotkey screenshotHotkey = new ScreenshotHotkey();
         [ObservableProperty]
-        private int interval = 2;
+        private int interval = 3;
+        [ObservableProperty]
+        private string sourceLanguage = "Japanese";
+        [ObservableProperty]
+        private bool saveLogEnabled = false;
+        [ObservableProperty]
+        private string logFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
     }
     public partial class ScreenshotHotkey : ObservableObject

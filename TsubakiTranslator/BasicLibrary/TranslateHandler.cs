@@ -87,7 +87,7 @@ namespace TsubakiTranslator.BasicLibrary
             }
 
 
-            Dictionary<string, string> langDict = GetAPISourceLangDict(translateAPIConfig.SourceLanguage);
+            Dictionary<string, string> langDict = GetAPISourceLangDict(App.OtherConfig.SourceLanguage);
 
             foreach (var t in translators)
                 t.SourceLanguage = langDict[t.Name];

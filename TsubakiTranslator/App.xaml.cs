@@ -14,13 +14,13 @@ namespace TsubakiTranslator
         private static WindowConfig windowConfig;
         private static GamesConfig gamesConfig;
         private static TranslateAPIConfig translateAPIConfig;
-        private static OcrConfig ocrConfig;
+        private static OtherConfig otherConfig;
 
         public static WindowConfig WindowConfig { get => windowConfig; }
         public static GamesConfig GamesConfig { get => gamesConfig; }
         public static TranslateAPIConfig TranslateAPIConfig { get => translateAPIConfig; }
 
-        public static OcrConfig OcrConfig { get => ocrConfig; }
+        public static OtherConfig OtherConfig { get => otherConfig; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -38,9 +38,9 @@ namespace TsubakiTranslator
             if (translateAPIConfig == null)
                 translateAPIConfig = new TranslateAPIConfig();
 
-            ocrConfig = FileHandler.DeserializeObject<OcrConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/OcrConfig.json");
-            if (ocrConfig == null)
-                ocrConfig = new OcrConfig();
+            otherConfig = FileHandler.DeserializeObject<OtherConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/OtherConfig.json");
+            if (otherConfig == null)
+                otherConfig = new OtherConfig();
 
             foreach (var proc in Process.GetProcessesByName("TsubakiTranslator").Where(proc => proc.Id != Process.GetCurrentProcess().Id))
             {
@@ -60,7 +60,7 @@ namespace TsubakiTranslator
             FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
             FileHandler.SerializeObject<GamesConfig>(GamesConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
             FileHandler.SerializeObject<TranslateAPIConfig>(TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-            FileHandler.SerializeObject<OcrConfig>(OcrConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/OcrConfig.json");
+            FileHandler.SerializeObject<OtherConfig>(OtherConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/OtherConfig.json");
         }
 
     }

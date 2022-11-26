@@ -126,7 +126,7 @@ namespace TsubakiTranslator
                         //BasicLibrary.Screenshot.SaveCapture(BasicLibrary.Screenshot.GetCapture(GetDrawnRegion(true)));
 
                         //两种OCR模式的不同处理
-                        if (App.OcrConfig.IsAutoScreenshot)
+                        if (App.OtherConfig.IsAutoScreenshot)
                         {
                             drawRegion = GetDrawnRegion(true);
                         }

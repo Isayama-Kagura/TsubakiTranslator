@@ -19,9 +19,10 @@ namespace TsubakiTranslator
         SourceTextContent sourceTextContent;
         Dictionary<string, TranslatedData> displayTextContent;
 
-        TextHookHandler textHookHandler;
         LinkedList<ITranslator> translators;
-        TranslateDataList results;
+
+        private TranslateDataList results;
+        public TranslateDataList Results { get => results; }
 
         SourceTextHandler sourceTextHandler;
 
@@ -59,13 +60,11 @@ namespace TsubakiTranslator
         }
 
         //对应注入模式
-        public TranslatedResultDisplay(TextHookHandler textHookHandler, SourceTextHandler sourceTextHandler)
+        public TranslatedResultDisplay(SourceTextHandler sourceTextHandler)
         {
             InitializeComponent();
 
             Init();
-
-            this.textHookHandler = textHookHandler;
 
             this.sourceTextHandler = sourceTextHandler;
 
@@ -127,7 +126,7 @@ namespace TsubakiTranslator
         public void TranslateAndDisplay(string sourceText)
         {
             TranslateData currentResult = new TranslateData(sourceText, new Dictionary<string, string>());
-            results.AddTranslateData(currentResult);
+            Results.AddTranslateData(currentResult);
 
             sourceTextContent.BindingText = currentResult.SourceText;
 
@@ -164,34 +163,34 @@ namespace TsubakiTranslator
 
         private void ArrowLeft_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (results.Count() == 0)
+            if (Results.Count() == 0)
                 return;
-            TranslateData result = results.GetPreviousData();
+            TranslateData result = Results.GetPreviousData();
             ShowTranslateResult(result);
         }
 
         private void ArrowRight_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (results.Count() == 0)
+            if (Results.Count() == 0)
                 return;
-            TranslateData result = results.GetNextData();
+            TranslateData result = Results.GetNextData();
             ShowTranslateResult(result);
         }
 
         private void ChevronTripleLeft_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (results.Count() == 0)
+            if (Results.Count() == 0)
                 return;
-            TranslateData result = results.GetFirstData();
+            TranslateData result = Results.GetFirstData();
             ShowTranslateResult(result);
 
         }
 
         private void ChevronTripleRight_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (results.Count() == 0)
+            if (Results.Count() == 0)
                 return;
-            TranslateData result = results.GetLastData();
+            TranslateData result = Results.GetLastData();
             ShowTranslateResult(result);
         }
 

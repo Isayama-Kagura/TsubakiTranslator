@@ -18,7 +18,7 @@
     <Compile Update="HookResultItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="OcrSettingPage.xaml.cs">
+    <Compile Update="OtherSettingPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TranslatedResultDisplay.xaml.cs">
@@ -53,7 +53,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="OcrSettingPage.xaml">
+    <Page Update="OtherSettingPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\ScrollViewerStyle.xaml">

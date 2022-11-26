@@ -12,26 +12,6 @@
                    Style="{StaticResource ScrollViewerStyle}">
         <materialDesign:Card Background="WhiteSmoke" >
             <StackPanel>
-
-                <Expander HorizontalAlignment="Stretch" Header="源语言选择" Background="WhiteSmoke">
-                    <StackPanel Orientation="Vertical"
-                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                                Margin="24,8,24,16">
-                        <TextBlock Text="选择要提取文本的对应语言。" 
-                                   Style="{StaticResource MaterialDesignHelperTextBlock}" 
-                                   FontSize="13" Margin="0 8 0 8"/>
-                        <ComboBox materialDesign:HintAssist.Hint="源语言"
-                                  SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
-                                  SelectedValuePath="Tag">
-                            <ComboBoxItem Content="日语"  Tag="Japanese"/>
-                            <ComboBoxItem Content="英语"  Tag="English"/>
-
-                        </ComboBox>
-                    </StackPanel>
-                </Expander>
-
-                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
-
                 <Expander HorizontalAlignment="Stretch" Header="Azure文本转语音" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"

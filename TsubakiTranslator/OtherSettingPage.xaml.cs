@@ -8,20 +8,20 @@ namespace TsubakiTranslator
     /// <summary>
     /// OcrSettingPage.xaml 的交互逻辑
     /// </summary>
-    public partial class OcrSettingPage : UserControl
+    public partial class OtherSettingPage : UserControl
     {
         private byte HotkeysModifiers { get; set; }
         private int HotkeysKey { get; set; }
         private string HotkeysText { get; set; } = "";
 
-        private OcrConfig OcrConfig { get; }
+        private OtherConfig OtherConfig { get; }
 
-        public OcrSettingPage()
+        public OtherSettingPage()
         {
             InitializeComponent();
 
-            OcrConfig = App.OcrConfig;
-            this.DataContext = App.OcrConfig;
+            OtherConfig = App.OtherConfig;
+            this.DataContext = App.OtherConfig;
 
         }
 
@@ -78,19 +78,26 @@ namespace TsubakiTranslator
             {
                 return;
             }
-            App.OcrConfig.ScreenshotHotkey.Modifiers = HotkeysModifiers;
-            App.OcrConfig.ScreenshotHotkey.Key = HotkeysKey;
-            App.OcrConfig.ScreenshotHotkey.Text = HotkeysText.ToString();
+            App.OtherConfig.ScreenshotHotkey.Modifiers = HotkeysModifiers;
+            App.OtherConfig.ScreenshotHotkey.Key = HotkeysKey;
+            App.OtherConfig.ScreenshotHotkey.Text = HotkeysText.ToString();
             //HotKeysUtil.ReRegisterHotKey();
             //HotKeyConflictCheck();
         }
 
-        private void ScreenshotHotkeyConflictCheck()
+        //private void ScreenshotHotkeyConflictCheck()
+        //{
+        //this.OcrHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.Ocr.Conflict ? Visibility.Visible : Visibility.Hidden;
+        //this.GetWordsTranslateHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.GetWordsTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
+        //this.ScreenshotTranslateHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.ScreenshotTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
+        //this.TopMostHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.TopMost.Conflict ? Visibility.Visible : Visibility.Hidden;
+        //}
+
+        private void SelectFolder_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            //this.OcrHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.Ocr.Conflict ? Visibility.Visible : Visibility.Hidden;
-            //this.GetWordsTranslateHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.GetWordsTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
-            //this.ScreenshotTranslateHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.ScreenshotTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
-            //this.TopMostHotKeyConflictLabel.Visibility = GlobalConfig.HotKeys.TopMost.Conflict ? Visibility.Visible : Visibility.Hidden;
+            string path = FileHandler.SelectFolderPath();
+
+            App.OtherConfig.LogFolderPath = path;
         }
     }
 }
