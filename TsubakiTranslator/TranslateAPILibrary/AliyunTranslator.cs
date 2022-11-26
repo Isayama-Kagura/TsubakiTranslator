@@ -92,7 +92,7 @@ namespace TsubakiTranslator.TranslateAPILibrary
                 }
                 return result;
             }
-            
+
             else
             {
                 return result;

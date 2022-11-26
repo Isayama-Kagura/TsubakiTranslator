@@ -218,7 +218,7 @@
 
             </DockPanel>
 
-            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}">
+            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}" SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding GameName, Mode=TwoWay}"

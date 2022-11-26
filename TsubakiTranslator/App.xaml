@@ -32,11 +32,11 @@
 
 
             <!--Secondary-->
-            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#fff64f"/>
+            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#FFF6F028"/>
             <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#FFFFFF"/>
-            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#ffd740"/>
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FFE4BB24"/>
             <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF"/>
-            <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#c8a600"/>
+            <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#FFCB8834"/>
             <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="#FFFFFF"/>
 
         </ResourceDictionary>

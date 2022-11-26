@@ -5,9 +5,6 @@ namespace TsubakiTranslator.BasicLibrary
     public partial class TranslateAPIConfig : ObservableObject
     {
         [ObservableProperty]
-        private string sourceLanguage = "Japanese";
-
-        [ObservableProperty]
         private bool ttsIsEnabled;
         [ObservableProperty]
         private string ttsRegion;

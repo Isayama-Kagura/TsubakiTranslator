@@ -1,26 +1,25 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
-using System.Windows;
+using System.Windows.Forms;
 
 namespace TsubakiTranslator.BasicLibrary
 {
     class FileHandler
     {
-        //public static string SelectPath()
-        //{
-        //    string path = string.Empty;
-        //    var openFileDialog = new OpenFileDialog()
-        //    {
-        //        Filter = "可执行文件|*.exe|所有文件|*.*"//如果需要筛选txt文件（"Files (*.txt)|*.txt"）
-        //    };
-        //    var result = openFileDialog.ShowDialog();
-        //    if (result == true)
-        //    {
-        //        path = openFileDialog.FileName;
-        //    }
-        //    return path;
-        //}
+        public static string SelectFolderPath()
+        {
+            string path = "";
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择文件夹作为路径";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                path = dialog.SelectedPath; // "e:/go"
+            }
+
+            return path;
+
+        }
 
         public static void SerializeObject<T>(T value, string path)
         {
@@ -34,14 +33,14 @@ namespace TsubakiTranslator.BasicLibrary
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                System.Windows.MessageBox.Show(e.Message);
             }
         }
 
         public static T DeserializeObject<T>(string path)
         {
             T result = default(T);
-            if (CreateFileIfNotExist(path))
+            if (CreateFile(path))
                 return result;
 
             try
@@ -57,13 +56,13 @@ namespace TsubakiTranslator.BasicLibrary
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                System.Windows.MessageBox.Show(e.Message);
             }
 
             return result;
         }
 
-        public static bool CreateFileIfNotExist(string path)
+        public static bool CreateFile(string path)
         {
             string directory = System.IO.Path.GetDirectoryName(path);
             bool flag = false;
@@ -83,7 +82,13 @@ namespace TsubakiTranslator.BasicLibrary
 
         }
 
-
+        public static void AppendTextToFile(string text, string path)
+        {
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteLine(text);
+            }
+        }
 
     }
 }

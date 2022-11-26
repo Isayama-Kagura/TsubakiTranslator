@@ -7,7 +7,7 @@ namespace TsubakiTranslator.BasicLibrary
     class TranslateHandler
     {
         //对翻译API进行初始化。
-        public static LinkedList<ITranslator> GetSelectedTranslators(TranslateAPIConfig translateAPIConfig)
+        public static LinkedList<ITranslator> GetSelectedTranslators(TranslateAPIConfig translateAPIConfig, string srcLang)
         {
             LinkedList<ITranslator> translators = new LinkedList<ITranslator>();
 
@@ -87,7 +87,7 @@ namespace TsubakiTranslator.BasicLibrary
             }
 
 
-            Dictionary<string, string> langDict = GetAPISourceLangDict(translateAPIConfig.SourceLanguage);
+            Dictionary<string, string> langDict = GetAPISourceLangDict(srcLang);
 
             foreach (var t in translators)
                 t.SourceLanguage = langDict[t.Name];

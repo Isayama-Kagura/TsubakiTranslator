@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
@@ -103,15 +104,22 @@ namespace TsubakiTranslator
 
             int.TryParse(GameProcessDuplicateTimes.Text, out int times);
 
-            GameData item = new GameData
-            {
-                HookCode = GameProcessHookCode.Text,
-                DuplicateTimes = times,
-                GameName = gameProcess.ProcessName,
-                ProcessName = gameProcess.ProcessName
-            };
+            var result = from data in App.GamesConfig.GameDatas
+                         where data.ProcessName.Equals(gameProcess.ProcessName)
+                         select data;
 
-            App.GamesConfig.GameDatas.Add(item);
+            if(result.Count() == 0)
+            {
+                GameData item = new GameData
+                {
+                    HookCode = GameProcessHookCode.Text,
+                    DuplicateTimes = times,
+                    GameName = gameProcess.ProcessName,
+                    ProcessName = gameProcess.ProcessName
+                };
+
+                App.GamesConfig.GameDatas.Add(item);
+            }
 
             TextHookHandler textHookHandler;
             if (GameProcessHookCode.Text != null && GameProcessHookCode.Text.Trim().Length != 0)
