@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -90,7 +91,6 @@ namespace TsubakiTranslator
             InitializeComponent();
 
             Init();
-
         }
 
 
@@ -115,12 +115,30 @@ namespace TsubakiTranslator
             if (!iData.GetDataPresent(DataFormats.Text))
                 return;
 
-            string sourceText = Clipboard.GetText();
+            string sourceText = "";
+
+            try
+            {
+                sourceText = Clipboard.GetText();
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(100);
+                try
+                {
+                    sourceText = Clipboard.GetText();
+                }
+                catch (Exception)
+                {
+                    sourceText = "剪切板读取错误,可能是剪切板刷新速率过快 请重试";
+                }
+            }
+
+
             sourceText = Regex.Replace(sourceText, @"[\r\n\t\f]", "");
             sourceText = sourceTextHandler.HandleText(sourceText);
             Task.Run(() => TranslateAndDisplay(sourceText));
         }
-
 
 
         public void TranslateAndDisplay(string sourceText)
