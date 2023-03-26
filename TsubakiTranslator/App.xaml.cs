@@ -1,70 +1,65 @@
-﻿using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using TsubakiTranslator.BasicLibrary;
 
-namespace TsubakiTranslator
-{
+namespace TsubakiTranslator {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
-    {
-        private static WindowConfig windowConfig;
-        private static GamesConfig gamesConfig;
-        private static TranslateAPIConfig translateAPIConfig;
-        private static OtherConfig otherConfig;
+    public partial class App : Application {
+        private readonly string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
 
-        public static WindowConfig WindowConfig { get => windowConfig; }
-        public static GamesConfig GamesConfig { get => gamesConfig; }
-        public static TranslateAPIConfig TranslateAPIConfig { get => translateAPIConfig; }
+        public static WindowConfig WindowConfig { get; private set; }
 
-        public static OtherConfig OtherConfig { get => otherConfig; }
+        public static GamesConfig GamesConfig { get; private set; }
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
+        public static TranslateAPIConfig TranslateAPIConfig { get; private set; }
+
+        public static OtherConfig OtherConfig { get; private set; }
+
+        protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
 
-            windowConfig = FileHandler.DeserializeObject<WindowConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            if (windowConfig == null)
-                windowConfig = new WindowConfig();
+            WindowConfig = FileHandler.DeserializeObject<WindowConfig>(
+                baseDir + @"config/WindowConfig.json"
+            ) ?? new WindowConfig();
 
-            gamesConfig = FileHandler.DeserializeObject<GamesConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
-            if (gamesConfig == null)
-                gamesConfig = new GamesConfig();
+            GamesConfig = FileHandler.DeserializeObject<GamesConfig>(
+                baseDir + @"config/GamesData.json"
+            ) ?? new GamesConfig();
 
-            translateAPIConfig = FileHandler.DeserializeObject<TranslateAPIConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-            if (translateAPIConfig == null)
-                translateAPIConfig = new TranslateAPIConfig();
+            TranslateAPIConfig =
+                FileHandler.DeserializeObject<TranslateAPIConfig>(baseDir +
+                                                                  @"config/APIConfig.json") ??
+                new TranslateAPIConfig();
 
-            otherConfig = FileHandler.DeserializeObject<OtherConfig>(System.AppDomain.CurrentDomain.BaseDirectory + @"config/OtherConfig.json");
-            if (otherConfig == null)
-                otherConfig = new OtherConfig();
+            OtherConfig = FileHandler.DeserializeObject<OtherConfig>(
+                baseDir + @"config/OtherConfig.json"
+            ) ?? new OtherConfig();
 
-            foreach (var proc in Process.GetProcessesByName("TsubakiTranslator").Where(proc => proc.Id != Process.GetCurrentProcess().Id))
-            {
-                try
-                {
+            var processes = Process.GetProcessesByName("TsubakiTranslator")
+                .Where(proc => proc.Id != System.Environment.ProcessId);
+            foreach (var proc in processes) {
+                try {
                     proc.Kill();
+                } catch {
+                    // ignored
                 }
-                catch { }
             }
-
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
+        protected override void OnExit(ExitEventArgs e) {
+            FileHandler.SerializeObject<WindowConfig>(WindowConfig,
+                baseDir + @"config/WindowConfig.json");
+            FileHandler.SerializeObject<GamesConfig>(GamesConfig,
+                baseDir + @"config/GamesData.json");
+            FileHandler.SerializeObject<TranslateAPIConfig>(TranslateAPIConfig,
+                baseDir + @"config/APIConfig.json");
+            FileHandler.SerializeObject<OtherConfig>(OtherConfig,
+                baseDir + @"config/OtherConfig.json");
+
             base.OnExit(e);
-
-            FileHandler.SerializeObject<WindowConfig>(WindowConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/WindowConfig.json");
-            FileHandler.SerializeObject<GamesConfig>(GamesConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/GamesData.json");
-            FileHandler.SerializeObject<TranslateAPIConfig>(TranslateAPIConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/APIConfig.json");
-            FileHandler.SerializeObject<OtherConfig>(OtherConfig, System.AppDomain.CurrentDomain.BaseDirectory + @"config/OtherConfig.json");
         }
-
     }
-
-
-
 }

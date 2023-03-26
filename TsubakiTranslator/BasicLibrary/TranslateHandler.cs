@@ -38,6 +38,13 @@ namespace TsubakiTranslator.BasicLibrary
                 translators.AddLast(caiyun);
             }
 
+            if (translateAPIConfig.ChatGptIsEnabled)
+            {
+                ITranslator chatgpt = new ChatGptTranslator();
+                chatgpt.TranslatorInit(translateAPIConfig.ChatGptToken, "");
+                translators.AddLast(chatgpt);
+            }
+
             if (translateAPIConfig.DeeplIsEnabled)
             {
                 ITranslator deepl = new DeepLTranslator(translateAPIConfig.DeeplIsFreeApi);
@@ -98,6 +105,8 @@ namespace TsubakiTranslator.BasicLibrary
         public static Dictionary<string, string> GetAPISourceLangDict(string srcLang)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
+
+            dict.Add("ChatGPT", srcLang);
 
             if (srcLang.Equals("Japanese"))
             {
