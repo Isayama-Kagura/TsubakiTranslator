@@ -152,6 +152,25 @@
                 </Expander>
                 <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
+                <Expander HorizontalAlignment="Stretch" Header="ChatGPT" Background="WhiteSmoke">
+                    <StackPanel Orientation="Vertical"
+                                TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                                Margin="24,8,24,16">
+                        <TextBlock Text="详情请查看 OpenAI 官网。"
+                                   Style="{StaticResource MaterialDesignHelperTextBlock}"
+                                   FontSize="13" Margin="0 8 0 8"/>
+                        <CheckBox x:Name="ChatGptEnabledComboBox"
+                                  Content="启用" IsChecked="{Binding ChatGptIsEnabled,Mode=TwoWay}"/>
+
+                        <TextBox materialDesign:HintAssist.Hint="Token"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=IsChecked, ElementName=ChatGptEnabledComboBox}" Cursor="IBeam"
+                                 Text="{Binding Path=ChatGptToken,Mode=TwoWay}"/>
+                    </StackPanel>
+                </Expander>
+                <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
+
                 <Expander HorizontalAlignment="Stretch" Header="DeepL翻译" Background="WhiteSmoke">
                     <StackPanel Orientation="Vertical"
                                 TextBlock.Foreground="{DynamicResource MaterialDesignBody}"

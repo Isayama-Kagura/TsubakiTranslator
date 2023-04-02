@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Windows;
@@ -114,7 +115,7 @@ namespace TsubakiTranslator
                 {
                     HookCode = GameProcessHookCode.Text,
                     DuplicateTimes = times,
-                    GameName = gameProcess.ProcessName,
+                    GameName = Path.GetFileName(gameProcess.MainModule.FileVersionInfo.FileName),
                     ProcessName = gameProcess.ProcessName
                 };
 

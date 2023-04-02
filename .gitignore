@@ -1,7 +1,8 @@
 /.vs/
 /TsubakiTranslator/bin/
 /TsubakiTranslator/obj/
-
-
+/TsubakiTest/ApiKeys.cs
+/TsubakiTest/bin/
+/TsubakiTest/obj/
 
 *.user

@@ -34,6 +34,11 @@ namespace TsubakiTranslator.BasicLibrary
         private string caiyunToken;
 
         [ObservableProperty]
+        private bool chatGptIsEnabled;
+        [ObservableProperty]
+        private string chatGptToken;
+
+        [ObservableProperty]
         private bool deeplIsEnabled;
         [ObservableProperty]
         private bool deeplIsFreeApi;

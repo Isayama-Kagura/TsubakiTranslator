@@ -28,11 +28,24 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         static readonly private HttpClient client;
         /// <summary>
-        /// 获得HttpClinet单例，第一次调用自动初始化
+        /// 获得HttpClient单例，第一次调用自动初始化
         /// </summary>
         public static HttpClient Client
         {
             get => client;
+        }
+
+        /// <summary>
+        /// new http client
+        /// </summary>
+        public static HttpClient NewClient() {
+            var c = new HttpClient(new HttpClientHandler() {
+                AutomaticDecompression = DecompressionMethods.GZip
+            });
+            foreach (var (k, v) in client.DefaultRequestHeaders) {
+                c.DefaultRequestHeaders.Add(k, v);
+            }
+            return c;
         }
 
         /// <summary>
