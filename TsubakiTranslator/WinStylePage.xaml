@@ -42,12 +42,12 @@
             </DockPanel>
 
             <DockPanel LastChildFill="False">
-                <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                <ComboBox x:Name="SourceTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"  Width="127"
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                         DisplayMemberPath="Content" SelectedValuePath="Value"
                         SelectedValue="{Binding SourceTextColor, Mode=TwoWay}"
                         materialDesign:HintAssist.Hint="源文本颜色" />
-                <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"
+                <ComboBox x:Name="TranslatedTextColorComboBox" DockPanel.Dock="Left" Margin="20 10 20 10"  Width="127"
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                         DisplayMemberPath="Content" SelectedValuePath="Value"
                         SelectedValue="{Binding TranslatedTextColor, Mode=TwoWay}"

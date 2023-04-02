@@ -16,29 +16,29 @@
                    materialDesign:ColorZoneAssist.Foreground="White">
 
                 <StackPanel>
-                    <DockPanel LastChildFill="False">
+                    <StackPanel  >
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                        Margin="0 5 0 5" Text="截屏快捷键" VerticalAlignment="Center"/>
+                        Margin="5" Text="截屏快捷键" VerticalAlignment="Center"/>
 
                         <TextBox x:Name="ScreenshotHotkeyTextBox" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                        VerticalAlignment="Top" Margin="0 5 0 5" DockPanel.Dock="Right"
-                        AcceptsReturn="True"
+                        Margin="5" DockPanel.Dock="Right"
+                        AcceptsReturn="True" 
                         TextWrapping="Wrap" IsReadOnly="True"
                         VerticalScrollBarVisibility="Auto" PreviewKeyDown="HotkeyTextBox_PreviewKeyDown" 
                         KeyUp="ScreenshotHotkeyTextBox_KeyUp" Text="{Binding ScreenshotHotkey.Text}"
                         materialDesign:HintAssist.Hint="按下Ctrl/Shift/Alt加字母数字或F1到F12" />
-                    </DockPanel>
+                    </StackPanel>
 
                     <Separator  Style="{StaticResource MaterialDesignSeparator}"/>
 
                     <DockPanel LastChildFill="False" >
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                        Margin="0 5 0 5" Text="自动截图间隔"/>
+                        Margin="5" Text="自动截图间隔"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                  materialDesign:TextFieldAssist.SuffixText="秒" Margin="0 5 0 5"
+                                  materialDesign:TextFieldAssist.SuffixText="秒" 
                                   SelectedValue="{Binding Interval, Mode=TwoWay}" SelectedValuePath="Content"
-                                  materialDesign:HintAssist.Hint="自动模式截图间隔" DockPanel.Dock="Right">
+                                  DockPanel.Dock="Right">
                             <ComboBoxItem Content="3" />
                             <ComboBoxItem Content="4" />
                             <ComboBoxItem Content="5" />
@@ -59,10 +59,10 @@
                 <StackPanel>
                     <DockPanel LastChildFill="False">
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                        Margin="0 5 0 5" Text="源语言选择" VerticalAlignment="Center"/>
+                        Margin="5" Text="源语言选择" VerticalAlignment="Center"/>
 
                         <ComboBox materialDesign:HintAssist.Hint="源语言" DockPanel.Dock="Right"
-                                  SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
+                                  SelectedValue="{Binding SourceLanguage, Mode=TwoWay}" Margin="5"
                                   SelectedValuePath="Tag">
                             <ComboBoxItem IsSelected="True" Content="日语"  Tag="Japanese"/>
                             <ComboBoxItem Content="英语"  Tag="English"/>
@@ -74,16 +74,16 @@
 
                     <DockPanel LastChildFill="False">
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                            Margin="0 5 0 5" Text="留存翻译记录" VerticalAlignment="Center"/>
+                            Margin="5" Text="留存翻译记录" VerticalAlignment="Center"/>
                         <ToggleButton x:Name="TranslateLogSwitch"  Style="{StaticResource MaterialDesignSwitchToggleButton}" DockPanel.Dock="Right" Margin="20 10 20 10"
                             ToolTip="功能开关" Cursor="Hand"  IsChecked="{Binding SaveLogEnabled, Mode=TwoWay}"/>
                     </DockPanel>
 
                     <DockPanel>
-                        <Button Margin="5 5 0 5" Style="{StaticResource MaterialDesignOutlinedButton}"
+                        <Button Margin="5" Style="{StaticResource MaterialDesignOutlinedButton}"
                                 IsEnabled="{Binding IsChecked,ElementName=TranslateLogSwitch}"
                                 Content="选择路径" DockPanel.Dock="Right" Click="SelectFolder_Button_Click"/>
-                        <TextBox x:Name="FolderPath" Margin="0 5 5 5" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        <TextBox x:Name="FolderPath" Margin="5" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text ="{Binding LogFolderPath}" IsReadOnly="True"
                                  IsEnabled="{Binding IsChecked,ElementName=TranslateLogSwitch}"
                                  materialDesign:HintAssist.Hint="文件夹路径"/>

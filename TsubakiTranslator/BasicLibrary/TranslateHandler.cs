@@ -47,8 +47,8 @@ namespace TsubakiTranslator.BasicLibrary
 
             if (translateAPIConfig.DeeplIsEnabled)
             {
-                ITranslator deepl = new DeepLTranslator(translateAPIConfig.DeeplIsFreeApi);
-                deepl.TranslatorInit(translateAPIConfig.DeeplSecretKey, "");
+                ITranslator deepl = new DeepLTranslator();
+                deepl.TranslatorInit(translateAPIConfig.DeeplSecretKey, translateAPIConfig.DeeplIsFreeApi ? null : "");
                 translators.AddLast(deepl);
             }
 
