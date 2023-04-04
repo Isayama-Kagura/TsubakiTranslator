@@ -7,48 +7,49 @@ namespace TsubakiTranslator.BasicLibrary
     class TranslateHandler
     {
         //对翻译API进行初始化。
-        public static LinkedList<ITranslator> GetSelectedTranslators(TranslateAPIConfig translateAPIConfig, string srcLang)
+        public static LinkedList<ITranslator> GetSelectedTranslators(TranslateAPIConfig translateAPIConfig, int srcLangIndex)
         {
             LinkedList<ITranslator> translators = new LinkedList<ITranslator>();
 
             if (translateAPIConfig.AliIsEnabled)
             {
                 ITranslator aliyun = new AliyunTranslator();
-                aliyun.TranslatorInit(translateAPIConfig.AliSecretId, translateAPIConfig.AliSecretKey);
+                aliyun.TranslatorInit(srcLangIndex, translateAPIConfig.AliSecretId, translateAPIConfig.AliSecretKey);
                 translators.AddLast(aliyun);
             }
 
             if (translateAPIConfig.BaiduIsEnabled)
             {
                 ITranslator baidu = new BaiduTranslator();
-                baidu.TranslatorInit(translateAPIConfig.BaiduAppID, translateAPIConfig.BaiduSecretKey);
+                baidu.TranslatorInit(srcLangIndex, translateAPIConfig.BaiduAppID, translateAPIConfig.BaiduSecretKey);
                 translators.AddLast(baidu);
             }
 
             if (translateAPIConfig.BingIsEnabled)
             {
                 ITranslator bing = new BingTranslator();
+                bing.TranslatorInit(srcLangIndex, null, null);
                 translators.AddLast(bing);
             }
 
             if (translateAPIConfig.CaiyunIsEnabled)
             {
                 ITranslator caiyun = new CaiyunTranslator();
-                caiyun.TranslatorInit(translateAPIConfig.CaiyunToken, "");
+                caiyun.TranslatorInit(srcLangIndex, translateAPIConfig.CaiyunToken, "");
                 translators.AddLast(caiyun);
             }
 
             if (translateAPIConfig.ChatGptIsEnabled)
             {
                 ITranslator chatgpt = new ChatGptTranslator();
-                chatgpt.TranslatorInit(translateAPIConfig.ChatGptToken, "");
+                chatgpt.TranslatorInit(srcLangIndex, translateAPIConfig.ChatGptToken, "");
                 translators.AddLast(chatgpt);
             }
 
             if (translateAPIConfig.DeeplIsEnabled)
             {
                 ITranslator deepl = new DeepLTranslator();
-                deepl.TranslatorInit(translateAPIConfig.DeeplSecretKey, translateAPIConfig.DeeplIsFreeApi ? null : "");
+                deepl.TranslatorInit(srcLangIndex, translateAPIConfig.DeeplSecretKey, translateAPIConfig.DeeplIsFreeApi ? null : "");
                 translators.AddLast(deepl);
             }
 
@@ -56,6 +57,7 @@ namespace TsubakiTranslator.BasicLibrary
             if (translateAPIConfig.IbmIsEnabled)
             {
                 ITranslator ibm = new IBMTranslator();
+                ibm.TranslatorInit(srcLangIndex, null, null);
                 translators.AddLast(ibm);
 
             }
@@ -63,6 +65,7 @@ namespace TsubakiTranslator.BasicLibrary
             if (translateAPIConfig.ICiBaIsEnabled)
             {
                 ITranslator iCiBa = new ICiBaTranslator();
+                iCiBa.TranslatorInit(srcLangIndex, null, null);
                 translators.AddLast(iCiBa);
 
             }
@@ -70,76 +73,33 @@ namespace TsubakiTranslator.BasicLibrary
             if (translateAPIConfig.TencentIsEnabled)
             {
                 ITranslator tencent = new TencentTranslator();
-                tencent.TranslatorInit(translateAPIConfig.TencentSecretID, translateAPIConfig.TencentSecretKey);
+                tencent.TranslatorInit(srcLangIndex, translateAPIConfig.TencentSecretID, translateAPIConfig.TencentSecretKey);
                 translators.AddLast(tencent);
             }
 
             if (translateAPIConfig.XiaoniuIsEnabled)
             {
                 ITranslator xiaoniu = new XiaoniuTranslator();
-                xiaoniu.TranslatorInit(translateAPIConfig.XiaoniuApiKey, "");
+                xiaoniu.TranslatorInit(srcLangIndex, translateAPIConfig.XiaoniuApiKey, "");
                 translators.AddLast(xiaoniu);
             }
 
             if (translateAPIConfig.VolcengineIsEnabled)
             {
                 ITranslator volcengine = new VolcengineTranslator();
+                volcengine.TranslatorInit(srcLangIndex, null, null);
                 translators.AddLast(volcengine);
             }
 
             if (translateAPIConfig.YeekitIsEnabled)
             {
                 ITranslator yeekit = new YeekitTranslator();
+                yeekit.TranslatorInit(srcLangIndex, null, null);
                 translators.AddLast(yeekit);
             }
 
-
-            Dictionary<string, string> langDict = GetAPISourceLangDict(srcLang);
-
-            foreach (var t in translators)
-                t.SourceLanguage = langDict[t.Name];
-
             return translators;
         }
-
-        public static Dictionary<string, string> GetAPISourceLangDict(string srcLang)
-        {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-
-            dict.Add("ChatGPT", srcLang);
-
-            if (srcLang.Equals("Japanese"))
-            {
-                dict.Add("阿里", "ja");
-                dict.Add("百度", "auto");
-                dict.Add("必应", "ja");
-                dict.Add("彩云", "ja");
-                dict.Add("DeepL", "JA");
-                dict.Add("IBM", "ja");
-                dict.Add("爱词霸", "ja");
-                dict.Add("腾讯", "auto");
-                dict.Add("小牛", "ja");
-                dict.Add("火山", "ja");
-                dict.Add("Yeekit", "nja");
-            }
-            else if (srcLang.Equals("English"))
-            {
-                dict.Add("阿里", "en");
-                dict.Add("百度", "auto");
-                dict.Add("必应", "en");
-                dict.Add("彩云", "en");
-                dict.Add("DeepL", "EN");
-                dict.Add("IBM", "en");
-                dict.Add("爱词霸", "en");
-                dict.Add("腾讯", "auto");
-                dict.Add("小牛", "en");
-                dict.Add("火山", "en");
-                dict.Add("Yeekit", "nen");
-            }
-            return dict;
-
-        }
-
 
 
         /// <summary>

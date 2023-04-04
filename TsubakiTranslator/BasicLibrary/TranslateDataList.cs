@@ -44,7 +44,7 @@ namespace TsubakiTranslator
             DateTime dt = DateTime.Now;
             DataLogFilePath = logPath + "\\translated_" + string.Format("{0:yyMMddHHmmss}", dt) + ".log";
             FileHandler.CreateFile(DataLogFilePath);
-            
+
         }
 
         /// <summary>

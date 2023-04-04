@@ -109,7 +109,7 @@ namespace TsubakiTranslator
                          where data.ProcessName.Equals(gameProcess.ProcessName)
                          select data;
 
-            if(result.Count() == 0)
+            if (result.Count() == 0)
             {
                 GameData item = new GameData
                 {

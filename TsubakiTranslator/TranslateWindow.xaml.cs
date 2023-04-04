@@ -70,7 +70,7 @@ namespace TsubakiTranslator
                 TTSButton.Visibility = Visibility.Visible;
 
 
-                if (App.OtherConfig.SourceLanguage.Equals("Japanese"))
+                if (App.OtherConfig.SourceLangIndex == (int)ConstantValues.Language.Japanese)
                 {
                     this.TTSHandler = new TTSHandler(App.TranslateAPIConfig.TtsRegion, App.TranslateAPIConfig.TtsResourceKey, "ja-JP", "ja-JP-NanamiNeural");
                 }
@@ -138,7 +138,7 @@ namespace TsubakiTranslator
 
             Init();
 
-            ocrProgram = new OcrProgram(App.OtherConfig.SourceLanguage);
+            ocrProgram = new OcrProgram(App.OtherConfig.SourceLangIndex);
 
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
@@ -379,7 +379,7 @@ namespace TsubakiTranslator
                     ocrResult = await OcrProgram.RecognizeAsync(image);
 
                 if (ocrResult != null && !ocrResult.Trim().Equals(""))
-                    await Task.Run(() => TranslatedResultDisplay.TranslateAndDisplay(ocrResult)); 
+                    await Task.Run(() => TranslatedResultDisplay.TranslateAndDisplay(ocrResult));
             }
 
         }
@@ -443,7 +443,7 @@ namespace TsubakiTranslator
                     {
                         string ocrResult = await OcrProgram.RecognizeAsync(bitmap);
 
-                        if (LastOcrResult==null || !LastOcrResult.Equals(ocrResult))
+                        if (LastOcrResult == null || !LastOcrResult.Equals(ocrResult))
                             if (ocrResult != null && !ocrResult.Trim().Equals(""))
                                 await Task.Run(() => TranslatedResultDisplay.TranslateAndDisplay(ocrResult));
 
@@ -510,6 +510,8 @@ namespace TsubakiTranslator
         {
             AutoOcrTimer.Stop();
             ScreenshotButton.Visibility = Visibility.Visible;
+            if (!TranslatedResultDisplay.TranslatorEnabled)
+                TranslatorEnable_Button_Click(null, null);
             if (App.OtherConfig.ScreenshotHotkey.Conflict)
             {
                 if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)

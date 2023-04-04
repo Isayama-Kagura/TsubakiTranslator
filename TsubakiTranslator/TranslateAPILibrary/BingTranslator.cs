@@ -6,9 +6,10 @@ namespace TsubakiTranslator.TranslateAPILibrary
 {
     public class BingTranslator : ITranslator
     {
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         private readonly string name = "必应";
+        private readonly string[] langList = { "ja", "en" };
         public string Name { get => name; }
         private string Key { get; set; }
         private string Token { get; set; }
@@ -85,9 +86,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
             TranslateTimes = 0;
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
-
+            SourceLanguage = langList[index];
         }
     }
 }

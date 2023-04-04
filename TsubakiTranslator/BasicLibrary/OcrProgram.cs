@@ -18,13 +18,13 @@ namespace TsubakiTranslator.BasicLibrary
         private string language;
 
 
-        public OcrProgram(string srcLang)
+        public OcrProgram(int srcLangIndex)
         {
-            if (srcLang.Equals("Japanese"))
+            if (srcLangIndex == (int)ConstantValues.Language.Japanese)
             {
                 language = "ja";
             }
-            else if (srcLang.Equals("English"))
+            else if (srcLangIndex == (int)ConstantValues.Language.English)
             {
                 language = "en-US";
             }

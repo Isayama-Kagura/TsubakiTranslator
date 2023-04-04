@@ -35,7 +35,7 @@ namespace TsubakiTranslator
             SourceText.Foreground = new SolidColorBrush(App.WindowConfig.SourceTextColor);
             SourceText.FontFamily = new FontFamily(App.WindowConfig.SourceTextFontFamily);
 
-            translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig, App.OtherConfig.SourceLanguage);
+            translators = TranslateHandler.GetSelectedTranslators(App.TranslateAPIConfig, App.OtherConfig.SourceLangIndex);
 
             displayTextContent = new Dictionary<string, TranslatedData>();
             foreach (ITranslator t in translators)
@@ -55,8 +55,8 @@ namespace TsubakiTranslator
             sourceTextContent = new SourceTextContent();
             this.DataContext = sourceTextContent;
 
-            if(App.OtherConfig.SaveLogEnabled)
-                results = new TranslateDataList(40,App.OtherConfig.LogFolderPath);
+            if (App.OtherConfig.SaveLogEnabled)
+                results = new TranslateDataList(40, App.OtherConfig.LogFolderPath);
             else
                 //最多保留40条历史记录
                 results = new TranslateDataList(40);

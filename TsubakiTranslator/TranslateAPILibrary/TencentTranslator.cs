@@ -16,10 +16,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private string SecretId { get; set; }//腾讯翻译API SecretId
         private string SecretKey { get; set; }//腾讯翻译API SecretKey
 
+        private readonly string[] langList = { "ja", "en" };
         private readonly string name = "腾讯";
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         public string Translate(string sourceText)
         {
@@ -111,8 +112,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
+            SourceLanguage = langList[index];
             SecretId = param1;
             SecretKey = param2;
         }

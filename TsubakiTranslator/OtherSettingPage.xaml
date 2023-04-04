@@ -62,10 +62,11 @@
                         Margin="5" Text="源语言选择" VerticalAlignment="Center"/>
 
                         <ComboBox materialDesign:HintAssist.Hint="源语言" DockPanel.Dock="Right"
-                                  SelectedValue="{Binding SourceLanguage, Mode=TwoWay}" Margin="5"
+                                   Margin="5" 
+                                  SelectedIndex="{Binding SourceLangIndex, Mode=TwoWay}"
                                   SelectedValuePath="Tag">
-                            <ComboBoxItem IsSelected="True" Content="日语"  Tag="Japanese"/>
-                            <ComboBoxItem Content="英语"  Tag="English"/>
+                            <ComboBoxItem IsSelected="True" Content="日语"/>
+                            <ComboBoxItem Content="英语"/>
                         </ComboBox>
                     </DockPanel>
 

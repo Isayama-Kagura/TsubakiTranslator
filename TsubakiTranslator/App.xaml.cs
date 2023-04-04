@@ -3,11 +3,13 @@ using System.Linq;
 using System.Windows;
 using TsubakiTranslator.BasicLibrary;
 
-namespace TsubakiTranslator {
+namespace TsubakiTranslator
+{
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application {
+    public partial class App : Application
+    {
         private readonly string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
 
         public static WindowConfig WindowConfig { get; private set; }
@@ -18,7 +20,8 @@ namespace TsubakiTranslator {
 
         public static OtherConfig OtherConfig { get; private set; }
 
-        protected override void OnStartup(StartupEventArgs e) {
+        protected override void OnStartup(StartupEventArgs e)
+        {
             base.OnStartup(e);
 
             WindowConfig = FileHandler.DeserializeObject<WindowConfig>(
@@ -40,16 +43,21 @@ namespace TsubakiTranslator {
 
             var processes = Process.GetProcessesByName("TsubakiTranslator")
                 .Where(proc => proc.Id != System.Environment.ProcessId);
-            foreach (var proc in processes) {
-                try {
+            foreach (var proc in processes)
+            {
+                try
+                {
                     proc.Kill();
-                } catch {
+                }
+                catch
+                {
                     // ignored
                 }
             }
         }
 
-        protected override void OnExit(ExitEventArgs e) {
+        protected override void OnExit(ExitEventArgs e)
+        {
             FileHandler.SerializeObject<WindowConfig>(WindowConfig,
                 baseDir + @"config/WindowConfig.json");
             FileHandler.SerializeObject<GamesConfig>(GamesConfig,

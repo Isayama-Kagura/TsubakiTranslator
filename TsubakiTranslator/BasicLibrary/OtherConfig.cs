@@ -3,6 +3,11 @@ using System;
 
 namespace TsubakiTranslator.BasicLibrary
 {
+    public class ConstantValues
+    {
+        public enum Language { Japanese, English };
+    }
+
     public partial class OtherConfig : ObservableObject
     {
         [ObservableProperty]
@@ -12,7 +17,7 @@ namespace TsubakiTranslator.BasicLibrary
         [ObservableProperty]
         private int interval = 3;
         [ObservableProperty]
-        private string sourceLanguage = "Japanese";
+        private int sourceLangIndex = 0;
         [ObservableProperty]
         private bool saveLogEnabled = false;
         [ObservableProperty]

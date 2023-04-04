@@ -12,9 +12,10 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private string caiyunToken;//彩云小译 令牌
 
         private readonly string name = "彩云";
+        private readonly string[] langList = { "ja", "en" };
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         public string Translate(string sourceText)
         {
@@ -58,8 +59,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         }
 
-        public void TranslatorInit(string param1, string param2 = "")
+        public void TranslatorInit(int index, string param1, string param2 = "")
         {
+            SourceLanguage = langList[index];
             caiyunToken = param1;
         }
 

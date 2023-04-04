@@ -14,9 +14,10 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private string secretKey;//百度翻译API 的密钥
 
         private readonly string name = "百度";
+        private readonly string[] langList = { "jp", "en" };
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         public string Translate(string sourceText)
         {
@@ -76,8 +77,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
+            SourceLanguage = langList[index];
             appId = param1;
             secretKey = param2;
         }

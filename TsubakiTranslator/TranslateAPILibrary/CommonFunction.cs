@@ -38,11 +38,14 @@ namespace TsubakiTranslator.TranslateAPILibrary
         /// <summary>
         /// new http client
         /// </summary>
-        public static HttpClient NewClient() {
-            var c = new HttpClient(new HttpClientHandler() {
+        public static HttpClient NewClient()
+        {
+            var c = new HttpClient(new HttpClientHandler()
+            {
                 AutomaticDecompression = DecompressionMethods.GZip
             });
-            foreach (var (k, v) in client.DefaultRequestHeaders) {
+            foreach (var (k, v) in client.DefaultRequestHeaders)
+            {
                 c.DefaultRequestHeaders.Add(k, v);
             }
             return c;

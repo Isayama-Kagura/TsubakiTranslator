@@ -13,10 +13,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
         private string apiUrl;
         private string secretKey; //DeepL翻译API的秘钥
 
+        private readonly string[] langList = { "JA", "EN" };
         private readonly string name = "DeepL";
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
 
         public string Translate(string sourceText)
@@ -47,8 +48,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
             }
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
+            SourceLanguage = langList[index];
             secretKey = param1;
             if (param2 == null)
                 apiUrl = @"https://api-free.deepl.com/v2/translate";

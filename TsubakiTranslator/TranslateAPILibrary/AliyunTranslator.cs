@@ -12,9 +12,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
     class AliyunTranslator : ITranslator
     {
         private readonly string name = "阿里";
+        private readonly string[] langList = { "ja", "en" };
+
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         private string SecretId { get; set; }
         private string SecretKey { get; set; }
@@ -101,8 +103,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
+            SourceLanguage = langList[index];
             SecretId = param1;
             SecretKey = param2;
         }

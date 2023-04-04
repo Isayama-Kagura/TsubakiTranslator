@@ -8,11 +8,11 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
     public class IBMTranslator : ITranslator
     {
-
+        private readonly string[] langList = { "ja", "en" };
         private readonly string name = "IBM";
         public string Name { get => name; }
 
-        public string SourceLanguage { get; set; }
+        private string SourceLanguage { get; set; }
 
         public string Translate(string sourceText)
         {
@@ -71,9 +71,9 @@ namespace TsubakiTranslator.TranslateAPILibrary
 
         }
 
-        public void TranslatorInit(string param1, string param2)
+        public void TranslatorInit(int index, string param1, string param2)
         {
-
+            SourceLanguage = langList[index];
         }
 
 
