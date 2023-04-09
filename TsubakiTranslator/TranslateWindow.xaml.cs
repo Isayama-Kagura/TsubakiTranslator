@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.Versioning;
@@ -102,7 +103,8 @@ namespace TsubakiTranslator
 
             TranslateWindowContent.Content = HookResultDisplay;
 
-            TranslatedResultPanel.Visibility = Visibility.Hidden;
+            TranslatedResultPanel.Visibility = Visibility.Collapsed;
+            ConfirmTextButton.Visibility = Visibility.Visible;
         }
 
         //监视剪切板模式
@@ -170,8 +172,8 @@ namespace TsubakiTranslator
 
             HookResultDisplay.UpdateHookResultItem(hookcode, content);
 
-            if (TranslatedResultDisplay.TranslatorEnabled && textHookHandler.SelectedHookCode != null
-                && hookcode.Equals(textHookHandler.SelectedHookCode))
+            if (TranslatedResultDisplay.TranslatorEnabled
+                && textHookHandler.SelectedHookCode.Contains(hookcode))
             {
                 TranslatedResultDisplay.TranslateHookText(content);
             }
@@ -231,12 +233,14 @@ namespace TsubakiTranslator
         {
             TranslateWindowContent.Content = TranslatedResultDisplay;
             TranslatedResultPanel.Visibility = Visibility.Visible;
+            ConfirmTextButton.Visibility = Visibility.Collapsed;
         }
 
         private void Hook_Display_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             TranslateWindowContent.Content = HookResultDisplay;
-            TranslatedResultPanel.Visibility = Visibility.Hidden;
+            TranslatedResultPanel.Visibility = Visibility.Collapsed;
+            ConfirmTextButton.Visibility = Visibility.Visible;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -519,6 +523,26 @@ namespace TsubakiTranslator
             }
             else if (TranslatedResultDisplay.ResultDisplaySnackbar.MessageQueue is { } messageQueue)
                 Task.Run(() => messageQueue.Enqueue($"手动模式，按界面按钮或快捷键（{App.OtherConfig.ScreenshotHotkey.Text}）截图识别。", "好", () => { }));
+        }
+
+        private void ConfirmText_Button_Click(object sender, RoutedEventArgs e)
+        {
+            HashSet<HookData> result = HookResultDisplay.GetSelectedHookData();
+
+            if (result.Count == 0)
+                return;
+
+            TextHookHandler.SelectedHookCode.Clear();
+            string text = "";
+            foreach(HookData data in result)
+            {
+                TextHookHandler.SelectedHookCode.Add(data.HookCode);
+                text += data.HookText;
+            }
+            SwitchToTranslateDisplay(text);
+
+            ConfirmTextButton.Visibility = Visibility.Collapsed;
+
         }
     }
 }

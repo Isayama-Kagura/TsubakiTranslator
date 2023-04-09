@@ -6,11 +6,48 @@
              xmlns:local="clr-namespace:TsubakiTranslator"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" >
-    <ScrollViewer  materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+    <!--<ScrollViewer  materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
                    HorizontalScrollBarVisibility="Disabled"
                    Style="{StaticResource ScrollViewerStyle}">
         <StackPanel x:Name="DisplayStackPanel">
             
         </StackPanel>
-    </ScrollViewer>
+    </ScrollViewer>-->
+    <DataGrid x:Name="HookDataGrid" AutoGenerateColumns="False"
+              CanUserAddRows="False" Background="WhiteSmoke"
+              HeadersVisibility="All"
+              SelectionUnit="FullRow">
+
+        <DataGrid.Columns>
+            <DataGridCheckBoxColumn Binding="{Binding IsSelected, Mode=TwoWay}"
+                                  EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                  ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                    Header="选择">
+                
+                <DataGridCheckBoxColumn.HeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}"
+                            BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Center" />
+                    </Style>
+                </DataGridCheckBoxColumn.HeaderStyle>
+                
+            </DataGridCheckBoxColumn>
+
+            <DataGridTextColumn Binding="{Binding HookCode}" IsReadOnly="True" Width="100"
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="Hook码" />
+            
+            <!-- if you want to use the pop up style (MaterialDesignDataGridTextColumnPopupEditingStyle), you must use MaterialDataGridTextColumn -->
+            <materialDesign:DataGridTextColumn IsReadOnly="True" Binding="{Binding HookText}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="获取文本">
+                
+            </materialDesign:DataGridTextColumn>
+
+        </DataGrid.Columns>
+    </DataGrid>
+
 </UserControl>

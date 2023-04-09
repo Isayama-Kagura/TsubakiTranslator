@@ -15,9 +15,6 @@
     <Compile Update="HookResultDisplay.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="HookResultItem.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="OtherSettingPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -48,9 +45,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="HookResultDisplay.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="HookResultItem.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

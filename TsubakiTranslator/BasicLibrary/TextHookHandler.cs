@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace TsubakiTranslator.BasicLibrary
         public Process ProcessGame { get => processGame; }
 
 
-        public string SelectedHookCode { get; set; }
+        public HashSet<string> SelectedHookCode { get; set; } = new HashSet<string>();
 
         public TextHookHandler(Process p, string hookCode)
         {

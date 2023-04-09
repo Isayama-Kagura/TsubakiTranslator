@@ -54,6 +54,10 @@
                 </MenuItem>
             </Menu>
 
+            <Button x:Name="ConfirmTextButton" Style="{StaticResource MaterialDesignFlatAccentButton}" DockPanel.Dock="Left" 
+                    Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
+                    Content="{ materialDesign:PackIcon Kind=CheckCircleOutline}" ToolTip="保存选择" Visibility="Collapsed"
+                    Click="ConfirmText_Button_Click" />
             <StackPanel x:Name="TranslatedResultPanel"  Orientation="Horizontal" DockPanel.Dock="Left" >
                 <Button x:Name="SourceTextButton" Style="{StaticResource MaterialDesignFlatAccentButton}"
                     Foreground="White" Cursor="Hand" Height="{Binding Height, ElementName=TranslatedResultPanel}"
