@@ -10,10 +10,15 @@
 
     <materialDesign:DialogHost DialogTheme="Inherit" CloseOnClickAway="True">
 
-        <StackPanel>
+        <Grid VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="0"/>
+            </Grid.RowDefinitions>
             <!--the request to open the dialog will bubble up to the top-most DialogHost,
                     but we can used the attached property based event to handle the response -->
-            <DockPanel LastChildFill="False" >
+            <DockPanel LastChildFill="False"  Grid.Row="0">
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"
                         Click="OpenHistoryGame_Button_Click"
@@ -218,7 +223,9 @@
 
             </DockPanel>
 
-            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}" SelectionMode="Single">
+            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}" Grid.Row="1" 
+                      ScrollViewer.CanContentScroll="True"
+                      SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding GameName, Mode=TwoWay}"
@@ -276,6 +283,6 @@
                 </ListView.View>
             </ListView>
 
-        </StackPanel>
+        </Grid>
     </materialDesign:DialogHost>
 </UserControl>
