@@ -6,16 +6,10 @@
              xmlns:local="clr-namespace:TsubakiTranslator"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" >
-    <!--<ScrollViewer  materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
-                   HorizontalScrollBarVisibility="Disabled"
-                   Style="{StaticResource ScrollViewerStyle}">
-        <StackPanel x:Name="DisplayStackPanel">
-            
-        </StackPanel>
-    </ScrollViewer>-->
+
     <DataGrid x:Name="HookDataGrid" AutoGenerateColumns="False"
               CanUserAddRows="False" Background="WhiteSmoke"
-              HeadersVisibility="All"
+              HeadersVisibility="All" SelectionMode="Single"
               SelectionUnit="FullRow">
 
         <DataGrid.Columns>

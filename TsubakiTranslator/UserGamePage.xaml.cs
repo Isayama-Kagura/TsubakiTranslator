@@ -36,7 +36,7 @@ namespace TsubakiTranslator
 
         private void DeleteGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            GameData item = (GameData)GameList.SelectedItem;
+            GameData item = (GameData)GameListDataGrid.SelectedItem;
             App.GamesConfig.GameDatas.Remove(item);
         }
 
@@ -44,7 +44,7 @@ namespace TsubakiTranslator
         {
             SetProcessItems();
 
-            GameData item = (GameData)GameList.SelectedItem;
+            GameData item = (GameData)GameListDataGrid.SelectedItem;
 
             //刷新上下文
             HistoryGameInfo.DataContext = null;
@@ -55,7 +55,7 @@ namespace TsubakiTranslator
         //历史游戏记录中打开游戏
         private void AcceptGame_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            GameData item = (GameData)GameList.SelectedItem;
+            GameData item = (GameData)GameListDataGrid.SelectedItem;
 
             item.GameName = HistoryGameName.Text;
             item.HookCode = HistoryHookCode.Text;

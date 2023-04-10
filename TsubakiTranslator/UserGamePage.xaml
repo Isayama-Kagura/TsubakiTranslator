@@ -20,7 +20,7 @@
                     but we can used the attached property based event to handle the response -->
             <DockPanel LastChildFill="False"  Grid.Row="0">
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                        IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"
+                        IsEnabled="{Binding ElementName=GameListDataGrid, Path=SelectedItems.Count}"
                         Click="OpenHistoryGame_Button_Click"
                         Width="60" Content="打开"  Cursor="Hand" Margin="10">
                     <Button.CommandParameter>
@@ -86,7 +86,7 @@
                         Width="80"  Content="打开" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>-->
 
                 <Button Click="DeleteGame_Button_Click"
-                        Width="60"  Content="删除" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameList, Path=SelectedItems.Count}"/>
+                        Width="60"  Content="删除" Cursor="Hand" Margin="5" IsEnabled="{Binding ElementName=GameListDataGrid, Path=SelectedItems.Count}"/>
 
 
                 <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
@@ -223,66 +223,73 @@
 
             </DockPanel>
 
-            <ListView x:Name="GameList" ItemsSource="{Binding GameDatas, Mode=TwoWay}" Grid.Row="1" 
-                      ScrollViewer.CanContentScroll="True"
-                      SelectionMode="Single">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding GameName, Mode=TwoWay}"
-                                        Header="游戏名" />
-                        <GridViewColumn DisplayMemberBinding="{Binding HookCode, Mode=TwoWay}"
-                                        Header="特殊码" />
-                        <GridViewColumn DisplayMemberBinding="{Binding DuplicateTimes, Mode=TwoWay}"
-                                        Header="重复字数" />
+            <DataGrid x:Name="GameListDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding GameDatas, Mode=TwoWay}"
+              CanUserAddRows="False" Background="WhiteSmoke" Grid.Row="1" 
+              HeadersVisibility="All" SelectionMode="Single"
+              SelectionUnit="FullRow">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding GameName, Mode=TwoWay}" IsReadOnly="True" 
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="游戏名" />
 
-                        <GridViewColumn Header="正则替换规则">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <materialDesign:PopupBox x:Name="RegexPopBox" StaysOpen="True"  Cursor="Hand" >
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                    <DataGridTextColumn Binding="{Binding HookCode, Mode=TwoWay}" IsReadOnly="True" 
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="特殊码" />
+
+                    <DataGridTextColumn Binding="{Binding DuplicateTimes, Mode=TwoWay}" IsReadOnly="True" 
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                Header="重复字数" />
+
+                    <DataGridTemplateColumn Header="正则替换规则">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <materialDesign:PopupBox x:Name="RegexPopBox" StaysOpen="True"  Cursor="Hand" >
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
                                                         Content="{materialDesign:PackIcon Kind=Plus }" ToolTip="添加表达式"
                                                         Click="AddRegexRule_Button_Click"/>
-                                                <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand"
                                                         Content="{materialDesign:PackIcon Kind=DeleteOutline }" ToolTip="清空表达式"
                                                         Click="RemoveRegexRule_Button_Click" HorizontalAlignment="Center"/>
-                                                
-                                            </StackPanel>
-                                            <DataGrid ItemsSource="{Binding RegexRuleItems, Mode=TwoWay}" 
+
+                                        </StackPanel>
+                                        <DataGrid ItemsSource="{Binding RegexRuleItems, Mode=TwoWay}" 
                                                       CanUserReorderColumns="False"
                                                       CanUserSortColumns="False"
                                                       AutoGenerateColumns="False"
                                                       SelectionUnit="Cell"
                                                       SelectionMode="Single">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Binding="{Binding SourceRegex, Mode=TwoWay}"
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding SourceRegex, Mode=TwoWay}"
                                                                         Header="匹配表达式"
                                                                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
-                                                    <DataGridTextColumn Binding="{Binding DestinationRegex, Mode=TwoWay}"
+                                                <DataGridTextColumn Binding="{Binding DestinationRegex, Mode=TwoWay}"
                                                                         Header="替换表达式" 
                                                                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
 
-                                                </DataGrid.Columns>
-                                            </DataGrid>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
 
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                     Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}"
                                                     HorizontalAlignment="Center" Margin="5"
                                                     Content="确定"/>
-                                        </StackPanel>
+                                    </StackPanel>
 
-                                    </materialDesign:PopupBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                </materialDesign:PopupBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
 
-                    </GridView>
-                </ListView.View>
-            </ListView>
 
+            </DataGrid>
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>
