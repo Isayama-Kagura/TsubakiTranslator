@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 using TsubakiTranslator.BasicLibrary;
 
 namespace TsubakiTranslator
@@ -29,6 +30,9 @@ namespace TsubakiTranslator
 
         private ClipboardHookHandler clipboardHookHandler;
         private TTSHandler TTSHandler { get; set; }
+
+        private DispatcherTimer topmostTimer;
+        private DispatcherTimer TopmostTimer { get=> topmostTimer; }
 
         private OcrProgram ocrProgram;
         private OcrProgram OcrProgram { get => ocrProgram; }
@@ -48,7 +52,28 @@ namespace TsubakiTranslator
             this.DataContext = App.WindowConfig;
             AutoScreenshotButton.DataContext = App.OtherConfig;
 
-            if (!App.WindowConfig.TranslateWindowTopmost)
+            WindowInteropHelper mainWindowHelper = new WindowInteropHelper(this);
+            WindowInteropHelper screenshotWindowHelper = null;
+            if (ocrProgram != null)
+                screenshotWindowHelper = new WindowInteropHelper(this.ScreenshotWindow);
+            topmostTimer = new DispatcherTimer();
+            TopmostTimer.Interval = TimeSpan.FromSeconds(1);
+            TopmostTimer.Tick += (sender, e) =>
+            {
+                var mainHandle = HwndSource.FromHwnd(mainWindowHelper.Handle).Handle;
+                User32.BringWindowToTop(mainHandle);
+                if (screenshotWindowHelper != null)
+                {
+                    var screenshotHandle = HwndSource.FromHwnd(screenshotWindowHelper.Handle).Handle;
+                    User32.BringWindowToTop(screenshotHandle);
+                }
+            };
+
+            if (App.WindowConfig.TranslateWindowTopmost)
+            {
+                TopmostTimer.Start();
+            }
+            else
             {
                 PackIcon packIcon = new PackIcon();
                 packIcon.Kind = PackIconKind.PinOff;
@@ -138,14 +163,14 @@ namespace TsubakiTranslator
 
             TranslatedResultDisplay = new TranslatedResultDisplay();
 
-            Init();
-
             ocrProgram = new OcrProgram(App.OtherConfig.SourceLangIndex);
 
             TranslateWindowContent.Content = TranslatedResultDisplay;
 
             ScreenshotWindow = new ScreenshotWindow();
             ScreenshotWindow.Show();
+
+            Init();
 
         }
 
@@ -218,6 +243,7 @@ namespace TsubakiTranslator
             if (App.OtherConfig.SaveLogEnabled)
                 TranslatedResultDisplay.Results.SaveAllDataToFile();
 
+            TopmostTimer.Stop();
             mainWindow.Show();
 
             mainWindow.Topmost = true;
@@ -286,12 +312,14 @@ namespace TsubakiTranslator
                 packIcon.Kind = PackIconKind.PinOff;
                 PinButton.Content = packIcon;
                 this.Topmost = false;
+                TopmostTimer.Stop();
             }
             else
             {
                 packIcon.Kind = PackIconKind.Pin;
                 PinButton.Content = packIcon;
                 this.Topmost = true;
+                TopmostTimer.Start();
             }
         }
 
