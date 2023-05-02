@@ -52,20 +52,20 @@ namespace TsubakiTranslator
             this.DataContext = App.WindowConfig;
             AutoScreenshotButton.DataContext = App.OtherConfig;
 
-            WindowInteropHelper main_window_helper = new WindowInteropHelper(this);
-            WindowInteropHelper sshot_window_helper = null;
+            WindowInteropHelper mainWindowHelper = new WindowInteropHelper(this);
+            WindowInteropHelper screenshotWindowHelper = null;
             if (ocrProgram != null)
-                sshot_window_helper = new WindowInteropHelper(this.ScreenshotWindow);
+                screenshotWindowHelper = new WindowInteropHelper(this.ScreenshotWindow);
             topmostTimer = new DispatcherTimer();
             TopmostTimer.Interval = TimeSpan.FromSeconds(1);
             TopmostTimer.Tick += (sender, e) =>
             {
-                var main_handle = HwndSource.FromHwnd(main_window_helper.Handle).Handle;
-                User32.BringWindowToTop(main_handle);
-                if (sshot_window_helper != null)
+                var mainHandle = HwndSource.FromHwnd(mainWindowHelper.Handle).Handle;
+                User32.BringWindowToTop(mainHandle);
+                if (screenshotWindowHelper != null)
                 {
-                    var sshot_handle = HwndSource.FromHwnd(sshot_window_helper.Handle).Handle;
-                    User32.BringWindowToTop(sshot_handle);
+                    var screenshotHandle = HwndSource.FromHwnd(screenshotWindowHelper.Handle).Handle;
+                    User32.BringWindowToTop(screenshotHandle);
                 }
             };
 
