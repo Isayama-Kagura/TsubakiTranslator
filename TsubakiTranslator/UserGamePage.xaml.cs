@@ -42,7 +42,8 @@ namespace TsubakiTranslator
 
         private void OpenHistoryGame_Button_Click(object sender, RoutedEventArgs e)
         {
-            SetProcessItems();
+            var list = GetGameProcesses();
+            HistoryGameProcessList.ItemsSource = list;
 
             GameData item = (GameData)GameListDataGrid.SelectedItem;
 
@@ -91,7 +92,8 @@ namespace TsubakiTranslator
 
         private void OpenGameByPid_Button_Click(object sender, RoutedEventArgs e)
         {
-            SetProcessItems();
+            var list = GetGameProcesses();
+            GameProcessList.ItemsSource = list;
         }
 
         //注入进程打开游戏
@@ -136,26 +138,6 @@ namespace TsubakiTranslator
             translateWindow.Show();
 
         }
-
-
-        private void SetProcessItems()
-        {
-            Process[] ps = Process.GetProcesses();
-            List<GameProcess> list = new List<GameProcess>();
-
-            foreach (Process p in ps)
-            {
-                GameProcess gameProcess = new GameProcess { PID = p.Id, ProcessName = p.ProcessName, ProcessDetail = $"{p.ProcessName} - {p.Id}" };
-                list.Add(gameProcess);
-            }
-
-
-            list.Sort((x, y) => string.Compare(x.ProcessName, y.ProcessName));
-            ObservableCollection<GameProcess> processStrings = new ObservableCollection<GameProcess>(list);
-            GameProcessList.ItemsSource = processStrings;
-            HistoryGameProcessList.ItemsSource = processStrings;
-        }
-
 
         private void AddRegexRule_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -220,6 +202,77 @@ namespace TsubakiTranslator
                 tb.Text = lang;
                 OcrTipsPanel.Children.Add(tb);
             }
+        }
+
+        private void GameProcessList_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string text = ((ComboBox)sender).Text;
+            if (!text.Equals(""))
+            {
+                bool flag = false;
+                var list = GetGameProcesses();
+
+                foreach (GameProcess gameProcess in list)
+                {
+                    if (gameProcess.ProcessDetail.Equals(text))
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (!flag)
+                {
+                    ((ComboBox)sender).Text = "";
+                }
+            }
+
+
+        }
+
+        private void GameProcessList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            string text = ((ComboBox)sender).Text;
+            ((ComboBox)sender).ItemsSource = null;
+            var list = GetGameProcesses();
+            ObservableCollection<GameProcess> processStrings = new ObservableCollection<GameProcess>();
+            if (!text.Equals(""))
+            {
+                foreach (GameProcess gameProcess in list)
+                {
+                    if (gameProcess.ProcessDetail.Contains(text))
+                    {
+                        processStrings.Add(gameProcess);
+                    }
+                }
+                ((ComboBox)sender).ItemsSource = processStrings;
+            }
+            else
+                ((ComboBox)sender).ItemsSource = list; 
+
+            ((ComboBox)sender).IsDropDownOpen = true;
+        }
+
+
+        private ObservableCollection<GameProcess> GetGameProcesses()
+        {
+            Process[] ps = Process.GetProcesses();
+            List<GameProcess> list = new List<GameProcess>();
+
+            foreach (Process p in ps)
+            {
+                GameProcess gameProcess = new GameProcess { PID = p.Id, ProcessName = p.ProcessName, ProcessDetail = $"{p.ProcessName} - {p.Id}" };
+                list.Add(gameProcess);
+            }
+            list.Sort((x, y) => string.Compare(x.ProcessName, y.ProcessName));
+            ObservableCollection<GameProcess> processProcesses = new ObservableCollection<GameProcess>(list);
+
+            return processProcesses;
+        }
+
+        private void GameProcessList_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ((ComboBox)sender).IsDropDownOpen = true;
         }
     }
 

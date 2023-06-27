@@ -34,11 +34,14 @@
                                      Text="{Binding GameName, Mode=OneWay}"
                                      VerticalAlignment="Center" />
 
-                            <ComboBox x:Name="HistoryGameProcessList" Margin="5"
-                                      materialDesign:HintAssist.Hint="游戏进程"
+                            <ComboBox x:Name="HistoryGameProcessList" Margin="5" IsEditable="True"
+                                      materialDesign:HintAssist.Hint="游戏进程" 
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                      IsTextSearchEnabled="True" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
-                                      SelectedValue="{Binding ProcessName, Mode=OneWay}"
+                                      IsTextSearchEnabled="False" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
+                                      SelectedValue="{Binding ProcessName, Mode=OneWay}" 
+                                      GotFocus="GameProcessList_GotFocus"
+                                      LostFocus="GameProcessList_LostFocus"
+                                      KeyUp="GameProcessList_KeyUp" 
                                       materialDesign:TextFieldAssist.HasClearButton="True">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -99,8 +102,12 @@
 
                             <ComboBox x:Name="GameProcessList" Margin="5" 
                                       materialDesign:HintAssist.Hint="游戏进程"
+                                      LostFocus="GameProcessList_LostFocus"
+                                      GotFocus="GameProcessList_GotFocus"
+                                      KeyUp="GameProcessList_KeyUp" 
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                      IsTextSearchEnabled="True" DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
+                                      IsTextSearchEnabled="False"  IsEditable="True"
+                                      DisplayMemberPath="ProcessDetail" SelectedValuePath="ProcessName"
                                       materialDesign:TextFieldAssist.HasClearButton="True">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
