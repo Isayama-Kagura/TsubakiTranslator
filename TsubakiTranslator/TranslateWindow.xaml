@@ -51,6 +51,10 @@
                 <MenuItem Header="{materialDesign:PackIcon Kind=Menu }">
                     <MenuItem Header="翻译窗口" Foreground="Black"  Click="Tranlate_Display_MenuItem_Click"/>
                     <MenuItem Header="Hook文本选择"  Foreground="Black" Click="Hook_Display_MenuItem_Click"/>
+                    <MenuItem Header="Hook高级设置"  Foreground="Black">
+                        <CheckBox x:Name="cb1" Content="多行文本"
+                            Checked="Hook_Handle_Multiline_Check" Unchecked="Hook_Handle_Multiline_UnCheck" />
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 

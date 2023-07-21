@@ -140,12 +140,16 @@ namespace TsubakiTranslator
             }
 
 
-            Parallel.ForEach(translators,
+            Parallel.ForEach(translators, 
                 t =>
                 {
                     string result = t.Translate(currentResult.SourceText);
                     currentResult.ResultText[t.Name] = result;
-                    displayTextContent[t.Name].TranslatedResult = result;
+                    if (sourceTextContent.BindingText == currentResult.SourceText) // handle async race condition
+                    {
+                        displayTextContent[t.Name].TranslatedResult = result;
+                    }
+                   
                 });
         }
 
