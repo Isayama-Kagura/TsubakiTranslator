@@ -1,3 +1,5 @@
+# 此项目不再维护，推荐使用[LunaTranslator](https://github.com/HIllya51/LunaTranslator)来替代。
+
 # <p align="center"> <img width="130" height="130" src="https://github.com/Isayama-Kagura/TsubakiTranslator/blob/main/TsubakiTranslator/Resources/Icon/Tsubaki.png"/> <br/>TsubakiTranslator<br/>
   </p>
 
@@ -9,6 +11,7 @@
 <p align="center">终归还是来了呢。</p>
 
 <p align="center">我寻找到的，神明大人。</p>
+
 
 
 ## 项目的由来
