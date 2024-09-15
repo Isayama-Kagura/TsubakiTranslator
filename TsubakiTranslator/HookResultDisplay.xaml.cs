@@ -25,10 +25,30 @@ namespace TsubakiTranslator
             HookDataGrid.ItemsSource = HookDataSet;
         }
 
-        public void UpdateHookResultItem(string hookcode, string content)
+        public string getHookText(string hookcode)
         {
             if (HookItemDict.ContainsKey(hookcode))
-                HookItemDict[hookcode].HookText = content;
+            {
+                return HookItemDict[hookcode].HookText;
+            }
+            else
+            {
+                return "";
+            }
+               
+        }
+
+        public void UpdateHookResultItem(string hookcode, string content,bool append = false)
+        {
+            if (HookItemDict.ContainsKey(hookcode))
+                if (append)
+                {
+                    HookItemDict[hookcode].HookText = HookItemDict[hookcode].HookText + content;
+                }
+               else
+                {
+                    HookItemDict[hookcode].HookText = content;
+                }
             else
             {
                 HookData item = new HookData(hookcode, content);

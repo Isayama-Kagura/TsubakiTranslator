@@ -46,6 +46,8 @@ namespace TsubakiTranslator
         private string LastOcrResult { get; set; } = "";
 
         private ScreenshotWindow ScreenshotWindow { get; set; }
+        private string lastHookCode = "";
+        private bool multiLineMode = false;
 
         private void Init()
         {
@@ -181,6 +183,16 @@ namespace TsubakiTranslator
             ));
         }
 
+        private void Hook_Handle_Multiline_Check(object sender, RoutedEventArgs e)
+        {
+            multiLineMode = true;
+            return;
+        }
+        private void Hook_Handle_Multiline_UnCheck(object sender, RoutedEventArgs e)
+        {
+            multiLineMode = false;
+            return;
+        }
         public void On_TextHook_OutputDataReceived(object sendingProcess, DataReceivedEventArgs outLine)
         {
             if (outLine.Data == null)
@@ -188,12 +200,30 @@ namespace TsubakiTranslator
 
             Regex reg = new Regex(@"\[(.*?)\]");
             Match match = reg.Match(outLine.Data);
-
+            string content, hookcode;
             if (match.Value.Length == 0)
-                return;
+            {
+                if (lastHookCode == "" || !multiLineMode)
+                {
+                    return ;
+                } else
+                {
+                     content = outLine.Data.Trim();//实际获取到的内容
+                     hookcode = lastHookCode;
+                    HookResultDisplay.UpdateHookResultItem(hookcode, content,true);
+                    if (TranslatedResultDisplay.TranslatorEnabled
+                        && textHookHandler.SelectedHookCode.Contains(hookcode))
+                    {
+                        TranslatedResultDisplay.TranslateHookText(HookResultDisplay.getHookText(hookcode));
+                    }
+                    return;
+                }
+            }
+                
 
-            string content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
-            string hookcode = match.Groups[1].Value;
+            content = outLine.Data.Replace(match.Value, "").Trim();//实际获取到的内容
+            hookcode = match.Groups[1].Value;
+            lastHookCode = hookcode;
 
             HookResultDisplay.UpdateHookResultItem(hookcode, content);
 
